@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+modprobe v4l2loopback exclusive_gaps=1

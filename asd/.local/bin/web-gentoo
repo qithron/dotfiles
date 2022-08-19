@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+[ "$2" ] || exit
+
+for s in "$@"; do
+    q="$q+$s"
+done
+
+case "$1" in
+    w)
+        sub='wiki'
+        query="?search=${q#+w+}"
+    ;;p)
+        sub='packages'
+        query="packages/search?q=${q#+p+}"
+    ;;*)
+        echo w for wiki
+        echo p for package
+        exit
+esac
+
+exec w3m "https://${sub}.gentoo.org/${query}"

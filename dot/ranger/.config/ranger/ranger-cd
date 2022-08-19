@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# cd to ranger last dir
+# see ~/.config/ranger/command.py -> exit_write_last_dir
+# and ~/.config/fish/config.fish -> e
+# for usage
+if [ "$RANGER_TMP" ]; then
+    f="$RANGER_TMP/ranger-last-dir-ranger"
+    if [ -f "$f" ]; then
+        d=$(cat "$f")
+        rm "$f"
+        printf '%s' "$d"
+    fi
+fi

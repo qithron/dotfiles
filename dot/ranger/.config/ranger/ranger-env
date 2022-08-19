@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+if [ "$XDG_RUNTIME_DIR" ]; then
+    d="$XDG_RUNTIME_DIR/ranger"
+else
+    d="/tmp/ranger@$USER"
+fi
+if [ ! -e "$d" ]; then
+    mkdir --parent --mode 700 "$d"
+    export RANGER_TMP="$d"
+fi
+printf "$d"

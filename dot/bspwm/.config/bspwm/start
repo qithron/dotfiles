@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+
+export DESKTOP_SESSION='bspwm'
+
+# bspwm shared directory available to all users
+# used for sync volume
+export BSPWM_SHARED_DIR='/tmp/bspwm_shared_dir'
+mkdir --mode 777 "$BSPWM_SHARED_DIR"
+
+# bspwm tmp directory
+if [ "$XDG_RUNTIME_DIR" ]; then
+    BSPWM_TMP="$XDG_RUNTIME_DIR/bspwm"
+else
+    BSPWM_TMP="/tmp/bspwm@$USER"
+fi
+export BSPWM_TMP
+export BSPWM_SOCKET="$BSPWM_TMP/socket"
+[ -d "$BSPWM_TMP" ] || mkdir "$BSPWM_TMP" --mode 700
+
+# volume level, shared to all users
+f="$BSPWM_SHARED_DIR/volume.int"
+if [ ! -f "$f" ]; then
+    if [ -f ~/.config/bspwm/s/volume.int ]; then
+        cp ~/.config/bspwm/s/volume.int "$BSPWM_SHARED_DIR"
+    else
+        printf 50 > "$f"
+    fi
+    chmod 666 "$f"
+fi
+unset f
+
+# set volume
+~/.config/bspwm/s/volume =
+
+#xcompmgr &
+picom -f -D 7 -b &
+
+nitrogen --restore &
+~/.config/bspwm/s/background &
+unclutter -idle 60 -jitter 5 -root &
+sleep 5 && activate-linux -d &
+
+sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c ~/.config/bspwm/sxhkdrc &
+bspwm
+
+# fail safe, skip if file size > 3
+f="$BSPWM_SHARED_DIR/volume.int"
+if [ "$(wc -c <"$f")" -le 3 ]; then
+    cp "$f" ~/.config/bspwm/s
+fi

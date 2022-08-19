@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+S=$(date '+%s.%N')
+sh -c "$*"
+E=$(date '+%s.%N')
+
+Ss=$(echo "$S" | grep -Eo '^\w*')
+Sn=$(echo "$S" | grep -Eo '[1-9][0-9]*$')
+[ "$Sn" ] || Sn=0
+
+Es=$(echo "$E" | grep -Eo '^\w*')
+En=$(echo "$E" | grep -Eo '[1-9][0-9]*$')
+[ "$En" ] || En=0
+
+ELe=$((En < Sn))
+ELs=$((Es - Ss - (ELe * 1)))
+ELn=$((En - Sn + (ELe * 1000000000)))
+
+printf "\033[1;32m#############################\033[0m\n"
+printf '%s\n' "$*"
+printf "\033[1;32m#############################\033[0m\n"
+date --date="@$S" '+%Y/%m/%d %H:%M:%S.%N'
+date --date="@$E" '+%Y/%m/%d %H:%M:%S.%N'
+printf "\033[1m"
+printf '%10d %02d:%02d:%02d.%09d\n' $((ELs/86400)) \
+    $((ELs%86400/3600)) $((ELs%3600/60)) $((ELs%60)) $ELn
+printf "\033[1;32m#############################\033[0m\n"

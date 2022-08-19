@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+[ "$1" ] || exit
+
+for s in "$@"; do
+    q="$q+$s"
+done
+
+# any recommended search engine?
+exec w3m "https://lite.duckduckgo.com/lite/?q=${q#+}"

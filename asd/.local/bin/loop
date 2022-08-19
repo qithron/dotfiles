@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# <default delay> <cmd> <delay>
+
+[ "$3" ] && T=$3 || T=$1
+
+while true; do
+    clear
+    eval $2
+    sleep $T || break
+done

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+tor=$(dirname "$0")/../opt/tor-browser_en-US
+# github.com/MeisterP/torbrowser-overlay/issues/55#issuecomment-1210208878
+export LD_PRELOAD=${tor}/shim.so
+exec "${tor}/Browser/start-tor-browser" "$@"

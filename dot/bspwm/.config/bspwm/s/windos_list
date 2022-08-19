@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+
+import sys
+import json
+
+#### monitor
+# name id randrId wired stickyCount
+# windowGap borderWidth focusedDesktopId
+# padding rectangle desktops
+
+#### desktop
+# name id layout userLayout windowGap borderWidth focusedNodeId padding root
+
+#### node
+# id splitType splitRatio
+# vacant hidden sticky private locked marked presel
+# rectangle constraints firstChild secondChild client
+
+#### -> client
+# className instanceName
+# borderWidth state lastState layer lastLayer
+# urgent shown tiledRectangle floatingRectangle
+
+def main():
+    s = sys.stdin.read()
+    if not s:
+        return
+    d = json.loads(s)
+    if '--desktop' in sys.argv:
+        node(d['root'], 0, d['name'])
+    else: # monitor
+        for v in d['desktops']:
+            node(v['root'], 0, v['name'])
+
+def node(d, i, n):
+    if d is None:
+        return
+    if d['client'] is not None:
+        print('bspc node', d['id'], end=' ')
+        if d['hidden']:
+            print('--flag hidden', end=' ')
+        else:
+            print('--focus      ', end=' ')
+        print('#', n, i, end=' ')
+        print(d['client']['className'], d['client']['instanceName'], end=' ')
+        for v in ('hidden', 'sticky', 'private', 'locked', 'marked'):
+            if d[v]:
+                print(v, end=' ')
+        print()
+    if d['firstChild'] is not None:
+        node(d['firstChild'], i+1, n)
+    if d['secondChild'] is not None:
+        node(d['secondChild'], i+1, n)
+
+if __name__ == '__main__':
+    main()

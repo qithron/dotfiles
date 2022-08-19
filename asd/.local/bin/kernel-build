@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+[ "$(id -u)" != '0' ] && echo need su && exit
+
+cd /usr/src/linux || exit
+
+VER=$(grep -E '^CONFIG_LOCALVERSION' .config | sed s/'\(^[^"]*"\)\|"'//g)
+DIR=/lib/modules/$(readlink "$PWD" | sed s/'linux-'//)$VER
+
+[ "$1" = '-s' ] || make nconfig
+
+make -j4 && rm -rv "$DIR" && make install modules_install

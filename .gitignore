@@ -1,0 +1,5 @@
+/asd/.local/opt*
+/asd/.bash_history
+
+/dot/bspwm/.config/bspwm/s/volume.int
+/dot/neovim/.config/nvim/spell*

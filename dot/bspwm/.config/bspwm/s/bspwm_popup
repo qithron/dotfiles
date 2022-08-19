@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+
+import time
+import asyncio
+import sys
+import os
+import tkinter
+import tkinter.font
+
+BSPC_RESET = 'bspc rule --remove Bspwm_popup'
+BSPC_RULE = ('bspc rule --add Bspwm_popup'
+    ' state=floating'
+    ' sticky=on'
+    ' border=off'
+    ' follow=off'
+    ' layer=above')
+    #' manage=off')
+
+GEOMETRY = 1166, 32, 100, 10
+
+T_BG = '#ffff00'
+T_FONT = 'Fantasque Sans Mono', 20
+
+def tkinter_Tk_set_geometry(self, w, h, x=None, y=None):
+    print(self)
+    a, b = map(int, self.geometry().split('+', 1)[1].split('+'))
+    if x is None:
+        x = a
+    if y is None:
+        y = b
+    self.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
+tkinter.Tk.set_geometry = tkinter_Tk_set_geometry
+
+def gui():
+    tk = tkinter.Tk(className="bspwm_popup")
+    tk.var = tkinter.StringVar(tk, value='text')
+    tk.label = tkinter.Label(tk, textvariable=tk.var)
+    tk.config(bg=T_BG)
+    tk.label.config(bg=T_BG, font=T_FONT)
+    tk.label.pack()
+    tk.set_geometry(*GEOMETRY)
+    tk.var.set(str(tk.label.winfo_reqheight()))
+    return tk
+
+def show(tk, tx):
+    pass
+
+async def reader_loop(loop, path):
+    while True:
+        print('reader_loop')
+        with open(path) as f:
+            d = f.read()
+        if d.strip() == 'q':
+            break
+
+def main():
+    path = os.getenv('BSPWM_TMP')
+    if path is None:
+        raise SystemExit('BSPWM_TMP env var not found')
+    #path = os.path.join(path, 'pypipe')
+    #path = '/tmp/asd'
+    #if not os.path.exists(path):
+    #    os.mkfifo(path)
+    os.system(BSPC_RESET)
+    os.system(BSPC_RULE)
+    tk = gui()
+    tk.mainloop()
+    #loop = asyncio.new_event_loop()
+    #loop.run_until_complete(reader_loop(loop, path))
+    #os.remove(path)
+
+if __name__ == '__main__':
+    main()

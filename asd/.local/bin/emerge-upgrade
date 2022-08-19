@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+emerge -DNUu "$@" @world

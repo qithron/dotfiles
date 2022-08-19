@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# ufetch-arch - tiny system info for arch
+#
+# src: gitlab.com/jschx/ufetch
+
+## INFO
+
+# user is already defined
+host="$HOSTNAME"
+os='Arch Linux'
+kernel="$(uname -sr)"
+packages="$(/usr/bin/pacman -Q | wc -l)"
+shell="$(basename "${SHELL}")"
+term="$TERM"
+ui="$DESKTOP_SESSION"
+
+## DEFINE COLORS
+
+# probably don't change these
+if [ -x "$(command -v tput)" ]; then
+	bold="$(tput bold)"
+	black="$(tput setaf 0)"
+	red="$(tput setaf 1)"
+	green="$(tput setaf 2)"
+	yellow="$(tput setaf 3)"
+	blue="$(tput setaf 4)"
+	magenta="$(tput setaf 5)"
+	cyan="$(tput setaf 6)"
+	white="$(tput setaf 7)"
+	reset="$(tput sgr0)"
+fi
+
+# you can change these
+lc="${reset}${bold}${red}"         # labels
+nc="${reset}${bold}${green}"         # user and hostname
+ic="${reset}"                       # info
+c0="${reset}${blue}"                # first color
+
+## OUTPUT
+
+cat <<EOF
+${c0}      /\\              ${nc}${USER}${ic}@${nc}${host}${reset}
+${c0}     /  \\     ${lc}KERNEL: ${ic}${kernel}${reset}
+${c0}    /\\   \\        ${lc}OS: ${ic}${os}${reset}
+${c0}   /  __  \\       ${lc}UI: ${ic}${ui}${reset}
+${c0}  /  (  )  \\   ${lc}SHELL: ${ic}${shell}${reset}
+${c0} / __|  |__\\\\   ${lc}TERM: ${ic}${term}${reset}
+${c0}/.\`        \`.\\   ${lc}PKG: ${ic}${packages}${reset}
+EOF

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec /usr/bin/man "$@" | nvim -R -M -c 'se nonu nornu syn=man scl=no stal=0 cc=""'

@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+if [ ! "$1" ]; then
+    echo "$(basename "$0"): [-d <date>]|[<seconds>]"
+    echo "usage:"
+    echo "    exact date     = -d 01/09/2022 21:50:40"
+    echo "    or use seconds = 10"
+    exit
+fi
+
+if [ "$1" = '-d' ]; then
+    # 01/09/2022 18:00:00
+    tgt=$(date -d "$2 $3" +%s) &&
+    cur=$(date +%s) &&
+    slp=$((tgt - cur))
+else
+    # 10
+    slp=$1
+fi
+
+[ "$slp" ] || exit
+
+sleep "$slp"
+mpv --volume=200 --no-terminal "$(dirname "$0")/../opt/audio/.wav"

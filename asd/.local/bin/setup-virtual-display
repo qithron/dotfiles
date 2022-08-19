@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+if [ "$1" = '1280x720' ]; then
+    mode='1280x720_30.00'
+    xrandr --newmode "$mode" 35.25  1280 1320 1440 1600  720 723 728 736 -hsync +vsync
+elif [ "$1" = '1520x720' ]; then
+    mode='1520x720'
+    xrandr --newmode "$mode" 41.50  1520 1560 1704 1888  720 723 733 736 -hsync +vsync
+else
+    echo 'opts: 1280x720 1520x720'
+    exit
+fi
+
+xrandr --addmode VIRTUAL1 "$mode"
+xrandr --output VIRTUAL1 --mode "$mode" --right-of eDP1
+xrandr | grep -E 'VIRTUAL1'

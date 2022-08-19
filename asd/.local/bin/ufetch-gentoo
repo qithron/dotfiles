@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+#
+# src: gitlab.com/jschx/ufetch
+
+## INFO
+host="$(hostname)"
+os='Gentoo Linux'
+kernel="$(uname -sr)"
+pkg="$(find /var/db/pkg/ -mindepth 2 -type d | wc -l)"
+shell="$(basename "${SHELL}")"
+ui="$DESKTOP_SESSION"
+
+## DEFINE COLORS
+e=$(printf '\033')
+re="${e}[0m"
+lc="${e}[0m${e}[1;31m"
+nc="${e}[0m${e}[1;32m"
+ic="${re}"
+c0="${e}[0m${e}[1;35m"
+c1="${e}[0m${e}[35m"
+
+## OUTPUT
+cat <<EOF
+${c0}  .-----.             ${nc}${USER}${ic}@${nc}${host}${re}
+${c0}.\`    _  \`.   ${lc}KERNEL: ${ic}${kernel}${re}
+${c0}\`.   (${c1}_)   ${c0}\`.     ${lc}OS: ${ic}${os}${re}
+${c0}  \`${c1}.        /     ${lc}UI: ${ic}${ui}${re}
+${c1} .\`       .\`   ${lc}SHELL: ${ic}${shell}${re}
+${c1}/       .\`      ${lc}TERM: ${ic}${TERM}${re}
+${c1}\____.-\`         ${lc}PKG: ${ic}${pkg}${re}
+EOF

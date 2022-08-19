@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+XY=$(xrandr | grep -E '^.+ connected' \
+    | grep -Eo '[0-9]+x[0-9]+[0-9]+\+[0-9]+\+[0-9]+')
+FN="$HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png"
+
+python -c "
+from PIL.ImageGrab import grab
+try:
+    from pyautogui import position
+except ModuleNotFoundError:
+    img = grab()
+    img.save('$FN')
+    raise SystemExit
+
+l = []
+for v in '''$XY'''.strip().split('\n'):
+    w, h = v.split('x')
+    h, x, y = h.split('+')
+    l.append(tuple(map(int, (w, h, x, y))))
+
+a, b = position()
+for (w, h, x, y) in l:
+    p = w + x
+    q = h + y
+    if x <= a < p and y <= b < q:
+        break
+
+img = grab((x, y, p, q))
+img.save('$FN')
+"

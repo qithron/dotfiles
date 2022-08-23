@@ -9,4 +9,8 @@ DIR=/lib/modules/$(readlink "$PWD" | sed s/'linux-'//)$VER
 
 [ "$1" = '-s' ] || make nconfig
 
-make -j4 && rm -rv "$DIR" && make install modules_install
+if make -j4; then
+    rm -rv "$DIR"
+    make install modules_install
+    cp -av arch/x86/boot/bzImage /boot/efi/EFI/gentoo/kernel.efi
+fi

@@ -15,14 +15,16 @@ export HISTFILESIZE=
 export HISTSIZE=
 export HISTIGNORE='rm *:ls:cd:echo:e:vim:pkill *'
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.local/sbin:$PATH" # sbin = secret bin :)
 export EDITOR='nvim'
 export VISUAL="$EDITOR"
 export PYTHONDONTWRITEBYTECODE='1'
 export PYTHONPATH="$HOME/.local/lib/python/site-packages:$PYTHONPATH"
 export CARGO_HOME="$HOME/.local/share/cargo"
 
-export RANGER_TMP=$(ranger-env)
+export RANGER_TMP="$(ranger-env)"
+
+export GIT_PAGER='cat'
 
 ###############################################################################
 # aliases

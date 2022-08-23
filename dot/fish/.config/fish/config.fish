@@ -2,6 +2,11 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_vi_key_bindings
 
+    bind --mode insert \eh backward-char
+    bind --mode insert \ej down-or-search
+    bind --mode insert \ek up-or-search
+    bind --mode insert \el forward-char
+
     source ~/.sh
 
     function fish_greeting; sh-greeting; end

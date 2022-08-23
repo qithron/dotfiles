@@ -2,11 +2,15 @@
 
 if [ "$XDG_RUNTIME_DIR" ]; then
     d="$XDG_RUNTIME_DIR/ranger"
-else
+elif [ -w '/tmp' ]; then
     d="/tmp/ranger@$USER"
+elif [ "$XDG_CACHE_HOME" ]; then
+    d="$XDG_CACHE_HOME/ranger"
+else
+    d="$HOME/.cache/ranger"
 fi
 if [ ! -e "$d" ]; then
     mkdir --parent --mode 700 "$d"
     export RANGER_TMP="$d"
 fi
-printf "$d"
+printf '%s' "$d"

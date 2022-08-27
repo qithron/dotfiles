@@ -12,5 +12,5 @@ DIR=/lib/modules/$(readlink "$PWD" | sed s/'linux-'//)$VER
 if make -j4; then
     rm -rv "$DIR"
     make install modules_install
-    cp -av arch/x86/boot/bzImage /boot/efi/EFI/gentoo/kernel.efi
+    cp -av arch/x86/boot/bzImage /boot/efi/efi/gentoo/kernel.efi
 fi

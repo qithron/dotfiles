@@ -17,12 +17,11 @@ super + Return
 
 # pass manager
 super + semicolon; p;a;s;s
-    st -c 'st-passmenu' -g '75x15' \
-    ~/.config/bspwm/s/passmenu
+    st -c 'st-passmenu' -g '75x15' ~/.config/bspwm/s/passmenu
 
 # program launcher
 super + r
-    dmenu_run
+    exec $(dmenu_path | dmenu)
 
 # screenshot
 super + Print

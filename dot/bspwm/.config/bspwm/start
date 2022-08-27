@@ -32,7 +32,6 @@ unset f
 # set volume
 ~/.config/bspwm/s/volume =
 
-#xcompmgr &
 picom -f -D 7 -b &
 
 nitrogen --restore &

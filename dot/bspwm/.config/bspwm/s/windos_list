@@ -41,7 +41,8 @@ def node(d, i, n):
             print('--flag hidden', end=' ')
         else:
             print('--focus      ', end=' ')
-        print('#', n, i, end=' ')
+        fx = 'F%-2d' % (ord(n[1]) - 96)
+        print('###', fx, '###', n, i, end=' ')
         print(d['client']['className'], d['client']['instanceName'], end=' ')
         for v in ('hidden', 'sticky', 'private', 'locked', 'marked'):
             if d[v]:

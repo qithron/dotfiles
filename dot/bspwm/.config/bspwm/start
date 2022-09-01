@@ -32,13 +32,12 @@ unset f
 # set volume
 ~/.config/bspwm/s/volume =
 
-picom -f -D 7 -b &
-
-nitrogen --restore &
-~/.config/bspwm/s/background &
+picom -f -D 7 &
+#nitrogen --restore &
+#~/.config/bspwm/s/background &
+background &
 unclutter -idle 60 -jitter 5 -root &
-sleep 5 && activate-linux -d &
-
+sleep 5 && activate-linux &
 sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c ~/.config/bspwm/sxhkdrc &
 bspwm
 

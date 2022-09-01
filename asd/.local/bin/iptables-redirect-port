@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+[ "$(id -u)" != '0' ] && echo need su && exit
+
+test "$1" && test "$2" || exit 1
+
+if [ "$1" = '-D' ] || [ "$1" = '--delete' ]; then
+    C="$1"
+    P="$2"
+    Q="$3"
+elif echo "$1" | grep -q '[^0-9]'; then
+    echo first arg must be a number, or -D for delete, not: "$1"
+    exit 1
+else
+    C='--append'
+    P="$1"
+    Q="$2"
+fi
+
+iptables -t nat "$C" OUTPUT -p tcp --dport "$P" -j REDIRECT --to-ports "$Q" &&
+iptables -t nat "$C" PREROUTING -p tcp --dport "$P" -j REDIRECT --to-ports "$Q"

@@ -1,0 +1,234 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import shutil
+
+NAME = 'install'
+
+def help():
+    print(f'''usage:
+    install
+        By default check file collisions first, if none, then copy the files.
+
+        -l, --hardlink
+            make hard links
+
+        -s, --symbolic
+            make symbolic links
+
+        -r, --relative
+            create symbolic links relative to link location
+
+        -c, --check
+            check for file collisions, then exit
+
+        -f, --force
+            ignore file collisions, replace existing files
+
+        --db-only
+            generate {NAME}.db.py only
+
+        --db-check
+            check {NAME}.db.py, then exit
+
+        --db-force
+            overwrite existing {NAME}.db.py
+
+    uninstall
+        Check {NAME}.db.py file (fail if missing), if pass then uninstall.
+
+        -c, --check
+            same as install --db-check
+
+        -f, --force
+            ignore missing or modified files
+
+{sys.argv[0]}''')
+
+def _argparse(args, dct):
+    for s in args:
+        if s.startswith('--'):
+            for k in dct:
+                if s == dct[k][1]:
+                    dct[k][0] = True
+                    break
+            else:
+                _die(f'unknown opt {s}')
+        elif s.startswith('-'):
+            for v in s[1:]:
+                for k in dct:
+                    if v == dct[k][2]:
+                        dct[k][0] = True
+                        break
+                else:
+                    _die(f'unknown opt {s}')
+        else:
+            _die(f'unknown opt {s}')
+
+def _die(mess):
+    print(f'{sys.argv[0]}: {mess}')
+    sys.exit(1)
+
+def _arr_check(arr):
+    print('>>> check src/dst')
+    d = s = len(arr)
+    for (src, dst) in arr:
+        if os.path.lexists(os.path.join(INSTALL_DIR, dst)):
+            d -= 1
+            print('dst exists:', dst)
+        if not os.path.lexists(src): # HOW???
+            s -= 1
+            print('src missing:', src)
+    print(f'>>> pass src = {s}/{len(arr)}')
+    print(f'>>> pass dst = {d}/{len(arr)}')
+    return d != len(arr) or s != len(arr)
+
+def _db_check():
+    if not os.path.exists(f'{NAME}.db.py'):
+        _die(f'{NAME}.db.py not found')
+    with open(f'{NAME}.db.py') as f:
+        db = eval(f.read())
+    print(f'>>> check {NAME}.db.py')
+    s = len(db)
+    for (type, path) in db:
+        if type in ('f', 'l') and not os.path.lexists(path):
+            s -= 1
+            print('path missing:', path)
+    print(f'>>> pass: {s}/{len(db)}')
+    return db, s != len(db)
+
+
+def install(args):
+    d = {
+        'check': [False, 'check', 'c'],
+        'force': [False, 'force', 'f'],
+        'hardlink': [False, 'hardlink', 'l'],
+        'symbolic': [False, 'symbolic', 's'],
+        'relative': [False, 'relative', 'r'],
+        'db-only': [False, 'db-only', ''],
+        'db-check': [False, 'db-check', ''],
+        'db-force': [False, 'db-force', '']}
+    _argparse(args, d)
+    hardlink = d['hardlink'][0]
+    symbolic = d['symbolic'][0]
+    relative = d['relative'][0]
+    if hardlink and symbolic:
+        _die('cannot use --hardlink and --symbolic at same time')
+    if relative and hardlink:
+        _die('cannot use --relative with --hardlink but --symbolic')
+    if d['db-check'][0]:
+        _db_check()
+        return
+    arr = tree_symlink() if symbolic else tree_single_file()
+    fail = _arr_check(arr)
+    if d['check'][0]:
+        return
+    if fail and not d['force'][0] \
+    and input('check failed, force? [y,N]? ').lower() != 'y':
+        _die('check failed')
+    if not d['db-force'][0] and os.path.exists(f'{NAME}.db.py') \
+    and input(f'{NAME}.db.py exists, overwrite? [y,N]? ').lower() != 'y':
+        _die(f'{NAME}.db.py exists')
+    db = []
+    print('>>> start installing')
+    def pre_check(d):
+        if not os.path.exists(d):
+            pre_check(os.path.dirname(d))
+            os.mkdir(d)
+            db.append(('d', d))
+    if symbolic:
+        path = os.path.relpath('.', INSTALL_DIR) if relative else os.getcwd()
+        for (src, dst) in arr:
+            src = os.path.join(path, src)
+            dst = os.path.join(INSTALL_DIR, dst)
+            if os.path.lexists(dst):
+                if d['force'][0]:
+                    os.remove(dst)
+                else:
+                    _die(f'file exists {dst}')
+            pre_check(os.path.dirname(dst))
+            os.symlink(src, dst)
+            db.append(('l', dst))
+    else:
+        func = os.link if hardlink else shutil.copy
+        for (src, dst) in arr:
+            dst = os.path.join(INSTALL_DIR, dst)
+            if os.path.lexists(dst):
+                if d['force'][0]:
+                    os.remove(dst)
+                else:
+                    _die(f'file exists {dst}')
+            pre_check(os.path.dirname(dst))
+            func(src, dst, follow_symlinks=False)
+            db.append(('f', dst))
+    print(f'>>> writing {NAME}.db.py')
+    if db:
+        with open(f'{NAME}.db.py', 'w') as f:
+            f.write('[\n')
+            for v in db:
+                f.write(f' {v},\n')
+            f.write(']')
+    print('>>> finish')
+
+
+def uninstall(args):
+    d = {
+        'check': [False, 'check', 'c'],
+        'force': [False, 'force', 'f']}
+    _argparse(args, d)
+    db, fail = _db_check()
+    if d['check'][0]:
+        return
+    if fail and not d['force'][0] \
+    and input('check failed, force? [y,N]? ').lower() != 'y':
+        _die('check failed')
+    print('>>> start uninstaling')
+    dc = []
+    for (type, path) in db:
+        try:
+            if type in ('l', 'f'):
+                os.remove(path)
+            else:
+                dc.append(path)
+        except OSError as err:
+            if not d['force'][0]:
+                raise err
+    for path in reversed(dc):
+        try:
+            if not os.listdir(path):
+                os.rmdir(path)
+        except OSError as err:
+            if not d['force'][0]:
+                raise err
+    clean()
+    print('>>> finish')
+
+
+def clean():
+    try:
+        os.remove(f'{NAME}.db.py')
+    except OSError:
+        pass
+
+
+with open(f'{NAME}.def.py') as f:
+    exec(f.read())
+if os.path.exists(f'{NAME}.py'):
+    with open(f'{NAME}.py') as f:
+        exec(f.read())
+
+if __name__ == '__main__':
+    INSTALL_DIR = os.path.expanduser(INSTALL_DIR)
+    os.chdir(os.path.dirname(__file__))
+
+    if len(sys.argv) == 1:
+        help()
+    elif sys.argv[1] == 'install':
+        install(sys.argv[2:])
+    elif sys.argv[1] == 'uninstall':
+        uninstall(sys.argv[2:])
+    elif sys.argv[1] == 'clean':
+        clean()
+    else:
+        help()

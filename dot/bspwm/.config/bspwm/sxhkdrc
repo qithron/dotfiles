@@ -167,6 +167,8 @@ super + shift + {Left,Down,Up,Right}
 # node to desktop
 super + shift + F{1-9,10,11,12}
     bspc node --to-desktop ';{a-l}'
+super + asciitilde
+    bspc node --to-desktop 'last'
 
 # desktop
 super + F{1-9,10,11,12}

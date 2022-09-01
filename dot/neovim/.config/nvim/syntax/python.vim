@@ -1,14 +1,19 @@
-"let b:current_syntax = "python"
-"syn clear pythonFunction
-"syn clear pythonMatrixMultiply
+if exists("b:current_syntax")
+    finish
+endif
+source $VIMRUNTIME/syntax/python.vim
+let b:current_syntax = 'python'
+
+syn clear pythonFunction
+syn clear pythonMatrixMultiply
 syn keyword pythonConstant False None True
 syn keyword pythonSpecial self obj cls ins args kwargs
-"syn keyword pythonInit __init__
-"
+syn keyword pythonInit __init__
+
 hi pythonSpecial ctermfg=14 cterm=bold
 hi pythonConstant ctermfg=13 cterm=bold
-"hi link pythonInit PreProc
-"hi link pythonBuiltin Type
+hi link pythonInit PreProc
+hi link pythonBuiltin Type
 
 "False None True and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield
 

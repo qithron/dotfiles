@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+[ "$(id -u)" != '0' ] && echo need su && exit
+
+ip addr show enp2s0 | grep -q 10.0.0.1/24 || ip addr add 10.0.0.1/24 dev enp2s0
+ip link set enp2s0 up
+
+dnsmasq \
+    --bind-dynamic --interface=enp2s0 \
+    --no-hosts --no-resolv --no-poll \
+    --keep-in-foreground \
+    --no-daemon \
+    --dhcp-range=10.0.0.100,10.0.0.254,255.255.255.0,24h
+
+ip addr del 10.0.0.1/24 dev enp2s0
+ip link set enp2s0 down

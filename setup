@@ -4,7 +4,7 @@ import os
 import sys
 import shutil
 
-NAME = 'install'
+NAME = 'setup'
 
 def help():
     print(f'''usage:
@@ -50,7 +50,7 @@ def _argparse(args, dct):
     for s in args:
         if s.startswith('--'):
             for k in dct:
-                if s == dct[k][1]:
+                if s[2:] == dct[k][1]:
                     dct[k][0] = True
                     break
             else:
@@ -132,36 +132,44 @@ def install(args):
         _die(f'{NAME}.db.py exists')
     db = []
     print('>>> start installing')
-    def pre_check(d):
+    if symbolic:
+        if relative:
+            def func_pre(src, dst):
+                dst = os.path.join(INSTALL_DIR, dst)
+                src = os.path.relpath(src, os.path.dirname(dst))
+                return src, dst
+        else:
+            path = os.getcwd()
+            def func_pre(src, dst):
+                src = os.path.join(path, src)
+                dst = os.path.join(INSTALL_DIR, dst)
+                return src, dst
+        func = os.symlink
+    else:
+        def func_pre(src, dst):
+            dst = os.path.join(INSTALL_DIR, dst)
+            return src, dst
+        _func = os.link if hardlink else shutil.copy
+        def func(src, dst):
+            _func(src, dst, follow_symlinks=False)
+    def path_check(d):
         if not os.path.exists(d):
-            pre_check(os.path.dirname(d))
+            path_check(os.path.dirname(d))
             os.mkdir(d)
             db.append(('d', d))
-    if symbolic:
-        path = os.path.relpath('.', INSTALL_DIR) if relative else os.getcwd()
-        for (src, dst) in arr:
-            src = os.path.join(path, src)
-            dst = os.path.join(INSTALL_DIR, dst)
-            if os.path.lexists(dst):
-                if d['force'][0]:
-                    os.remove(dst)
+    for (src, dst) in arr:
+        src, dst = func_pre(src, dst)
+        if os.path.lexists(dst):
+            if d['force'][0]:
+                if not os.path.islink(dst) and os.path.isdir(dst):
+                    os.rmdir(dst)
                 else:
-                    _die(f'file exists {dst}')
-            pre_check(os.path.dirname(dst))
-            os.symlink(src, dst)
-            db.append(('l', dst))
-    else:
-        func = os.link if hardlink else shutil.copy
-        for (src, dst) in arr:
-            dst = os.path.join(INSTALL_DIR, dst)
-            if os.path.lexists(dst):
-                if d['force'][0]:
                     os.remove(dst)
-                else:
-                    _die(f'file exists {dst}')
-            pre_check(os.path.dirname(dst))
-            func(src, dst, follow_symlinks=False)
-            db.append(('f', dst))
+            else:
+                _die(f'file exists {dst}')
+        path_check(os.path.dirname(dst))
+        func(src, dst)
+        db.append(('l', dst))
     print(f'>>> writing {NAME}.db.py')
     if db:
         with open(f'{NAME}.db.py', 'w') as f:

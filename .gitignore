@@ -1,5 +1,5 @@
-script.db.py
-script.py
+setup.db.py
+setup.py
 
 /asd/.local/opt*
 /asd/.bash_history

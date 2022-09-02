@@ -39,7 +39,7 @@ alias grep='grep --color=auto'
 alias reload-gpgAgent='echo RELOADAGENT | gpg-connect-agent'
 alias aplay-noise='aplay -t raw /dev/random -d 0 -r 4000 -c 2 -N'
 alias cmatrix-c='cmatrix -bru 60'
-alias ss-mon='loop 2 "ss -anoHtu | sort -k5 -b"'
+alias ss-loop='loop 2 "ss -anoHtu | sort -k5 -b"'
 alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
@@ -50,8 +50,3 @@ alias cdbspwm='cd ~/.config/bspwm'
 alias cdfish='cd ~/.config/fish'
 alias cdnvim='cd ~/.config/nvim'
 alias cdportage='cd /etc/portage'
-alias cdaoped='cd /mnt/b/data/aaa/AOPED'
-
-# other useless tobe deleted aliases
-alias vist='sudo nvim /etc/portage/savedconfig/x11-terms/st-*'
-alias vipackuse='cd /etc/portage; sudo nvim package.use'

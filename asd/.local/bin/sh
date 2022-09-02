@@ -1,1 +1,2 @@
-/bin/dash
+#!/bin/sh
+exec dash "$@"

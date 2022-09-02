@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+[ "$(id -u)" -eq 0 ] && exit
+[ "$1" = '-q' ] || [ "$1" = '--quiet' ] || echo 'you not a root'
+exit 1

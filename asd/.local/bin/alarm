@@ -21,4 +21,4 @@ fi
 [ "$slp" ] || exit
 
 sleep "$slp"
-mpv --volume=200 --no-terminal "$(dirname "$0")/../opt/audio/.wav"
+mpv --volume=1000 --no-terminal "$(dirname "$0")/../opt/audio/audio.wav"

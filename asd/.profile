@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 . ~/.sh
-sh-greeting

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd ~/Videos/aaa/AOPED || exit 1
+exec ./fav.py "$@"

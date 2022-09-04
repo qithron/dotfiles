@@ -50,14 +50,13 @@ alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
 # cd
-alias cdo='cd "$OLDPWD"'
 alias cdrepo='cd ~/Repository/github/git/qithron'
-alias cdbspwm='cd ~/.config/bspwm'
-alias cdfish='cd ~/.config/fish'
-alias cdnvim='cd ~/.config/nvim'
+alias cdconfig='cd ~/.config'
 alias cdportage='cd /etc/portage'
 
 # git
 alias gitd='git diff'
 alias gitl='git log'
 alias gits='git status'
+
+test ! "$FISH_VERSION" && . ~/.shrc

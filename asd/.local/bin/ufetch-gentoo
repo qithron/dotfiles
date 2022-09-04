@@ -3,12 +3,12 @@
 # src: gitlab.com/jschx/ufetch
 
 ## INFO
-host="$(hostname)"
+host=$(hostname)
 os='Gentoo Linux'
-kernel="$(uname -sr)"
-pkg="$(find /var/db/pkg/ -mindepth 2 -type d | wc -l)"
-shell="$(basename "${SHELL}")"
-ui="$DESKTOP_SESSION"
+kernel=$(uname -sr)
+pkg=$(find /var/db/pkg/ -mindepth 2 -type d | wc -l)
+shell=$(basename "$SHELL")
+ui=${DESKTOP_SESSION:-tty}
 
 ## DEFINE COLORS
 e=$(printf '\033')

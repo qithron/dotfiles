@@ -55,7 +55,7 @@ class rename_edit(Command):
         #self.fm.redraw_window()
 
     def _question_callback(self, file, dn, ls, answer):
-        if answer == 'y' or answer == 'Y':
+        if answer in ('y', 'Y'):
             with open(file) as f:
                 l2 = tuple((s.strip() for s in f))
             if len(ls) == len(l2):

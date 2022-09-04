@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+
+[ "$1" ] || exit
+
+f=$(get-user-tmp-path amixer-volume.int)
+
+set_vol() {
+    v=$1
+    [ "$v" -lt 0 ] && v=0
+    [ "$v" -gt 100 ] && v=100
+    amixer sset 'Master' "$v%" 1> /dev/null
+}
+cat_volume_int() {
+    [ "$(wc -c <"$f")" -le 4 ] && v=$(cat "$f")
+    [ "$v" ] || v=50
+    echo "$v"
+}
+
+f_exact() {
+    [ "$v" ] || v=$(cat_volume_int)
+    set_vol "$v"
+    echo "$v" > "$f"
+}
+f_change() {
+    v=$(cat_volume_int)
+    [ "$2" ] && w=$2 || w=5
+    [ "$1" = '+' ] && v=$((v + w))
+    [ "$1" = '-' ] && v=$((v - w))
+    set_vol "$v"
+    echo "$v" > "$f"
+}
+
+v=$(echo "$1" | grep -Eo '[0-9]{,3}$')
+
+if [ "$1" = '!' ]; then
+    amixer sget 'Master' | grep -q '\[0%\]' && f_exact || set_vol 0
+elif echo "$1" | grep -q '^+'; then
+    f_change '+' "$v"
+elif echo "$1" | grep -q '^-'; then
+    f_change '-' "$v"
+else
+    f_exact
+fi

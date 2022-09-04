@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+PREFIX='/mnt/satokoi/mnt/b/user'
+
+for p in \
+    '.local/share/nvim/site'\
+    '.local/opt/activate-linux'\
+; do
+    echo $p
+done

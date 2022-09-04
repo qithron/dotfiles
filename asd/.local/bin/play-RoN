@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd ~/Videos/ron || exit 1
+exec mpv "$@" --shuffle --loop-playlist=inf .

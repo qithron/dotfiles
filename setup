@@ -227,6 +227,9 @@ if os.path.exists(f'{NAME}.py'):
         exec(f.read())
 
 if __name__ == '__main__':
+    _ = os.getenv('INSTALL_DIR')
+    if _ is not None:
+        INSTALL_DIR = _
     INSTALL_DIR = os.path.expanduser(INSTALL_DIR)
     os.chdir(os.path.dirname(__file__))
 

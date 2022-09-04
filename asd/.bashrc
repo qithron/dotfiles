@@ -45,12 +45,4 @@ bind '"\e[6~": history-search-forward'
 bind '"\e[1;5C": menu-complete'
 bind '"\e[1;5D": menu-complete-backward'
 
-e() {
-    ranger
-    local d
-    d=$(ranger-cd)
-    [ "$d" ] && cd "$d" || return
-}
-
 . ~/.sh
-sh-greeting

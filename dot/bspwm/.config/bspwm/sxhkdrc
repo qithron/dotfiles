@@ -17,7 +17,7 @@ super + Return
 
 # pass manager
 super + semicolon; p;a;s;s
-    st -c 'st-passmenu' -g '75x15' ~/.config/bspwm/s/passmenu
+    st -c 'st-passmenu' -g '75x15' "$BSPWM_HOME/bin/passmenu"
 
 # program launcher
 super + r
@@ -39,11 +39,11 @@ XF86MonBrightnessDown
 
 # volume control
 XF86AudioRaiseVolume
-    ~/.config/bspwm/s/volume '+'
+    volume +
 XF86AudioLowerVolume
-    ~/.config/bspwm/s/volume '-'
+    volume -
 XF86AudioMute
-    ~/.config/bspwm/s/volume '!'
+    volume !
 
 # close current window
 super + Escape
@@ -67,13 +67,13 @@ super + c
 # show all windows in current monitor
 super + w
     bspc query --tree --monitor \
-        | ~/.config/bspwm/s/windos_list \
+        | "$BSPWM_HOME/bin/windos_list" \
         | dmenu -l 10 | "$SHELL"
 
 # show all windows in current desktop
 super + shift + w
     bspc query --tree --desktop \
-        | ~/.config/bspwm/s/windos_list --desktop \
+        | "$BSPWM_HOME/bin/windos_list" --desktop \
         | dmenu -l 10 | "$SHELL"
 
 # node state

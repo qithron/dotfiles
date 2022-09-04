@@ -1,5 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env python
 
-for i in $(seq 0 255); do
-    printf '\x'$(printf '%02x' $i)
-done
+import sys
+a = bytearray(b'\0')
+for i in range(256):
+    a[0] = i
+    sys.stdout.buffer.write(a)
+print()

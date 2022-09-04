@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-exec st -g 213x55+0+0

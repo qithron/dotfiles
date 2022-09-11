@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-are-you-root || exit
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
 
 cd /usr/src/linux || exit
 

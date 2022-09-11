@@ -59,7 +59,7 @@ alias cdhttp='cd ~/Public/http'
 
 # git
 alias gitd='git diff'
-alias gitl='git log'
+alias gitl='git log -n 5'
 alias gits='git status'
 
 test ! "$FISH_VERSION" && . ~/.shrc

@@ -122,31 +122,31 @@ super + shift + l
 
 # resize 20
 super + ctrl + h
-    bspc node focused.tiled --resize left -20 0;\
-    bspc node --resize right -20 0
+    bspc node 'focused.tiled' --resize left -20 0;\
+    bspc node 'focused.tiled' --resize right -20 0
 super + ctrl + j
-    bspc node focused.tiled --resize top 0 20;\
-    bspc node --resize bottom 0 20
+    bspc node 'focused.tiled' --resize top 0 20;\
+    bspc node 'focused.tiled' --resize bottom 0 20
 super + ctrl + k
-    bspc node focused.tiled --resize top 0 -20;\
-    bspc node --resize bottom 0 -20
+    bspc node 'focused.tiled' --resize top 0 -20;\
+    bspc node 'focused.tiled' --resize bottom 0 -20
 super + ctrl + l
-    bspc node focused.tiled --resize left 20 0;\
-    bspc node --resize right 20 0
+    bspc node 'focused.tiled' --resize left 20 0;\
+    bspc node 'focused.tiled' --resize right 20 0
 
 # resize 1
 super + ctrl + shift + h
-    bspc node focused.tiled --resize left -1 0;\
-    bspc node --resize right -1 0
+    bspc node 'focused.tiled' --resize left -1 0;\
+    bspc node 'focused.tiled' --resize right -1 0
 super + ctrl + shift + j
-    bspc node focused.tiled --resize top 0 1;\
-    bspc node --resize bottom 0 1
+    bspc node 'focused.tiled' --resize top 0 1;\
+    bspc node 'focused.tiled' --resize bottom 0 1
 super + ctrl + shift + k
-    bspc node focused.tiled --resize top 0 -1;\
-    bspc node --resize bottom 0 -1
+    bspc node 'focused.tiled' --resize top 0 -1;\
+    bspc node 'focused.tiled' --resize bottom 0 -1
 super + ctrl + shift + l
-    bspc node focused.tiled --resize left 1 0;\
-    bspc node --resize right 1 0
+    bspc node 'focused.tiled' --resize left 1 0;\
+    bspc node 'focused.tiled' --resize right 1 0
 
 # preselect
 super + alt + h
@@ -166,15 +166,15 @@ super + shift + {Left,Down,Up,Right}
 
 # node to desktop
 super + shift + F{1-9,10,11,12}
-    bspc node --to-desktop ';{a-l}'
+    bspc node --to-desktop ';{a-l}.local'
 super + asciitilde
-    bspc node --to-desktop 'last'
+    bspc node --to-desktop 'last.local'
 
 # desktop
 super + F{1-9,10,11,12}
-    bspc desktop --focus ';{a-l}'
+    bspc desktop --focus ';{a-l}.local'
 super + grave
-    bspc desktop --focus 'last'
+    bspc desktop --focus 'last.local'
 super + 1
     bspc desktop --focus 'prev.local'
 super + 2

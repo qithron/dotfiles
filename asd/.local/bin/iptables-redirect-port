@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-are-you-root || exit
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
 
 test "$1" && test "$2" || exit 1
 
@@ -17,5 +17,9 @@ else
     Q="$2"
 fi
 
-iptables -t nat "$C" OUTPUT -d localhost -p tcp --dport "$P" -j REDIRECT --to-ports "$Q" &&
-iptables -t nat "$C" PREROUTING -p tcp --dport "$P" -j REDIRECT --to-ports "$Q"
+iptables -t nat "$C" OUTPUT \
+    -d localhost --dport "$P" \
+    -j REDIRECT --to-ports "$Q" &&
+iptables -t nat "$C" PREROUTING \
+    --dport "$P" \
+    -j REDIRECT --to-ports "$Q"

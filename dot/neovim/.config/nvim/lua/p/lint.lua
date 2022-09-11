@@ -37,10 +37,11 @@ vim.api.nvim_create_autocmd({'FileType'}, {
 
 -- python: pylint
 require('lint.linters.pylint').args = {
-    '--disable', 'C0112',
-    '--disable', 'C0114',
-    '--disable', 'C0115',
-    '--disable', 'C0116',
+    '--disable', 'C0103', -- :invalid-name
+    '--disable', 'C0112', -- :empty-docstring
+    '--disable', 'C0114', -- :missing-module-docstring
+    '--disable', 'C0115', -- :missing-class-docstring
+    '--disable', 'C0116', -- :missing-function-docstring
     '-f', 'json'
 }
 

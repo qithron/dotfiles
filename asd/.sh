@@ -50,9 +50,12 @@ alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
 # cd
+alias cdbin='cd ~/.local/bin'
+alias cddot='cd ~/Repository/github/git/qithron/dotfiles'
 alias cdrepo='cd ~/Repository/github/git/qithron'
 alias cdconfig='cd ~/.config'
 alias cdportage='cd /etc/portage'
+alias cdhttp='cd ~/Public/http'
 
 # git
 alias gitd='git diff'

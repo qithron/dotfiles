@@ -6,6 +6,6 @@
 [ "$3" ] && T=$3 || T=$1
 
 while clear; do
-    eval $2 || break
-    sleep $T || break
+    eval "$2" || break
+    sleep "$T" || break
 done

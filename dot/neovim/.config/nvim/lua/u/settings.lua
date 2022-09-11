@@ -24,7 +24,6 @@ vim.o.undofile = false
 
 vim.o.wrap = true
 vim.o.expandtab = true
-vim.o.autoindent = true
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4

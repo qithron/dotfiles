@@ -17,5 +17,5 @@ else
     Q="$2"
 fi
 
-iptables -t nat "$C" OUTPUT -p tcp --dport "$P" -j REDIRECT --to-ports "$Q" &&
+iptables -t nat "$C" OUTPUT -d localhost -p tcp --dport "$P" -j REDIRECT --to-ports "$Q" &&
 iptables -t nat "$C" PREROUTING -p tcp --dport "$P" -j REDIRECT --to-ports "$Q"

@@ -1,10 +1,16 @@
 #!/usr/bin/env sh
 
 DIR=~/Pictures/Wallpapers
-SLEEP=60
+SLEEP=20
 
 [ "$(pgrep --uid "$USER" --full "sh $0" | wc --lines)" -ne 2 ] &&
     pkill --uid "$USER" --full "sh $0" --oldest
 [ "$1" = '-k' ] && exit
-xwallpaper --zoom "$(shuf -n 1 -e "$DIR"/*)"
-sleep "$SLEEP" && exec "$0"
+[ "$1" ] || exec "$0" "$(shuf -n 1 -e "$DIR/"*)"
+xwallpaper --zoom "$1" && sleep "$SLEEP"
+while true; do
+    wp=$(shuf -n 1 -e "$DIR/"*)
+    test "$1" = "$wp" || break
+    sleep 1
+done
+exec "$0" "$wp"

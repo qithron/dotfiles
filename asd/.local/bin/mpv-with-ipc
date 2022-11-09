@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+sock=$(get-user-tmp-path mpvsocket)
+
+exec mpv --idle --no-audio-display --input-ipc-server="$sock" "$@"

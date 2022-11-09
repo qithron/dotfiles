@@ -1,0 +1,16 @@
+vim.g.bufExplorerDefaultHelp = 0
+vim.g.bufExplorerDisableDefaultKeyMapping = 1
+vim.g.bufExplorerDetailedHelp = 0
+vim.g.bufExplorerFindActive = 0
+vim.g.bufExplorerReverseSort = 0
+vim.g.bufExplorerShowDirectories = 0
+vim.g.bufExplorerShowNoName = 1
+vim.g.bufExplorerShowRelativePath = 1
+vim.g.bufExplorerShowTabBuffer = 0
+vim.g.bufExplorerShowUnlisted = 0
+vim.g.bufExplorerSortBy = 'fullpath'
+--vim.g.bufExplorerSplitBelow = 0
+--vim.g.bufExplorerSplitHorzSize = 0
+vim.g.bufExplorerSplitOutPathName = 0
+--vim.g.bufExplorerSplitRight = 0
+--vim.g.bufExplorerVertSize = 0

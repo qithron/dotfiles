@@ -2,6 +2,9 @@
 
 import sys
 import json
+import subprocess
+
+# TODO make dmenu -p "current desktop"
 
 #### monitor
 # name id randrId wired stickyCount
@@ -41,8 +44,7 @@ def node(d, i, n):
             print('--flag hidden', end=' ')
         else:
             print('--focus      ', end=' ')
-        fx = 'F%-2d' % (ord(n[1]) - 96)
-        print('###', fx, '###', n, i, end=' ')
+        print('###', n, i, end=' ')
         print(d['client']['className'], d['client']['instanceName'], end=' ')
         for v in ('hidden', 'sticky', 'private', 'locked', 'marked'):
             if d[v]:

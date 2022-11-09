@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+
+dev=wlan9
+iw dev "$dev" del
+
+while true; do
+    while true; do
+        mac=$(printf '%02x' "$(shuf -i 128-250 -n 1)")
+        test "$mac" = 'f0' || break
+    done
+    for _ in $(seq 5); do
+        mac=$(printf '%s:%02x' "$mac" "$(shuf -i 0-255 -n 1)")
+    done
+    echo "$mac"
+    iw phy phy0 interface add "$dev" type managed addr "$mac" && break
+done

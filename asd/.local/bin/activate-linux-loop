@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if [ "$1" = '-k' ]; then
+    trap 'pkill activate-linux' TERM
+    pkill -f "$(sh -c 'echo $0') $0"
+    exit
+fi
+
+activate-linux
+exec "$0"

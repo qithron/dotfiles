@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+alias pacman='/usr/bin/pacman --verbose --color=auto'
+alias emerge-upgrade='emerge -DNUu @world'
+
+alias ce='clear'
+alias ls='ls -Als --color=auto --group-directories-first'
+alias grep='grep --color=auto'
+
+alias reload-gpgAgent='echo RELOADAGENT | gpg-connect-agent'
+alias aplay-noise='aplay -t raw /dev/random -r 4000 -c 2 -N'
+alias cmatrix-c='cmatrix -bru 60'
+alias ss-loop='loop 2 "ss -anoHtu | sort -k5 -b"'
+alias clock='date "+%Y/%m/%d %T"'
+alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
+
+alias cdo='cd "$OLDPWD"'
+alias cdbin='cd ~/.local/bin'
+alias cdsbin='cd ~/.local/sbin'
+alias cddot='cd ~/Repository/github/git/qithron/dotfiles'
+alias cdrepo='cd ~/Repository/github/git/qithron'
+alias cdconfig='cd ~/.config'
+alias cdportage='cd /etc/portage'
+alias cdhttp='cd /srv/http'
+
+alias xrand-hdmi-def='xrandr --output HDMI2 --mode 1360x768 --right-of eDP1'

@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+v="$XDG_CONFIG_HOME/sh.d"
+[ -d "$v" ] &&
+    for v in "$v/"*; do
+        . "$v"
+    done
+unset v

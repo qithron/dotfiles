@@ -5,11 +5,11 @@ sh -c "$*"
 E=$(date '+%s.%N')
 
 Ss=$(echo "$S" | grep -Eo '^\w*')
-Sn=$(echo "$S" | grep -Eo '[1-9][0-9]*$')
+Sn=$(echo "$S" | grep -Eo '[1-9]\w*$')
 [ "$Sn" ] || Sn=0
 
 Es=$(echo "$E" | grep -Eo '^\w*')
-En=$(echo "$E" | grep -Eo '[1-9][0-9]*$')
+En=$(echo "$E" | grep -Eo '[1-9]\w*$')
 [ "$En" ] || En=0
 
 ELe=$((En < Sn))

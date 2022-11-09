@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+sock=$(get-user-tmp-path mpvsocket)
+
+test -S "$sock" || exit
+
+echo "$*" | python -c "
+import sys
+import socket
+
+sock = socket.socket(socket.AF_UNIX)
+sock.settimeout(1)
+sock.connect('$sock')
+sock.sendall(sys.stdin.buffer.read())
+
+buff = bytearray()
+while True:
+    try:
+        data = sock.recv(8192)
+    except TimeoutError:
+        break
+    if not data:
+        break
+    buff.extend(data)
+
+sys.stdout.buffer.write(buff)
+"

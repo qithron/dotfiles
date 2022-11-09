@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-d="$(get-user-tmp-path ranger)"
-[ -d "$d" ] || mkdir -p "$d" && chmod 700 "$d"
-echo "$d"

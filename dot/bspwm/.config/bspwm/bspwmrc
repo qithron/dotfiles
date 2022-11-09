@@ -2,7 +2,7 @@
 
 # reset desktops
 for v in $(bspc query -M --names); do
-    bspc monitor "$v" -d \;a \;b \;c \;d \;e \;f \;g \;h \;i \;j \;k \;l
+    bspc monitor "$v" -d f1 f2 f3 f4 f5 f6 f7 f8 f9 fA fB fC
 done
 
 bspc config normal_border_color	  '#1f1f1f'
@@ -16,6 +16,7 @@ bspc config left_padding $v
 bspc config right_padding $v
 bspc config top_padding $v
 bspc config bottom_padding $v
+bspc config remove_unplugged_monitors   true
 bspc config click_to_focus              button1
 bspc config split_ratio                 0.50
 bspc config borderless_monocle          true

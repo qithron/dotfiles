@@ -1,8 +1,9 @@
+# shell sh
 # vim: ft=sh
 
 # quit bspwm
 super + ctrl + alt + shift + q; q
-        bspc quit
+    bspc quit
 # restart bspwm
 super + ctrl + alt + shift + w; w
     bspc wm --restart
@@ -13,7 +14,7 @@ super + ctrl + alt + shift + e; e
 
 # terminal
 super + Return
-    st -e 'fish'
+    st -e 'zsh'
 
 # pass manager
 super + semicolon; p;a;s;s
@@ -21,7 +22,7 @@ super + semicolon; p;a;s;s
 
 # program launcher
 super + r
-    exec $(dmenu_path | dmenu)
+    exec $(dmenu_path | dmenu -i)
 
 # screenshot
 super + Print
@@ -68,13 +69,13 @@ super + c
 super + w
     bspc query --tree --monitor \
         | "$BSPWM_HOME/bin/windos_list" \
-        | dmenu -l 10 | "$SHELL"
+        | dmenu -p "$(bspc-current-desktop-name)" -i -l 30 | "$SHELL"
 
 # show all windows in current desktop
 super + shift + w
     bspc query --tree --desktop \
         | "$BSPWM_HOME/bin/windos_list" --desktop \
-        | dmenu -l 10 | "$SHELL"
+        | dmenu -p "$(bspc-current-desktop-name)" -i -l 30 | "$SHELL"
 
 # node state
 super + s
@@ -100,8 +101,6 @@ super + p
 super + o
     bspc node --focus '@brother'
 super + i
-    bspc node --focus 'last.window.normal.local'
-super + m
     bspc node --focus 'biggest.local.normal'
 
 # switch to next window in current desktop
@@ -123,30 +122,30 @@ super + shift + l
 # resize 20
 super + ctrl + h
     bspc node 'focused.tiled' --resize left -20 0;\
-    bspc node 'focused.tiled' --resize right -20 0
+    bspc node 'focused' --resize right -20 0
 super + ctrl + j
     bspc node 'focused.tiled' --resize top 0 20;\
-    bspc node 'focused.tiled' --resize bottom 0 20
+    bspc node 'focused' --resize bottom 0 20
 super + ctrl + k
     bspc node 'focused.tiled' --resize top 0 -20;\
-    bspc node 'focused.tiled' --resize bottom 0 -20
+    bspc node 'focused' --resize bottom 0 -20
 super + ctrl + l
     bspc node 'focused.tiled' --resize left 20 0;\
-    bspc node 'focused.tiled' --resize right 20 0
+    bspc node 'focused' --resize right 20 0
 
 # resize 1
 super + ctrl + shift + h
     bspc node 'focused.tiled' --resize left -1 0;\
-    bspc node 'focused.tiled' --resize right -1 0
+    bspc node 'focused' --resize right -1 0
 super + ctrl + shift + j
     bspc node 'focused.tiled' --resize top 0 1;\
-    bspc node 'focused.tiled' --resize bottom 0 1
+    bspc node 'focused' --resize bottom 0 1
 super + ctrl + shift + k
     bspc node 'focused.tiled' --resize top 0 -1;\
-    bspc node 'focused.tiled' --resize bottom 0 -1
+    bspc node 'focused' --resize bottom 0 -1
 super + ctrl + shift + l
     bspc node 'focused.tiled' --resize left 1 0;\
-    bspc node 'focused.tiled' --resize right 1 0
+    bspc node 'focused' --resize right 1 0
 
 # preselect
 super + alt + h
@@ -166,15 +165,16 @@ super + shift + {Left,Down,Up,Right}
 
 # node to desktop
 super + shift + F{1-9,10,11,12}
-    bspc node --to-desktop ';{a-l}.local'
+    bspc node --to-desktop 'f{1-9,A,B,C}.local'
 super + asciitilde
-    bspc node --to-desktop 'last.local'
+    bspc node --to-desktop 'last'
 
 # desktop
 super + F{1-9,10,11,12}
-    bspc desktop --focus ';{a-l}.local'
+    bspc desktop --focus 'f{1-9,A,B,C}.local'
 super + grave
-    bspc desktop --focus 'last.local'
+    bspc desktop --focus 'last'
+
 super + 1
     bspc desktop --focus 'prev.local'
 super + 2

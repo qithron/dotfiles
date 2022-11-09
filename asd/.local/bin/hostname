@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [ -x /bin/hostname ]; then
+    /bin/hostname "$@"
+else
+    cat /etc/hostname
+fi

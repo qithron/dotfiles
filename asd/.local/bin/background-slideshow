@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-DIR=~/Pictures/Wallpapers
+DIR="$HOME/Pictures/Wallpapers"
 SLEEP=20
 
 [ "$(pgrep --uid "$USER" --full "sh $0" | wc --lines)" -ne 2 ] &&

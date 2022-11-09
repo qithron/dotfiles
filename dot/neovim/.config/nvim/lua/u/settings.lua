@@ -3,36 +3,39 @@ vim.o.spelllang = 'en_us'
 vim.o.shell = '/bin/fish'
 vim.o.encoding = 'utf-8'
 vim.o.clipboard = 'unnamedplus'
-vim.o.hlsearch = false
 vim.o.laststatus = 2
 
 vim.o.runtimepath = '/usr/share/vim/vimfiles,' .. vim.o.runtimepath
 
-vim.o.scrolloff = 10
-vim.o.sidescrolloff = 20
+vim.o.wrap = false
+vim.o.scrolloff = 9
+vim.o.sidescrolloff = 5
 vim.o.equalalways = false
 vim.o.colorcolumn = '80'
 vim.o.number = false
 vim.o.relativenumber = true
 vim.o.signcolumn = 'yes:1'
 vim.o.numberwidth = 2
+vim.o.foldenable = false
 
 vim.o.backup = false
 vim.o.writebackup = true
 vim.o.swapfile = false
 vim.o.undofile = false
 
-vim.o.wrap = true
 vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
+vim.o.autoindent = false
+vim.o.smartindent = false
+vim.o.smarttab = false
 
 vim.o.list = true
 vim.o.listchars = 'tab:\\x20\\x20,trail:•'
 
 -- tabline
-vim.o.showtabline = 2
+vim.o.showtabline = 1
 vim.cmd([[
 function USER_tabline()
     let s = ''
@@ -56,8 +59,6 @@ augroup user
     " terminal autocmd
     autocmd BufEnter term://* startinsert
     autocmd TermOpen * setlocal nonu nornu scl=no | startinsert
-    " change python syntax
-    autocmd FileType python set syntax=py
 augroup END
 ]])
 
@@ -66,3 +67,8 @@ vim.cmd('command! TERM tab vs | terminal')
 
 -- split in new tab
 vim.cmd('command! TNEW tab vs')
+
+-- HTML
+vim.g.html_indent_script1 = "auto"
+vim.g.html_indent_style1 = "auto"
+vim.g.html_indent_attribute = 0

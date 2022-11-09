@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+test "$(whoami)" = 'root' && exit 0 || printf 'sudo' && exit 1

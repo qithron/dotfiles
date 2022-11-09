@@ -1,12 +1,14 @@
+lua user = {}
+
 " TODO rewrite 'vim.cmd' in lua if possible
 lua require('u/settings')
 lua require('u/keybinds')
 
 """ plugins
-lua user = {}
 lua require('p/lualine')
 lua require('p/lint')
 lua require('p/nvim-tree')
+lua require('p/bufexplorer')
 "lua require('p/nvim-treesitter')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -26,7 +28,7 @@ hi Boolean cterm=none                                 ctermfg=12   ctermbg=none
 hi! link Function Normal
 hi Conditional cterm=italic                           ctermfg=9    ctermbg=none
 hi! link Repeat Keyword
-hi! link Operator Boolean
+hi! link Operator Statement
 hi! link Exception Keyword
 
 hi PreProc cterm=italic                               ctermfg=9    ctermbg=none
@@ -39,9 +41,10 @@ hi LineNrBelow cterm=none                             ctermfg=12   ctermbg=none
 
 hi clear SignColumn
 hi TabLine cterm=none                                 ctermfg=15   ctermbg=8
-hi ColorColumn cterm=none                             ctermfg=15   ctermbg=15
+hi ColorColumn cterm=reverse                          ctermfg=8    ctermbg=none
 
 hi Special cterm=none                                 ctermfg=11   ctermbg=none
+hi Search cterm=none                                  ctermfg=none ctermbg=14
 
 " temp
 hi Question cterm=bold,underline ctermfg=9 ctermbg=24

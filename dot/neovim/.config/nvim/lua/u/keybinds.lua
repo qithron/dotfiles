@@ -2,8 +2,8 @@ vim.g.mapleader = ' '
 local map = vim.keymap.set
 
 -- disable
-map('', '<C-a>', '<NOP>')
-map('', '<C-x>', '<NOP>')
+--map('', '<C-a>', '<NOP>')
+--map('', '<C-x>', '<NOP>')
 
 -- escape
 map('i', '<A-i>', '<ESC>')
@@ -27,7 +27,8 @@ map('', '<C-h>', '7h')
 map('n', '<leader>q', ':q<CR>')
 map('n', '<leader>Q', ':q!<CR>')
 map('n', '<leader>s', ':w<CR>')
-map('n', '<C-s>', ':w<CR>')
+--map('n', '<C-s>', ':w<CR>')
+map('n', '<leader>/', ':noh<CR>')
 
 -- emacs keys
 map('i', '<C-e>', '<ESC>A', {silent=true})

@@ -32,7 +32,7 @@ if status is-interactive
         end
         set_color normal
         # working directory
-        printf ':\e[37m%s\n\e[0m' (string replace -r "^$HOME" '~' "$PWD")
+        printf ' \e[37m%s\n\e[0m' (string replace -r "^$HOME" '~' "$PWD")
         # jobs
         for job in (jobs)
             echo "│ $job"
@@ -64,10 +64,10 @@ if status is-interactive
     function fishu_fish_postexec -e fish_postexec
         set -g fishu_end_time $(date '+%s.%N')
         set -f str (string trim "$argv")
-        if test $str = 'clear'; or test $str = 'ce'
-        or test (string match -r '^ls' $str)
-        or test (string match -r '^cd' $str)
-        or test (string match -r '^sh-greeting' $str)
+        if test "$str" = 'clear'; or test "$str" = 'ce'
+        or test (string match -r '^ls' "$str")
+        or test (string match -r '^cd' "$str")
+        or test (string match -r '^sh-greeting' "$str")
             return
         end
         set -f elapsed (math $fishu_end_time - $fishu_start_time)

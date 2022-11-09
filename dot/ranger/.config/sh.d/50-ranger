@@ -1,0 +1,11 @@
+d="$(get-user-tmp-path ranger)"
+[ -d "$d" ] || mkdir -p "$d" && chmod 700 "$d"
+export RANGER_TMP="$d"
+unset d
+
+e() {
+    ranger
+    test "$RANGER_TMP" || return
+    test -f "$RANGER_TMP/ranger-last-dir-ranger" || return
+    cd "$(cat "$RANGER_TMP/ranger-last-dir-ranger")"
+}

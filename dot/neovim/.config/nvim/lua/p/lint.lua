@@ -28,7 +28,7 @@ user.lint_toggle = function()
 end
 
 vim.api.nvim_create_autocmd({'FileType'}, {
-    pattern = 'sh',
+    pattern = 'sh,python',
     group = 'user',
     callback = function() user.lint_toggle() end,
 })
@@ -42,6 +42,7 @@ require('lint.linters.pylint').args = {
     '--disable', 'C0114', -- :missing-module-docstring
     '--disable', 'C0115', -- :missing-class-docstring
     '--disable', 'C0116', -- :missing-function-docstring
+    '--disable', 'W0622', -- :redefined-builtin
     '-f', 'json'
 }
 

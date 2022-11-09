@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+
+vsftpd -oanon_mkdir_write_enable=NO\
+    -oanon_other_write_enable=NO\
+    -oanon_upload_enable=NO\
+    -oanon_world_readable_only=NO\
+    -oanonymous_enable=YES\
+    -obackground=NO\
+    -oconnect_from_port_20=NO\
+    -olocal_enable=NO\
+    -ono_anon_password=YES\
+    -olog_ftp_protocol=YES\
+    -oanon_root=/\
+    -olisten_port=21

@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+#CMD='asciiquarium'
+CMD='cmatrix -bu 120'
+#CMD='cmatrix -rbu 300'
+
+echo "$CMD"

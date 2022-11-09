@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-C="$HOME/.config/bspwm/s/background-cmd"
-
-while $($C); do
-    true
-done

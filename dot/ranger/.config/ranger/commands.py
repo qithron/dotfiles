@@ -12,10 +12,11 @@
 # self.fm
 # pydoc ranger.core.fm
 
-from ranger.api.commands import Command
 import os
 import time
+import subprocess
 from functools import partial
+from ranger.api.commands import Command
 
 class quit_write_last_dir(Command):
     def execute(self):
@@ -28,7 +29,7 @@ class quit_write_last_dir(Command):
             d = os.getenv('RANGER_TMP')
             if d is not None:
                 d += '/ranger-last-dir-ranger'
-                with open(d, 'w') as f:
+                with open(d, 'w', encoding='utf8') as f:
                     f.write(str(self.fm.thisdir))
                 os.chmod(d, 0o777)
             self.fm.exit()
@@ -38,8 +39,8 @@ class rename_edit(Command):
         file = os.getenv('RANGER_TMP')
         if file is None:
             return
-        file += '/%s.txt' % time.time()
-        with open(file, 'w') as f:
+        file += f'/{time.time()}.txt'
+        with open(file, 'w', encoding='utf8') as f:
             ls = self.fm.thistab.get_selection()
             if len(ls) == 1:
                 ls = self.fm.thisdir.files
@@ -56,10 +57,10 @@ class rename_edit(Command):
 
     def _question_callback(self, file, dn, ls, answer):
         if answer in ('y', 'Y'):
-            with open(file) as f:
+            with open(file, encoding='utf8') as f:
                 l2 = tuple((s.strip() for s in f))
             if len(ls) == len(l2):
                 for (i, j) in zip(ls, l2):
-                    os.system('mv "%s" "%s/%s"' % (i.path, dn, j))
+                    subprocess.run(['mv', i.path, f'{dn}/{j}'], check=1)
         if os.path.exists(file):
             os.remove(file)

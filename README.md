@@ -4,24 +4,11 @@ mee home setup for ywu
 ```
 
 
-# DIRECTORIES
-```
-"./asd" as "$HOME"
-Config files, shared configs, scripts, symlinks.
-Some scripts might be useful:
-    ./asd/.local/bin/man neovim as man pager
-    ./asd/.local/bin/web quick browsing using w3m
-
-"./dot" as "$HOME/.config"
-Categorized config files.
-```
-
-
-# SOFTWARES
+# SOFTWARE'S
 ```
 DISTRO     Gentoo Linux (amd64 openrc)
 WM         bspwm
-SHELL      dash (user login), fish (interactive)
+SHELL      dash (user login), zsh (interactive)
 TERMINAL   st
 EDITOR     neovim
 ```

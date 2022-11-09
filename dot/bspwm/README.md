@@ -9,8 +9,8 @@ that doesn't handle hotkey at all but pointer.
 ### other optional dependencies (based on xinitrc and sxhkdrc)
 - picom, compositor
 - unclutter, remove idle cursor image from screen
-- nitrogen, background setter
-- [activate-linux](https://github.com/MrGlockenspiel/activate-linux)
+- xwallpaper, background setter or slide show background
+- activate-linux, watermark
 - cmatrix, live background
 - st, terminal
 - alsa-utils, volume control
@@ -23,6 +23,6 @@ that doesn't handle hotkey at all but pointer.
 
 ## Keybinds
 
-```raw
+```
 TODO
 ```

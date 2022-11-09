@@ -10,11 +10,11 @@ local col = {
     blu = '#0000ff',
     mag = '#ff00ff',
 }
-
 local theme = {
     normal = {
         a = {fg = col.mag, bg = col.gre, gui = 'bold'},
         b = {fg = col.whi, bg = nil},
+        c = {fg = col.whi, bg = nil},
         z = {fg = col.whi, bg = nil}
     },
     insert = {
@@ -34,18 +34,30 @@ local theme = {
         z = {fg = col.whi, bg = nil}
     }
 }
-
 local line_count = function()
     return vim.api.nvim_buf_line_count(vim.api.nvim_get_current_buf())
 end
+local filename = {
+    'filename',
+    symbols = {
+        modified = '[+]',
+        readonly = '[-]',
+        unnamed = '[?]',
+    },
+    file_status = true,
+    path = 1,
+    shorting_target = 40,
+}
 local sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_c = {filename},
     lualine_x = {'filetype', 'encoding', 'filesize', line_count},
     lualine_y = {'location'},
     lualine_z = {'progress'}
 }
+
+
 MOD.setup({
     options = {
         icons_enabled = false,

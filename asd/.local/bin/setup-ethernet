@@ -1,22 +1,24 @@
 #!/usr/bin/env sh
 
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+
 IF=enp2s0
 
 ip link show "$IF" | grep -q ' DOWN ' || exit 1
 
-AAAA=10.0.0.1
+ADDR=10.0.0.1
 DHCP_S=10.0.0.2
 DHCP_E=10.0.0.9
 DHCP_M=255.255.255.0
 MASK=24
 
 bg_proc() {
-    ip addr add "$AAAA/$MASK" dev "$IF"
+    ip addr add "$ADDR/$MASK" dev "$IF"
     ip link set enp2s0 up
     dnsmasq --no-daemon --bind-dynamic --interface=$IF --except-interface=lo \
         --no-hosts --no-resolv --no-poll --log-queries --leasefile-ro \
-        --dhcp-range=$DHCP_S,$DHCP_E,$DHCP_M,1h --address="/*/$AAAA"
-    ip addr del "$AAAA/$MASK" dev "$IF"
+        --dhcp-range=$DHCP_S,$DHCP_E,$DHCP_M,1h --address="/*/$ADDR"
+    ip addr del "$ADDR/$MASK" dev "$IF"
     ip link set enp2s0 down
 }
 bg_proc

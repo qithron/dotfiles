@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+C="$BSPWM_HOME/bin/$(basename "$0")-cmd"
+L="$BSPWM_HOME/bin/$(basename "$0")-loop"
+
+G=$(pgrep -fx "$($C)")
+if [ "$G" ]; then
+    [ "$1" = '-k' ] && pkill -fx "$($C)" -TERM
+    exit 1
+fi
+
+bspc rule -r 'st-background-term' manage=off
+while true; do
+    bspc rule -a 'st-background-term' manage=off
+    bspc rule -l | grep -q 'st-background-term:\*:\* => manage=off' && break
+    sleep 0.1
+done
+
+st -c st-background-term -g '227x59+2+0' "$L" "$C"

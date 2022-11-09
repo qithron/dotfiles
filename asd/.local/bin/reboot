@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-sudo /sbin/reboot
+$(print-sudo) /sbin/reboot

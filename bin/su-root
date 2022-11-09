@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec /bin/su -s /bin/dash -c zsh - root

@@ -42,8 +42,7 @@ bind '"\e[1;5C": menu-complete'
 bind '"\e[1;5D": menu-complete-backward'
 
 v="${XDG_CONFIG_HOME:-$HOME/.config}/sh"
-if [[ -d "$v" ]]; then
+if [ -d "$v" ]; then
     . "$v/rc"
-    . "$v/rc-posix"
 fi
 unset v

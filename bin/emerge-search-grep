@@ -23,12 +23,12 @@ GREP() {
 }
 
 CHOOSE_ONE() {
-    NAME=$(find "$1" -name *.ebuild | sort | tail -n 1)
+    NAME=$(find "$1" -name '*.ebuild' | sort | tail -n 1)
     [ "$NAME" ] || return
     GREP "$NAME"
 }
 
 find /var/db/repos/ -mindepth 3 -maxdepth 3 -type d | \
-    while read FILE; do
+    while read -r FILE; do
         CHOOSE_ONE "$FILE";
     done

@@ -11,6 +11,7 @@ alias reload-gpgAgent='echo RELOADAGENT | gpg-connect-agent'
 alias aplay-noise='aplay -t raw /dev/random -r 4000 -c 2 -N'
 alias cmatrix-c='cmatrix -bru 60'
 alias ss-loop='loop 2 "ss -anoHtu | sort -k5 -b"'
+alias c='date "+%A, %d %B %Y -- %T"'
 alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
@@ -22,5 +23,8 @@ alias cdrepo='cd ~/Repository/github/git/qithron'
 alias cdconfig='cd ~/.config'
 alias cdportage='cd /etc/portage'
 alias cdhttp='cd /srv/http'
+
+alias vialiases='nvim ~/.config/sh.d/98-aliases'
+alias vienv='nvim ~/.config/sh.d/00-env'
 
 alias xrand-hdmi-def='xrandr --output HDMI2 --mode 1360x768 --right-of eDP1'

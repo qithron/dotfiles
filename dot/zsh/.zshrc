@@ -16,12 +16,8 @@ zshaddhistory() {
 }
 
 preexec() {
-    echo "$1" | grep -Eq \
-        -e '^ls' \
-        -e '^cd' \
-        -e '^ce' \
-        -e '^pwd' \
-        -e '^clear' \
+    echo "$3" | grep -Eq \
+        -e '^((ls)|(cd)|(pwd)|(clear))' \
         -e '^sh-greeting' \
         && return
     _S=$(date '+%s.%N').$3
@@ -48,6 +44,7 @@ precmd() {
     ELe=$((En < Sn))
     ELs=$((Es - Ss - (ELe * 1)))
     ELn=$((En - Sn + (ELe * 1000000000)))
+    test "$ELs" -lt 1 && return
 
     #######################################################################
     printf "\033[1;32m#############################\033[0m\n"

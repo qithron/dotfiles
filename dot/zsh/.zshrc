@@ -11,7 +11,6 @@ zshaddhistory() {
         return 2
     else
         fc -IA
-        fc -R
     fi
 }
 

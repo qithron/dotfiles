@@ -2,9 +2,6 @@
 
 import sys
 import json
-import subprocess
-
-# TODO make dmenu -p "current desktop"
 
 #### monitor
 # name id randrId wired stickyCount
@@ -31,9 +28,11 @@ def main():
     d = json.loads(s)
     if '--desktop' in sys.argv:
         node(d['root'], 0, d['name'])
-    else: # monitor
+    elif '--monitor' in sys.argv:
         for v in d['desktops']:
             node(v['root'], 0, v['name'])
+    else:
+        return
 
 def node(d, i, n):
     if d is None:

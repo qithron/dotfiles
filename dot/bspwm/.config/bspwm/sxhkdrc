@@ -68,7 +68,7 @@ super + c
 # show all windows in current monitor
 super + w
     bspc query --tree --monitor \
-        | "$BSPWM_HOME/bin/windos_list" \
+        | "$BSPWM_HOME/bin/windos_list" --monitor \
         | dmenu -p "$(bspc-current-desktop-name)" -i -l 30 | "$SHELL"
 
 # show all windows in current desktop

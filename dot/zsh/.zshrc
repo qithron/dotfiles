@@ -2,8 +2,8 @@
 
 zshaddhistory() {
     if echo "$1" | grep -Eq \
+        -e '$' \
         -e '^rm' \
-        -e '^rm ' \
         -e '^rmdir' \
         -e '^pkill' \
     ; then
@@ -23,6 +23,8 @@ preexec() {
 }
 
 precmd() {
+    PS1="%B%n@%m%b %~ %B%F{$(($RANDOM % 8))}%#%f%b "
+
     test "$_S" || return
     local E=$(date '+%s.%N')
     local S=$(echo "$_S" | grep -Eo '^\w*\.\w*')
@@ -46,29 +48,35 @@ precmd() {
     test "$ELs" -lt 1 && return
 
     #######################################################################
-    printf "\033[1;32m#############################\033[0m\n"
-    printf '%s\n' "$C"
-    printf "\033[1;32m#############################\033[0m\n"
+    printf "\e[1;32m#############################\e[0m\n"
+    printf "%s\n" "$C"
+    printf "\e[1;32m#############################\e[0m\n"
     date --date="@$S" '+%Y/%m/%d %H:%M:%S.%N'
     date --date="@$E" '+%Y/%m/%d %H:%M:%S.%N'
-    printf "\033[1m"
-    printf '%10d %02d:%02d:%02d.%09d\n' $((ELs/86400)) \
+    printf "\e[1m"
+    printf "%10d %02d:%02d:%02d.%09d\n" $((ELs/86400)) \
         $((ELs%86400/3600)) $((ELs%3600/60)) $((ELs%60)) $ELn
-    printf "\033[1;32m#############################\033[0m\n"
+    printf "\e[1;32m#############################\e[0m\n"
 }
-
-#REPORTTIME=0
-#e=$(printf '\e[')
-#TIMEFMT="${e}1;32m%*E${e}0m %J"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=281474976710655
 SAVEHIST=281474976710655
-
-PS1="%B%n%F{$(date +%u)}@%f%m%b %~ %# "
 
 v="${XDG_CONFIG_HOME:-$HOME/.config}/sh"
 if [ -d "$v" ]; then
     . "$v/rc"
 fi
 unset v
+
+autoload -Uz compinit promptinit
+compinit
+promptinit
+
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey -- "\eh" down-line-or-beginning-search
+bindkey -- "\ej" down-line-or-history
+bindkey -- "\ek" up-line-or-history
+bindkey -- "\el" up-line-or-beginning-search

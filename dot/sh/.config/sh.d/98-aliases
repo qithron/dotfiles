@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
-alias pacman='/usr/bin/pacman --verbose --color=auto'
-alias emerge-upgrade='emerge -DNUu @world'
+if [ "$ZSH_VERSION" ]; then # actually, this shouldn't be done
+    alias -g pacman='pacman --verbose --color=auto'
+    alias -g emerge-upgrade='emerge -DNUu @world'
+fi
 
 alias ce='clear'
 alias ls='ls -Als --color=auto --group-directories-first'
@@ -11,7 +13,7 @@ alias reload-gpgAgent='echo RELOADAGENT | gpg-connect-agent'
 alias aplay-noise='aplay -t raw /dev/random -r 4000 -c 2 -N'
 alias cmatrix-c='cmatrix -bru 60'
 alias ss-loop='loop 2 "ss -anoHtu | sort -k5 -b"'
-alias c='date "+%A, %d %B %Y -- %T"'
+alias d='date "+%A, %d %B %Y -- %T"'
 alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 

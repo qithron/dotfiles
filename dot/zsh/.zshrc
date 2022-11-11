@@ -1,17 +1,13 @@
 #!/usr/bin/env zsh
 
 zshaddhistory() {
-    if echo "$1" | grep -Eq \
-        -e '$' \
-        -e '^rm' \
-        -e '^rmdir' \
-        -e '^pkill' \
-    ; then
+    if test "$(printf "$1" | wc -l)" != 1 ||
+        printf "$1" | grep -Eq -e '^(rm|rmdir|pkill)'
+    then
         fc -R
         return 2
-    else
-        fc -IA
     fi
+    fc -IA
 }
 
 preexec() {

@@ -23,6 +23,6 @@ xwallpaper --center "$HOME/Pictures/BG/black.png" &
 picom -f -D 7 &
 sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &
 unclutter -idle 60 -jitter 5 -root &
-sleep 30 && activate-linux-loop &
+sleep 10 && activate-linux-run &
 
 exec bspwm

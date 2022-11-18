@@ -3,14 +3,11 @@
 test "$(whoami)" = 'root' || exec sudo "$0" "$@"
 
 cd /usr/src/linux || exit
-
-VER=$(grep -E '^CONFIG_LOCALVERSION' .config | sed s/'\(^[^"]*"\)\|"'//g)
-DIR=/lib/modules/$(readlink "$PWD" | sed s/'linux-'//)$VER
-
-[ "$1" = '-s' ] || make nconfig
-
-if make -j4; then
-    rm -rv "$DIR"
+test "$1" = '-s' || make nconfig
+make -j4 && {
+    v="$(grep -E '^CONFIG_LOCALVERSION' .config | sed s/'\(^[^"]*"\)\|"'//g)"
+    v="/lib/modules/$(readlink /usr/src/linux | sed s/'linux-'//)$v"
+    rm -rv "$v"
     make install modules_install
     cp -av arch/x86/boot/bzImage /boot/efi/efi/gentoo/kernel.efi
-fi
+}

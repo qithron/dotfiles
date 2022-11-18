@@ -1,14 +1,14 @@
-# shell sh
+#!/usr/bin/env sh
 # vim: ft=sh
 
 # quit bspwm
-super + ctrl + alt + shift + q; q
+ctrl + alt + shift + q; q
     bspc quit
 # restart bspwm
-super + ctrl + alt + shift + w; w
+ctrl + alt + shift + w; w
     bspc wm --restart
 # reload sxhkd
-super + ctrl + alt + shift + e; e
+ctrl + alt + shift + e; e
     truncate --size 0 "$BSPWM_TMP/sxhkd.log" 2> /dev/null;\
     pkill -x sxhkd -u "$USER" -USR1
 
@@ -30,6 +30,8 @@ super + Print
 
 # lock screen
 XF86ScreenSaver
+    slock
+ctrl + alt + shift + l
     slock
 
 # backlight control
@@ -79,13 +81,12 @@ super + shift + w
 
 # node state
 super + s
-    printf "%s\n%s\n%s\n%s\n%s" \
-            'bspc node --flag hidden' \
-            'bspc node --flag sticky' \
-            'bspc node --flag private' \
-            'bspc node --flag locked' \
-            'bspc node --flag marked' \
-        | dmenu -l 5 | "$SHELL"
+    \{ echo 'bspc node --flag hidden' ;\
+       echo 'bspc node --flag locked' ;\
+       echo 'bspc node --flag marked' ;\
+       echo 'bspc node --flag private' ;\
+       echo 'bspc node --flag sticky' ;\}\
+    | dmenu -l 5 | "$SHELL"
 
 # focus a node, or monitor if no node
 super + h
@@ -147,21 +148,25 @@ super + ctrl + shift + l
     bspc node 'focused.tiled' --resize left 1 0;\
     bspc node 'focused' --resize right 1 0
 
-# preselect
+# move floating window or preselect
 super + alt + h
-    bspc node --presel-dir '~west'
+    bspc node --move -20 0 || bspc node --presel-dir '~west'
 super + alt + j
-    bspc node --presel-dir '~south'
+    bspc node --move 0 20 || bspc node --presel-dir '~south'
 super + alt + k
-    bspc node --presel-dir '~north'
+    bspc node --move 0 -20 || bspc node --presel-dir '~north'
 super + alt + l
-    bspc node --presel-dir '~east'
+    bspc node --move 20 0 || bspc node --presel-dir '~east'
 
-# move a floating window
-super + {Left,Down,Up,Right}
-    bspc node --move {-10 0,0 10,0 -10,10 0}
-super + shift + {Left,Down,Up,Right}
-    bspc node --move {-1 0,0 1,0 -1,1 0}
+# move floating window
+super + shift + alt + h
+    bspc node --move -1 0
+super + shift + alt + j
+    bspc node --move 0 1
+super + shift + alt + k
+    bspc node --move 0 -1
+super + shift + alt + l
+    bspc node --move 1 0
 
 # node to desktop
 super + shift + F{1-9,10,11,12}
@@ -169,12 +174,11 @@ super + shift + F{1-9,10,11,12}
 super + asciitilde
     bspc node --to-desktop 'last'
 
-# desktop
+# desktop focus
 super + F{1-9,10,11,12}
     bspc desktop --focus 'f{1-9,A,B,C}.local'
 super + grave
     bspc desktop --focus 'last'
-
 super + 1
     bspc desktop --focus 'prev.local'
 super + 2

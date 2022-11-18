@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+v='activate-linux-helper'
+
+[ "$1" = '-k' ] && {
+    "$v" -k
+    pkill -f "$(sh -c 'echo $0') $0"
+    exit
+}
+
+"$v" -r &
+
+x=$(bspc query -N | wc --lines)
+while true; do
+    y=$(bspc query -N | wc --lines)
+    [ "$x" -ne "$y" ] && {
+        [ "$x" -eq 0 ] && pkill --uid "$USER" activate-linux
+        x=$y
+    }
+    bspc subscribe -c 1 node_add node_remove > /dev/null
+done

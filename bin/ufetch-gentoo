@@ -4,11 +4,12 @@
 
 ## INFO
 host=$(hostname)
-os='Gentoo Linux'
 kernel=$(uname -sr)
-pkg=$(find /var/db/pkg/ -mindepth 2 -type d | wc -l)
-shell=$(basename "$SHELL")
+os='Gentoo Linux'
 ui=${DESKTOP_SESSION:-tty}
+shell=$(basename "$SHELL")
+term=$TERM
+pkg=$(find /var/db/pkg/ -mindepth 2 -type d | wc -l)
 
 ## DEFINE COLORS
 e=$(printf '\033')
@@ -26,6 +27,6 @@ ${c0}.\`    _  \`.   ${lc}KERNEL: ${ic}${kernel}${re}
 ${c0}\`.   (${c1}_)   ${c0}\`.     ${lc}OS: ${ic}${os}${re}
 ${c0}  \`${c1}.        /     ${lc}UI: ${ic}${ui}${re}
 ${c1} .\`       .\`   ${lc}SHELL: ${ic}${shell}${re}
-${c1}/       .\`      ${lc}TERM: ${ic}${TERM}${re}
+${c1}/       .\`      ${lc}TERM: ${ic}${term}${re}
 ${c1}\____.-\`         ${lc}PKG: ${ic}${pkg}${re}
 EOF

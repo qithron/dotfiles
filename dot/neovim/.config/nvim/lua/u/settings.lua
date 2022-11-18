@@ -9,7 +9,7 @@ vim.o.runtimepath = '/usr/share/vim/vimfiles,' .. vim.o.runtimepath
 
 vim.o.wrap = false
 vim.o.scrolloff = 9
-vim.o.sidescrolloff = 5
+vim.o.sidescrolloff = 0
 vim.o.equalalways = false
 vim.o.colorcolumn = '80'
 vim.o.number = false

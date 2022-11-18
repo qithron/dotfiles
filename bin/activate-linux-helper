@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
-if [ "$1" = '-k' ]; then
+[ "$1" = '-k' ] && {
     trap 'pkill activate-linux' TERM
     pkill -f "$(sh -c 'echo $0') $0"
     exit
-fi
+}
+
+[ "$1" = '-r' ] || exit 1
 
 activate-linux
-exec "$0"
+exec "$0" -r

@@ -18,6 +18,7 @@ alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
 alias cdo='cd "$OLDPWD"'
+alias cdss='cd ~/Pictures/Screenshots'
 alias cdbin='cd ~/.local/bin'
 alias cdsbin='cd ~/.local/sbin'
 alias cddot='cd ~/Repository/github/git/qithron/dotfiles'
@@ -26,7 +27,9 @@ alias cdconfig='cd ~/.config'
 alias cdportage='cd /etc/portage'
 alias cdhttp='cd /srv/http'
 
+alias virc='nvim ~/.zshrc'
 alias vialiases='nvim ~/.config/sh.d/98-aliases'
 alias vienv='nvim ~/.config/sh.d/00-env'
 
-alias xrand-hdmi-def='xrandr --output HDMI2 --mode 1360x768 --right-of eDP1'
+alias xrandr-hdmi-def='xrandr --output HDMI2 --mode 1360x768 --right-of eDP1 &&
+    bspc wm --restart'

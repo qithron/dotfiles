@@ -3,7 +3,7 @@
 trap 'rehash' USR1
 
 zshaddhistory(){
-    if test "$(printf "$1" | wc -l)" != 1 ||
+    if test "$(printf "%s" "$1" | wc -l)" != 1 ||
         printf "%s" "$1" | grep -Eq -e '^(rm|rmdir|pkill)'
     then
         fc -R

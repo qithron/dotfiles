@@ -4,7 +4,7 @@ trap 'rehash' USR1
 
 zshaddhistory(){
     if test "$(printf "$1" | wc -l)" != 1 ||
-        printf "$1" | grep -Eq -e '^(rm|rmdir|pkill)'
+        printf "%s" "$1" | grep -Eq -e '^(rm|rmdir|pkill)'
     then
         fc -R
         return 2
@@ -21,8 +21,8 @@ precmd(){
     PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b %~ %B%F{$((RANDOM%8))}%#%f%b "
     test "$_S" && {
         local E=$(date '+%s.%N')
-        local S=$(echo "$_S" | grep -Eo '^\w*\.\w*')
-        local C=$(echo "$_S" | sed s/'^\w*\.\w*\.'//)
+        local S=$(printf "%s" "$_S" | grep -Eo '^\w*\.\w*')
+        local C=$(printf "%s" "$_S" | sed s/'^\w*\.\w*\.'//)
         _S=
         local Ss=$(echo "$S" | grep -Eo '^\w*')
         local Sn=$(echo "$S" | grep -Eo '[1-9]\w*$')

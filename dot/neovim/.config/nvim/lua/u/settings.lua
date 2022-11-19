@@ -1,9 +1,10 @@
+vim.o.shell = '/bin/zsh'
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
-vim.o.shell = '/bin/fish'
 vim.o.encoding = 'utf-8'
 vim.o.clipboard = 'unnamedplus'
 vim.o.laststatus = 2
+vim.o.mouse = ''
 
 vim.o.runtimepath = '/usr/share/vim/vimfiles,' .. vim.o.runtimepath
 

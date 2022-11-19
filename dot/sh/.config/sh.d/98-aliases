@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
-if [ "$ZSH_VERSION" ]; then # actually, this shouldn't be done
+test "$ZSH_VERSION" && {  # actually, this shouldn't be done
+    alias rehash-all='pkill -x -e -u "$USER" zsh -SIGUSR1'
     alias -g pacman='pacman --verbose --color=auto'
     alias -g emerge-upgrade='emerge -DNUu @world'
-fi
+}
 
 alias ce='clear'
 alias ls='ls -Als --color=auto --group-directories-first'

@@ -2,12 +2,19 @@
 
 test "$(whoami)" = 'root' || exec sudo "$0" "$@"
 
-cd /usr/src/linux || exit
+cd /usr/src/linux || exit 1
 test "$1" = '-s' || make nconfig
 make -j4 && {
-    v="$(grep -E '^CONFIG_LOCALVERSION' .config | sed s/'\(^[^"]*"\)\|"'//g)"
-    v="/lib/modules/$(readlink /usr/src/linux | sed s/'linux-'//)$v"
-    rm -rv "$v"
+    rm -rv "/lib/modules/$(readlink /usr/src/linux |
+        sed s/'linux-'//)$(grep -E '^CONFIG_LOCALVERSION' .config |
+        sed s/'\(^[^"]*"\)\|"'//g)"
     make install modules_install
     cp -av arch/x86/boot/bzImage /boot/efi/efi/gentoo/kernel.efi
+    cd /boot || exit 1
+    ln -fsv "$(find . -type f -name "initramfs-*" -printf "%P\n" |
+        sort | tail -n 1)" initramfs-gentoo-dist.img
+    ln -fsv "$(find . -type f -name "vmlinuz-*-gentoo-dist" -printf "%P\n" |
+        sort | tail -n 1)" vmlinuz-gentoo-dist
+    ln -fsv "$(find . -type f -name "vmlinuz-*-gentoo-custom" -printf "%P\n" |
+        sort | tail -n 1)" vmlinuz-gentoo-custom
 }

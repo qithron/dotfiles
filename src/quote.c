@@ -1,43 +1,19 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-
-int safe_new_arr(char **arr, char arg[])
-{
-    char c;
-    int i = 0;
-    int j = 0;
-    while ((c = arg[i]) != 0) {
-        i++;
-        if (c == 92 && arg[i] != 92)
-            j += 3;
-    }
-    i -= j + 1;
-    *arr = malloc(i);
-    strcpy(*arr, arg);
-    return *arr == NULL;
-}
 
 int main(int argc, char *argv[])
 {
-    char *safe_mode = "";
-    char *safe = NULL;
-    if (safe_new_arr(&safe, "/"))
-        return 1;
+    char *url_mode = "\0";
     char sep_i = 10;
     char sep_o = 10;
     int i;
 	for (i = 1; i < argc; i++) {
-        if (!strcmp(argv[i], "-s")) { // safe chars
-            free(safe);
-            if (safe_new_arr(&safe, argv[++i]))
-                return 1;
+        if (!strcmp(argv[i], "-0")) { // output delimiter is NUL
+            sep_o = 0;
         } else if (!strcmp(argv[i], "-z")) { // input delimiter is NUL
             sep_i = 0;
-        } else if (!strcmp(argv[i], "-0")) { // output delimiter is NUL
-            sep_o = 0;
-        } else if (!strcmp(argv[i], "-u")) { // url mode
-            safe_mode = " \"<>[\\]^`{|}";
+        } else if (!strcmp(argv[i], "-u")) { // url mode, not uri
+            url_mode = " \"<>[\\]^`{|}:;?#";
         } else {
             printf("usage: %s [-z]\n", argv[0]);
             return 1;
@@ -50,10 +26,10 @@ int main(int argc, char *argv[])
         if (c == sep_i) {
             putchar(sep_o);
             continue;
-        } else if (safe_mode[0]) {
+        }
+        if (url_mode[0]) {
             i = 0;
-            while ((u = safe_mode[i]) != 0) {
-                i++;
+            while ((u = url_mode[i++]) != 0) {
                 if (c == u) {
                     printf("%%%02X", c);
                     i = 0;
@@ -68,6 +44,5 @@ int main(int argc, char *argv[])
         else
             printf("%%%02X", c);
     }
-    free(safe);
     return 0;
 }

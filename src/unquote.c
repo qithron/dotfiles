@@ -37,10 +37,10 @@ int main(int argc, char *argv[])
     char sep_o = 10;
     int i;
 	for (i = 1; i < argc; i++) {
-        if (!strcmp(argv[i], "-z")) { // input delimiter is NUL
-            sep_i = 0;
-        } else if (!strcmp(argv[i], "-0")) { // output delimiter is NUL
+        if (!strcmp(argv[i], "-0")) { // output delimiter is NUL
             sep_o = 0;
+        } else if (!strcmp(argv[i], "-z")) { // input delimiter is NUL
+            sep_i = 0;
         } else {
             printf("usage: %s [-z]\n", argv[0]);
             return 1;

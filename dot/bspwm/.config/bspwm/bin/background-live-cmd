@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
-#CMD='asciiquarium'
-CMD='cmatrix -bu 120'
-#CMD='cmatrix -rbu 300'
-
-echo "$CMD"
+#echo asciiquarium
+echo cmatrix -b -u120
+#echo cmatrix -r -b -u300
+#echo cbonsai -i -l -w1 -t0.2 -b5 -M10 -L50

@@ -1,20 +1,22 @@
 #!/usr/bin/env sh
 
-XY=$(xrandr | grep -E '^.+ connected' |
-    grep -Eo '[0-9]+x[0-9]+[0-9]+\+[0-9]+\+[0-9]+')
-FN="$HOME/Pictures/Screenshots/$(date +%Y%m%d%H%M%S).png"
+xrandr |
+    grep -E '^.+ connected' |
+    grep -Eo '[0-9]+x[0-9]+[0-9]+\+[0-9]+\+[0-9]+' |
+    python -c "
+import sys, time, PIL.ImageGrab
 
-python -c "
-from PIL.ImageGrab import grab
+fn = f'''$HOME/Pictures/Screenshots/{time.strftime('%Y%m%d%H%M%S')}.png'''
+
 try:
     from pyautogui import position
 except ModuleNotFoundError:
-    img = grab()
-    img.save('$FN')
+    img = PIL.ImageGrab.grab()
+    img.save(fn)
     raise SystemExit
 
 l = []
-for v in '''$XY'''.strip().split('\n'):
+for v in sys.stdin.read().strip().split('\n'):
     w, h = v.split('x')
     h, x, y = h.split('+')
     l.append(tuple(map(int, (w, h, x, y))))
@@ -26,6 +28,6 @@ for (w, h, x, y) in l:
     if x <= a < p and y <= b < q:
         break
 
-img = grab((x, y, p, q))
-img.save('$FN')
+img = PIL.ImageGrab.grab((x, y, p, q))
+img.save(fn)
 "

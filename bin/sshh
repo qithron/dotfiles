@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 # feckin just ssh to my local machine
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$@"
+exec ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$@"

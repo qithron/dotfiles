@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-mkdir -v "$(date '+%Y%m%d%H%M%S')"

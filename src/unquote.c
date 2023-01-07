@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
         } else if (!strcmp(argv[i], "-z")) { // input delimiter is NUL
             sep_i = 0;
         } else {
-            printf("usage: %s [-z]\n", argv[0]);
+            printf("usage: %s [-0] [-z]\n", argv[0]);
             return 1;
         }
     }

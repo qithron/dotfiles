@@ -11,7 +11,7 @@ set_vol() {
     amixer sset 'Master' "$v%" 1> /dev/null
 }
 cat_volume_int() {
-    [ "$(wc -c <"$f")" -le 4 ] && v=$(cat "$f")
+    [ "$(stat --printf='%s' -- "$f")" -le 4 ] && v=$(cat "$f")
     [ "$v" ] || v=50
     echo "$v"
 }

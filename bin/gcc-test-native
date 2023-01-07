@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-gcc -v -E -x c /dev/null -o /dev/null -march=native 2>&1 |
+exec gcc -v -E -x c /dev/null -o /dev/null -march=native 2>&1 |
     grep -z --color=auto mtune

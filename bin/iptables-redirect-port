@@ -18,7 +18,7 @@ else
 fi
 
 iptables --table nat "$C" OUTPUT \
-    --protocol tcp --destination 127.0.0.0/8 --destination-port "$P" \
+    --protocol tcp -o lo --destination-port "$P" \
     --jump REDIRECT --to-ports "$Q" &&
 iptables --table nat "$C" PREROUTING \
     --protocol tcp --destination-port "$P" \

@@ -17,12 +17,12 @@ export BSPWM_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
 export DESKTOP_SESSION='bspwm'
 
 "$BSPWM_HOME/bin/background-live" &
-xwallpaper --center "$HOME/Pictures/BG/black.png" &
+xwallpaper --center "$HOME/img/BG/black.png" &
 #background-slideshow &
 
 picom -f -D 7 &
 sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &
-unclutter -idle 60 -jitter 5 -root &
+unclutter --timeout 60 --jitter 5 &
 sleep 10 && activate-linux-run &
 
 exec bspwm

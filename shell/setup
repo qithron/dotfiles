@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$(realpath "$0")")" || exit 1
+
+cp -u profile "$HOME/.profile"
+{
+    find -L rc -type f | sort | while read -r v; do
+        cat "$v" && echo
+    done
+    echo "# generated file"
+    echo "alias cdsh='cd \"$(dirname "$(realpath "$0")")\"'"
+} > "$HOME/.zshrc"

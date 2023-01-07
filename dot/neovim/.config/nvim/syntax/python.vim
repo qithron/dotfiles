@@ -18,6 +18,9 @@ hi link pythonOperatorNB pythonConditional
 syn keyword pythonConstant False None True
 hi pythonConstant ctermfg=13 cterm=bold
 
+syn match pythonConstVar '\<[_A-Z]\+[_A-Z0-9]*\>'
+hi pythonConstVar ctermfg=13
+
 syn keyword pythonSpecial1 self args kwargs obj cls ins file
 hi pythonSpecial1 ctermfg=11 cterm=bold
 
@@ -27,7 +30,7 @@ hi pythonSpecial2 ctermfg=3
 syn keyword pythonSpecial3 os sys time io asyncio math cmath re
 hi pythonSpecial3 ctermfg=12 cterm=bold
 
-syn match pythonDundur '\<__[a-zA-Z0-9]\+__\>'
+syn match pythonDundur '\<__[_a-zA-Z0-9]\+__\>'
 hi pythonDundur ctermfg=11
 
 " diouxXeEfFgGcrsa%

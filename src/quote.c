@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         } else if (!strcmp(argv[i], "-u")) { // url mode, not uri
             url_mode = " \"<>[\\]^`{|}:;?#";
         } else {
-            printf("usage: %s [-z]\n", argv[0]);
+            printf("usage: %s [-0] [-z] [-u]\n", argv[0]);
             return 1;
         }
     }

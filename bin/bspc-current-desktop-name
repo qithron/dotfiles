@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-bspc query --tree --desktop |
+exec bspc query --tree --desktop |
     python -c 'import sys,json;print(json.load(sys.stdin)["name"])'

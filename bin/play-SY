@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-cd ~/Videos/sy/_ || exit 1
-exec mpv "$@" --shuffle --loop-playlist=inf .

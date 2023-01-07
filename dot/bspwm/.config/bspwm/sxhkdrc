@@ -48,6 +48,18 @@ XF86AudioLowerVolume
 XF86AudioMute
     volume !
 
+# media ctl
+Pause; Print
+    playerctl -p mpv next
+Pause; Pause
+    playerctl -p mpv play-pause
+Pause; F12
+    playerctl -p mpv previous
+Pause; minus
+    playerctl -p mpv position 10-
+Pause; equal
+    playerctl -p mpv position 10+
+
 # close current window
 super + Escape
     bspc node 'focused.window' --close

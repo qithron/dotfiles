@@ -40,9 +40,9 @@ def node(d, i, n):
     if d['client'] is not None:
         print('bspc node', d['id'], end=' ')
         if d['hidden']:
-            print('--flag hidden', end=' ')
+            print('-g hidden', end=' ')
         else:
-            print('--focus      ', end=' ')
+            print('-f       ', end=' ')
         print('###', n, i, end=' ')
         print(d['client']['className'], d['client']['instanceName'], end=' ')
         for v in ('hidden', 'sticky', 'private', 'locked', 'marked'):

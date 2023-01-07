@@ -2,7 +2,8 @@
 
 test "$(whoami)" = 'root' || exec sudo "$0" "$@"
 
-vsftpd -oanon_mkdir_write_enable=NO\
+exec vsftpd \
+    -oanon_mkdir_write_enable=NO\
     -oanon_other_write_enable=NO\
     -oanon_upload_enable=NO\
     -oanon_world_readable_only=NO\

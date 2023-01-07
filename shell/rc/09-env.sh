@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 

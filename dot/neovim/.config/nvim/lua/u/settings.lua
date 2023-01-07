@@ -55,13 +55,11 @@ endfunction
 vim.o.tabline = '%!USER_tabline()'
 
 -- autocmd
-vim.cmd([[
-augroup user
+vim.cmd([[augroup user
     " terminal autocmd
-    autocmd BufEnter term://* startinsert
-    autocmd TermOpen * setlocal nonu nornu scl=no | startinsert
-augroup END
-]])
+    "autocmd BufEnter term://* startinsert
+    autocmd TermOpen * setlocal nonu nornu scl=no
+augroup END]])
 
 -- terminal in new tab
 vim.cmd('command! TERM tab vs | terminal')

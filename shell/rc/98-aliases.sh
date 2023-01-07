@@ -1,9 +1,7 @@
-#!/usr/bin/env sh
-
 test "$ZSH_VERSION" && {  # actually, this shouldn't be done
     alias rehash-all='pkill -x -e -u "$USER" zsh -SIGUSR1'
     alias -g pacman='pacman --verbose --color=auto'
-    alias -g emerge-upgrade='emerge -DNUu @world'
+    alias -g emerge-upgrade='emerge -DNnUu @world'
 }
 
 alias ce='clear'
@@ -19,18 +17,21 @@ alias clock='date "+%Y/%m/%d %T"'
 alias clock-loop='loop 60 "date +%Y/%m/%d\ %T"'
 
 alias cdo='cd "$OLDPWD"'
-alias cdss='cd ~/Pictures/Screenshots'
+alias cdss='cd ~/img/ss'
 alias cdbin='cd ~/.local/bin'
 alias cdsbin='cd ~/.local/sbin'
-alias cddot='cd ~/Repository/github/git/qithron/dotfiles'
-alias cdrepo='cd ~/Repository/github/git/qithron'
-alias cdconfig='cd ~/.config'
+alias cdrepo='cd ~/repo/github/git/qithron'
 alias cdportage='cd /etc/portage'
-alias cdhttp='cd /srv/http'
+alias cdc='cd ~/.config'
+alias cdcbspwm='cd ~/.config/bspwm'
+alias cdcnvim='cd ~/.config/nvim'
+alias cdcranger='cd ~/.config/ranger'
 
-alias virc='nvim ~/.zshrc'
-alias vialiases='nvim ~/.config/sh.d/98-aliases'
-alias vienv='nvim ~/.config/sh.d/00-env'
+alias run='./run'
+alias viTODO='vim ~/doc/uncat/TODO'
+alias cmd-rating='grep -Eo "^\w*" ~/.zsh_history|sort|uniq -c|sort|tail -n 10'
 
+alias chmod+x='chmod +x'
+alias mkdir-current-time='mkdir -v "$(date +%Y%m%d%H%M%S)"'
 alias xrandr-hdmi-def='xrandr --output HDMI2 --mode 1360x768 --right-of eDP1 &&
     bspc wm --restart'

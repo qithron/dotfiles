@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+
+#_src='https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts'
+#curl --range 0-256 "$_src"
+
+{
+    echo 127.0.0.1 satokoi
+    echo
+    cat /home/qthr/repo/github/git/StevenBlack/hosts/hosts
+} > /etc/hosts

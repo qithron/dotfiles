@@ -14,11 +14,13 @@ zshaddhistory(){
 
 preexec(){
     _S=$(date '+%s.%N').$3
+    printf "\e]0;%s\x07" $2
 }
 
 precmd(){
     printf "\e[5 q" # beam shape cursor
-    PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b %~ %B%F{$((RANDOM%8))}%#%f%b "
+    printf "\e]0;zsh:$(pwd)\x07"
+    PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %B%F{$((RANDOM%8))}%#%f%b "
     test "$_S" && {
         local E=$(date '+%s.%N')
         local S=$(printf "%s" "$_S" | grep -Eo '^\w*\.\w*')
@@ -97,5 +99,3 @@ bindkey -M viins "^[k" up-line-or-history
 bindkey -M viins "^[l" up-line-or-beginning-search
 
 bindkey -M viins "^N" menu-complete
-
-. "${XDG_CONFIG_HOME:-$HOME/.config}/sh/rc"

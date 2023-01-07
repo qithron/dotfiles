@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec mpv --image-display-duration=inf --loop-file=inf "$@"

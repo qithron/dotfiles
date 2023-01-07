@@ -6,14 +6,21 @@ xrandr |
     python -c "
 import sys, time, PIL.ImageGrab
 
-fn = f'''$HOME/Pictures/Screenshots/{time.strftime('%Y%m%d%H%M%S')}.png'''
+fn = f'''$HOME/img/ss/{time.strftime('%Y%m%d%H%M%S')}.png'''
 
-try:
-    from pyautogui import position
-except ModuleNotFoundError:
+def ss_no_crop():
     img = PIL.ImageGrab.grab()
     img.save(fn)
-    raise SystemExit
+    sys.exit()
+
+if len(sys.argv) != 1:
+    ss_no_crop()
+
+from pyautogui import position
+#try:
+#    from pyautogui import position
+#except ModuleNotFoundError:
+#    ss_no_crop()
 
 l = []
 for v in sys.stdin.read().strip().split('\n'):
@@ -30,4 +37,4 @@ for (w, h, x, y) in l:
 
 img = PIL.ImageGrab.grab((x, y, p, q))
 img.save(fn)
-"
+" && mpv --no-terminal ~/av/sound-cut/aughhhhhhhh-1.aac

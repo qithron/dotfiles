@@ -5,7 +5,7 @@ MOD.linters_by_ft = {
     rust = {'clippy'},
     bash = {'shellcheck'},
     python = {'pylint'},
-    c = {'clangtidy'},
+    c = {'cppcheck'},
     lua = {'luacheck'},
 }
 

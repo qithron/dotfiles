@@ -13,54 +13,69 @@
 # pydoc ranger.core.fm
 
 import os
+import sys
 import time
 import subprocess
 from functools import partial
 from ranger.api.commands import Command
 
-class quit_write_last_dir(Command):
+class quit_f(Command):
     def execute(self):
-        if len(self.fm.tabs) >= 2:
-            self.fm.tab_close()
-        elif self.fm.loader.has_work():
-            self.fm.notify('Not quitting: Tasks in progress: '
-                           'Use `quit!` to force quit')
-        else:
-            d = os.getenv('RANGER_TMP')
-            if d is not None:
-                d += '/ranger-last-dir-ranger'
-                with open(d, 'w', encoding='utf8') as f:
-                    f.write(str(self.fm.thisdir))
-                os.chmod(d, 0o777)
-            self.fm.exit()
+        sys.exit(1)
 
 class rename_edit(Command):
     def execute(self):
-        file = os.getenv('RANGER_TMP')
-        if file is None:
+        path = os.getenv('RANGER_TMP')
+        if path is None:
             return
-        file += f'/{time.time()}.txt'
-        with open(file, 'w', encoding='utf8') as f:
+        path += f'/{time.time()}.txt'
+        with open(path, 'w', encoding='utf8') as f:
             ls = self.fm.thistab.get_selection()
-            if len(ls) == 1:
+            if not ls:
                 ls = self.fm.thisdir.files
             for v in ls:
                 f.write(v.basename)
                 f.write('\n')
         # self.fm.thistab.path
-        self.fm.edit_file(file)
+        self.fm.edit_file(path)
         self.fm.ui.console.ask('Rename?: (y/N)',
-            partial(self._question_callback, file, self.fm.thistab.path, ls),
+            partial(self._question_callback, path, self.fm.thistab.path, ls),
             ('n', 'N', 'y', 'Y'))
-        #os.system('vim')
-        #self.fm.redraw_window()
 
-    def _question_callback(self, file, dn, ls, answer):
+    def _question_callback(self, path, dn, ls, answer):
         if answer in ('y', 'Y'):
-            with open(file, encoding='utf8') as f:
+            with open(path, encoding='utf8') as f:
                 l2 = tuple((s.strip() for s in f))
             if len(ls) == len(l2):
                 for (i, j) in zip(ls, l2):
                     subprocess.run(['mv', i.path, f'{dn}/{j}'], check=1)
-        if os.path.exists(file):
-            os.remove(file)
+        if os.path.exists(path):
+            os.remove(path)
+
+class edit_link(Command):
+    def execute(self):
+        path = os.getenv('RANGER_TMP')
+        if path is None:
+            return
+        path += f'/{time.time()}.txt'
+        with open(path, 'w', encoding='utf8') as f:
+            ls = self.fm.thistab.get_selection()
+            if not ls:
+                ls = self.fm.thisdir.files
+            for v in ls:
+                f.write(os.readlink(v.path))
+                f.write('\n')
+        self.fm.edit_file(path)
+        self.fm.ui.console.ask('Rename?: (y/N)',
+            partial(self._question_callback, path, ls),
+            ('n', 'N', 'y', 'Y'))
+
+    def _question_callback(self, path, ls, answer):
+        if answer in ('y', 'Y'):
+            with open(path, encoding='utf8') as f:
+                l2 = tuple((s.strip() for s in f))
+            if len(ls) == len(l2):
+                for (i, j) in zip(ls, l2):
+                    subprocess.run(['ln', '-sfn', j, i.path], check=1)
+        if os.path.exists(path):
+            os.remove(path)

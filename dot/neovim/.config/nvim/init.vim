@@ -21,7 +21,7 @@ hi! link Statement Keyword
 hi Type cterm=none                                    ctermfg=10   ctermbg=none
 hi String cterm=none                                  ctermfg=8    ctermbg=none
 hi! link Character String
-hi! Comment cterm=italic                              ctermfg=22   ctermbg=none
+hi! Comment cterm=italic                              ctermfg=202   ctermbg=none
 hi Number cterm=none                                  ctermfg=5    ctermbg=none
 
 hi Boolean cterm=none                                 ctermfg=12   ctermbg=none

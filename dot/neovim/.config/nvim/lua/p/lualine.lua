@@ -37,6 +37,10 @@ local theme = {
 local line_count = function()
     return vim.api.nvim_buf_line_count(vim.api.nvim_get_current_buf())
 end
+local word_count = function()
+    --return tostring(vim.call('echo', 'substitute','\\<\\w*\\>', '', 'gn'))
+    return tostring(vim.fn.wordcount().words)
+end
 local filename = {
     'filename',
     symbols = {
@@ -52,7 +56,7 @@ local sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {filename},
-    lualine_x = {'filetype', 'encoding', 'filesize', line_count},
+    lualine_x = {'filetype', 'encoding', 'filesize', line_count, word_count},
     lualine_y = {'location'},
     lualine_z = {'progress'}
 }

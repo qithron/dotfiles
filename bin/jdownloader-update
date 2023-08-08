@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+test "$(id -u)" = 0 && exit 1
+cd ~/.jd || exit 1
+
+curl -o .JDownloader.jar http://installer.jdownloader.org/JDownloader.jar || {
+    rm -v .JDownloader.jar
+    exit 1
+}
+mv -v .JDownloader.jar JDownloader.jar

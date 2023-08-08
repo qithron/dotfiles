@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+v=$({
+    v=$(cat -- "$@" | wc -l)
+    echo $((v+1))
+    tput lines
+} | sort -n | head -n 1)
+
+export VIMCAT=1
+exec nvim -c "se lines=$v ch=0 cc= nonu nornu ls=0 scl=no nosc nosmd stal=0" \
+    +0 +redraw +q -- "$@"

@@ -2,12 +2,12 @@
 
 test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
-PRE=172.31.251
+PRE=172.31.240
 
 iptables -t nat -D POSTROUTING -s $PRE.0/24 -o wlan9 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s $PRE.0/24 -o wlan9 -j MASQUERADE
 
-IF=tap1
+IF=enp2s0
 DHCP_S=$PRE.100
 DHCP_E=$PRE.254
 DHCP_M=255.255.255.0
@@ -16,5 +16,4 @@ exec dnsmasq \
     --no-daemon --log-queries --leasefile-ro --dns-loop-detect --no-hosts \
     --bind-dynamic --interface="$IF" --except-interface='lo' \
     --address="/satokoi.com/$PRE.1" \
-    --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,1h" \
-    --dhcp-host="52:69:69:69:69:69,$PRE.2"
+    --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,infinite"

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+test "$(id -u)" = 0 || exec su -c "$0" "$@"
+
+echo mem > /sys/power/state

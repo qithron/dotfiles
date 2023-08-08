@@ -14,12 +14,12 @@ zshaddhistory(){
 
 preexec(){
     _S=$(date '+%s.%N').$3
-    printf "\e]0;%s\x07" $2
+    printf "\e]0;st: %s\x07" $2
 }
 
 precmd(){
     printf "\e[5 q" # beam shape cursor
-    printf "\e]0;zsh:$(pwd)\x07"
+    printf "\e]0;st: $(pwd)\x07"
     PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %B%F{$((RANDOM%8))}%#%f%b "
     test "$_S" && {
         local E=$(date '+%s.%N')
@@ -85,7 +85,7 @@ bindkey -M menuselect "^[j" vi-down-line-or-history
 bindkey -M menuselect "^[k" vi-up-line-or-history
 bindkey -M menuselect "^[l" vi-forward-char
 
-# some widgets and keybinds
+# keybinds
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search

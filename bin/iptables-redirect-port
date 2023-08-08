@@ -1,25 +1,24 @@
 #!/usr/bin/env sh
 
-test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
 test "$1" && test "$2" || exit 1
 
+wrap(){
+    iptables --table nat "$1" OUTPUT \
+        --protocol tcp -o lo --destination-port "$2" \
+        --jump REDIRECT --to-ports "$3" || exit 1
+    iptables --table nat "$1" PREROUTING \
+        --protocol tcp --destination-port "$2" \
+        --jump REDIRECT --to-ports "$3" || exit 1
+}
+
 if [ "$1" = '-D' ] || [ "$1" = '--delete' ]; then
-    C="$1"
-    P="$2"
-    Q="$3"
+    wrap -D "$2" "$3"
 elif echo "$1" | grep -q '[^0-9]'; then
-    echo first arg must be a number, or -D for delete, not: "$1"
+    echo first arg must be a number, or -D for delete
     exit 1
 else
-    C='--append'
-    P="$1"
-    Q="$2"
+    wrap -D "$1" "$2" 2> /dev/null
+    wrap -A "$1" "$2"
 fi
-
-iptables --table nat "$C" OUTPUT \
-    --protocol tcp -o lo --destination-port "$P" \
-    --jump REDIRECT --to-ports "$Q" &&
-iptables --table nat "$C" PREROUTING \
-    --protocol tcp --destination-port "$P" \
-    --jump REDIRECT --to-ports "$Q"

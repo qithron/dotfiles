@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
 cd /usr/src/linux || exit 1
 test "$1" = '-s' || make nconfig

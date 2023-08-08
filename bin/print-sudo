@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 # print-sudo
-test "$(whoami)" = 'root' && exit 0 || printf 'sudo' && exit 1
+test "$(id -u)" = 0 && exit 0 || printf 'sudo' && exit 1

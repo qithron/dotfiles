@@ -48,7 +48,7 @@ class rename_edit(Command):
                 l2 = tuple((s.strip() for s in f))
             if len(ls) == len(l2):
                 for (i, j) in zip(ls, l2):
-                    subprocess.run(['mv', i.path, f'{dn}/{j}'], check=1)
+                    subprocess.run(['mv', i.path, f'{dn}/{j}'], check=False)
         if os.path.exists(path):
             os.remove(path)
 

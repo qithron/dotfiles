@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+test "$1" || exit 1
+
+d=$(dirname "$(realpath "$1")")
+while test "$(echo "$d" | grep -o '/' | wc -l)" -ge 1
+do
+    test -f "$d/Cargo.toml" && {
+        cd "$d" || exit 1
+        exec cargo clippy 2>&1 | pypy3 -c "
+import sys
+name = '$1'
+mess = ''
+for line in sys.stdin:
+    if not line:
+        continue
+    if line[0] != ' ':
+        mess = line
+    elif '-->' in line:
+        file = line.split()[1].rsplit(':', 2)[0]
+        if name.endswith(file) or file.endswith(name):
+            print(mess, end='')
+            print(line, end='')
+print(mess, end='')
+"
+        exit
+    }
+    d=$(echo "$d" | sed s/'\/[^\/]*$'//)
+done
+
+exec clippy-driver "$1"

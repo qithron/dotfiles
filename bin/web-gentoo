@@ -19,4 +19,4 @@ case "$1" in
         exit
 esac
 
-exec w3m "https://${sub}.gentoo.org/${query}"
+exec lynx "https://${sub}.gentoo.org/${query}"

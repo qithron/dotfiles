@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-test "$(whoami)" = 'root' || exec sudo "$0" "$@"
-
-modprobe v4l2loopback exclusive_gaps=1

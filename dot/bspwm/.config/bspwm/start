@@ -9,6 +9,7 @@ elif [ "$XDG_CACHE_HOME" ]; then
 else
     BSPWM_TMP="$HOME/.cache/bspwm"
 fi
+
 mkdir -p "$BSPWM_TMP" && chmod 700 "$BSPWM_TMP"
 
 export BSPWM_TMP
@@ -16,9 +17,9 @@ export BSPWM_SOCKET="$BSPWM_TMP/socket"
 export BSPWM_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
 export DESKTOP_SESSION='bspwm'
 
-"$BSPWM_HOME/bin/background-live" &
-xwallpaper --center "$HOME/img/BG/black.png" &
+#"$BSPWM_HOME"/bin/background-live &
 #background-slideshow &
+background-restore &
 
 picom -f -D 7 &
 sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &

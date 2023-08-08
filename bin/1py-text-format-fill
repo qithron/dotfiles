@@ -4,12 +4,19 @@ import sys
 total = 0
 words = []
 width = (80 if len(sys.argv) == 1 else int(sys.argv[1])) - 1
-for s in (s for line in sys.stdin for s in line.split()):
-    total += len(s)
-    if total > width:
+for line in sys.stdin:
+    line = line.split()
+    if not line:
         print(' '.join(words))
-        total = len(s)
+        print()
+        total = 0
         words.clear()
-    words.append(s)
-    total += 1
+    for s in line:
+        total += len(s)
+        if total > width:
+            print(' '.join(words))
+            total = len(s)
+            words.clear()
+        words.append(s)
+        total += 1
 print(' '.join(words))

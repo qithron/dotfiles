@@ -1,2 +1,3 @@
-# github/hoyon/mpv-mpris
-.config/mpv/scripts/mpris.so
+.config/mpv/*
+!.config/mpv/mpv.conf
+!.config/mpv/input.conf

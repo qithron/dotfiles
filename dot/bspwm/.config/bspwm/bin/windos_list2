@@ -26,7 +26,7 @@ def print(*args, **kwargs):
     kwargs['end'] = ''
     __builtins__.print(*args, **kwargs)
 
-def node(d, i, n):
+def node(d, n, m=''):
     if d is None:
         return
     if d['client'] is not None:
@@ -35,7 +35,7 @@ def node(d, i, n):
             print('-g hidden ')
         else:
             print('-f        ')
-        print('#', n, i, ' ')
+        print('#', m, n, ' ')
         proc = 'xprop', '-id', str(d['id']), '-notype', 'WM_NAME'
         proc = subprocess.run(proc,
             check=False, capture_output=True, encoding='utf8')
@@ -46,22 +46,38 @@ def node(d, i, n):
                 print(v, end=' ')
         print('\n')
     if d['firstChild'] is not None:
-        node(d['firstChild'], i+1, n)
+        node(d['firstChild'], n, m)
     if d['secondChild'] is not None:
-        node(d['secondChild'], i+1, n)
+        node(d['secondChild'], n, m)
+
+def bspc_query_monitor(all=False):
+    all = '--names -M' if all else '-M -m --names'
+    proc = subprocess.run(f'bspc query {all}', encoding='utf8',
+        shell=True, check=True, capture_output=True)
+    return [v for v in proc.stdout.split('\n') if v]
+
+def bspc_query_tree(a):
+    proc = subprocess.run(f'bspc query --tree {a}',
+        shell=True, check=True, capture_output=True)
+    return json.loads(proc.stdout)
 
 def main():
-    s = sys.stdin.read()
-    if not s:
-        return
-    d = json.loads(s)
     if '--desktop' in sys.argv:
+        d = bspc_query_tree('--desktop')
         node(d['root'], 0, d['name'])
     elif '--monitor' in sys.argv:
-        for v in d['desktops']:
-            node(v['root'], 0, v['name'])
+        for d in bspc_query_tree('--monitor')['desktops']:
+            node(d['root'], d['name'])
+    elif '--all' in sys.argv:
+        lst = bspc_query_monitor(True)
+        l = len(max(lst, key=len))
+        for m in lst:
+            m = f'{m:{l}s}'
+            d = bspc_query_tree(f'--monitor {m}')
+            for v in d['desktops']:
+                node(v['root'], v['name'], m)
     else:
-        return
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()

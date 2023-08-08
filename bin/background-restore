@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+background-slideshow -k
+exec xwallpaper --zoom ~/img/BG/bg

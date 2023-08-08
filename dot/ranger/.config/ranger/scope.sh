@@ -19,17 +19,26 @@ HEIGHT=$3           # Height of the preview pane (number of fitting characters)
 IMAGE_CACHE_PATH=$4 # Full path that should be used to cache image preview
 PV_IMAGE_ENABLED=$5 # 'True' if image previews are enabled, 'False' otherwise.
 
-EXTENSION=$(printf "%s" "${FILE_PATH##*.}" | tr '[:upper:]' '[:lower:]')
 MIMETYPE=$(file --dereference --brief --mime-type -- "$FILE_PATH")
 
 test "$PV_IMAGE_ENABLED" = 'True' && {
     _convert(){
-        convert "$1" -filter point -resize 512x512 \
+        convert "$1" -filter point -resize 720x720 \
             "$IMAGE_CACHE_PATH"
     }
     case "$MIMETYPE" in
+        image/svg+xml)
+            _convert "$FILE_PATH" &&
+                exit 6;;
         image/*)
-            _convert "$FILE_PATH"'[0]' && exit 6;;
+            v=$(identify -format '%w %h' "$FILE_PATH")
+            test 1280 -ge "$(echo "$v" | cut -d ' ' -f1)" &&
+            test 1280 -ge "$(echo "$v" | cut -d ' ' -f2)" &&
+                exit 7
+            test "$(stat --printf '%s' "$FILE_PATH")" -le 4194304 &&
+                exit 7
+            _convert "$FILE_PATH"'[0]' &&
+                exit 6;;
         font/*|\
         application/x-font-pfm|\
         application/vnd.ms-opentype)
@@ -42,47 +51,48 @@ test "$PV_IMAGE_ENABLED" = 'True' && {
                       --text " 0123456789 " \
                       -o "$preview_png" "$FILE_PATH" &&
             _convert "$preview_png"
-            rm "$preview_png" && exit 6;;
+            rm "$preview_png" &&
+                exit 6;;
     esac
 }
 
 printf "\033[1;32m%s\033[0m\n" "$MIMETYPE"
 
-#case "$EXTENSION" in
-#    a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
-#    rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip|zst|\
-#    7z|rar)
-#        { tar --list -f "$FILE_PATH" && exit 5;} ||
-#        echo 'tar: failed'
-#esac
-
 case "$MIMETYPE" in
     application/x-rar)
-        unrar lt -p- -- "$FILE_PATH" && exit 5;;
+        unrar lt -p- -- "$FILE_PATH" &&
+            exit 5;;
     application/zip)
-        unzip -v -- "$FILE_PATH" && exit 5;;
+        unzip -v -- "$FILE_PATH" &&
+            exit 5;;
     application/x-7z-compressed)
-        7z l "$FILE_PATH" && exit 5;;
+        7z l "$FILE_PATH" &&
+            exit 5;;
     application/gzip|\
     application/x-xz|\
     application/x-tar|\
     application/zstd)
-        tar --warning=none -t -f "$FILE_PATH" && exit 5;;
-    text/*|\
-    */xml)
-        head -n $((HEIGHT*9)) "$FILE_PATH" | cut -b "-$WIDTH" &&
-        exit;;
+        tar --warning=none -t -f "$FILE_PATH" &&
+            exit 5;;
     application/x-bittorrent)
         torrentinfo -- "$FILE_PATH"&&
-        exit 5;;
+            exit 5;;
     video/*|\
     audio/*|\
     image/*)
         mediainfo -- "$FILE_PATH" &&
-        exit 5;;
+            exit 5;;
+    text/*|\
+    application/json|\
+    */xml)
+        head -n $((HEIGHT*9)) "$FILE_PATH" | cut -b "-$WIDTH" &&
+            exit;;
     *)
-        file -Lbs -- "$FILE_PATH" &&
-        exit 5;;
+        printf "\033[1m"
+        file -Lbs -- "$FILE_PATH"
+        printf "\033[0m"
+        stat -L -- "$FILE_PATH"
+        exit;;
 esac
 
 exit 1

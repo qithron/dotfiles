@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-test "$(whoami)" = 'root' || exec sudo "$0" "$@"
+test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
 _run_one() {
     OUT=$(ip -4 -o address show "$1")

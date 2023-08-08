@@ -4,6 +4,7 @@ local map = vim.keymap.set
 -- disable
 --map('', '<C-a>', '<NOP>')
 --map('', '<C-x>', '<NOP>')
+map('', '<CR>', '<NOP>')
 
 -- escape
 map('i', '<A-i>', '<ESC>')
@@ -18,29 +19,17 @@ map('c', '<A-l>', '<DOWN>')
 -- common command
 map('', '<C-j>', '9j')
 map('', '<C-k>', '9k')
-map('', '<C-l>', '7l')
-map('', '<C-h>', '7h')
-map('', '<C-j>', '9j')
-map('', '<C-k>', '9k')
-map('', '<C-l>', '7l')
-map('', '<C-h>', '7h')
 map('n', '<leader>q', ':q<CR>')
 map('n', '<leader>Q', ':q!<CR>')
-map('n', '<leader>s', ':w<CR>')
---map('n', '<C-s>', ':w<CR>')
-map('n', '<leader>/', ':noh<CR>')
+map('n', '<leader><leader>', ':noh<CR>')
 
 -- emacs keys
 map('i', '<C-e>', '<ESC>A', {silent=true})
 map('i', '<C-a>', '<ESC>I', {silent=true})
 
 -- next/prev buffer
-map('n', '<A-o>', ':bp<CR>')
-map('n', '<A-p>', ':bn<CR>')
-map('i', '<A-o>', '<ESC>:bp<CR>')
-map('i', '<A-p>', '<ESC>:bn<CR>')
---map('t', '<A-o>', '<C-\\><C-n>:bp<CR>')
---map('t', '<A-p>', '<C-\\><C-n>:bn<CR>')
+map('n', '<A-`>', ':b#<CR>')
+map('i', '<A-`>', '<ESC>:b#<CR>')
 
 -- window focus
 map('n', '<A-h>', '<C-w>h')
@@ -51,24 +40,18 @@ map('i', '<A-h>', '<ESC><C-w>h')
 map('i', '<A-j>', '<ESC><C-w>j')
 map('i', '<A-k>', '<ESC><C-w>k')
 map('i', '<A-l>', '<ESC><C-w>l')
---map('t', '<A-h>', '<C-\\><C-n><C-w>h')
---map('t', '<A-j>', '<C-\\><C-n><C-w>j')
---map('t', '<A-k>', '<C-\\><C-n><C-w>k')
---map('t', '<A-l>', '<C-\\><C-n><C-w>l')
 
 -- window resize
-map('n', '<ESC><C-h>', ':vert resize -1<CR>', {silent=true})
-map('n', '<ESC><C-l>', ':vert resize +1<CR>', {silent=true})
-map('n', '<ESC><C-j>', ':resize +1<CR>', {silent=true})
-map('n', '<ESC><C-k>', ':resize -1<CR>', {silent=true})
+map('n', '<A-C-h>', ':vert resize -1<CR>', {silent=true})
+map('n', '<A-C-l>', ':vert resize +1<CR>', {silent=true})
+map('n', '<A-C-j>', ':resize +1<CR>', {silent=true})
+map('n', '<A-C-k>', ':resize -1<CR>', {silent=true})
 
 -- next/prev tab
 map('n', '<A-1>', 'gT')
 map('n', '<A-2>', 'gt')
 map('i', '<A-1>', '<ESC>gT')
 map('i', '<A-2>', '<ESC>gt')
---map('t', '<A-1>', '<C-\\><C-n>gT')
---map('t', '<A-2>', '<C-\\><C-n>gt')
 
 -- switch to tab x (<ALT>+<F1>, ..., <ALT>+<F12>)
 vim.cmd([[
@@ -78,28 +61,31 @@ function TabPageGoTo(i)
     endif
     execute 'tabnext ' .. a:i
 endfunction]])
-local i = 49
-local k, f
-while i < 61 do
-    k = '<F' .. i .. '>'
-    f = ':call TabPageGoTo(' .. (i-48) .. ')<CR>'
-    map('n', k, f)
-    map('i', k, '<ESC>' .. f)
-    map('t', k, '<C-\\><C-N>' .. f)
-    i = i + 1
+local j, k
+for i = 49, 60 do
+    j = '<F' .. i .. '>'
+    k = ':call TabPageGoTo(' .. (i-48) .. ')<CR>'
+    map('n', j, k)
+    map('i', j, '<ESC>' .. k)
+    map('t', j, '<C-\\><C-N>' .. k)
 end
 
 -- plugins
 map('n', '<leader>\\', ':NvimTreeToggle<CR>')
-map('n', '<CR>', ':ToggleBufExplorer<CR>')
+map('n', '<A-e>', ':ToggleBufExplorer<CR>')
 
--- execute current line as vim command, usefull when change settings
+-- grep current word in current working dir
 vim.cmd([[
-function USER_vimexecuteline()
-    if b:current_syntax == 'vim'
-        let l = getline('.')
-        execute l
-        echo l
+function USER_grep_find_kw_cw()
+    let s = expand("<cword>")
+    if strlen(s) > 2
+        exe '!grep -nrs "\<' . s . '\>" | cat -n'
     endif
 endfunction]])
-map('n', '<A-e>', ':call USER_vimexecuteline()<CR>', {silent=true})
+map('n', '<A-8>', ':call USER_grep_find_kw_cw()<CR>', {silent=true})
+
+-- github/ThePrimeagen/init.lua
+map('x', '<leader>p', '"_dP')
+map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+map({'n', 'v'}, '<leader>y', '"+y')
+map('n', '<leader>Y', '"+Y')

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+exec pylint \
+    --max-line-length 79 \
+    --expected-line-ending-format LF \
+    --ignore-long-lines '' \
+    --dummy-variables-rgx '_' \
+    --disable invalid-name \
+    --disable missing-docstring \
+    --disable redefined-builtin \
+    "$@"

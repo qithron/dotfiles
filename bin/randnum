@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+py -c 'import random; print(random.randint(0,2**32-1))' | xclip -r -selection clipboard

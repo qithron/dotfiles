@@ -3,4 +3,4 @@
 [ "$1" ] || exit
 
 sleep "$1"
-mpv --volume=900 --no-terminal ~/av/uncat/sus.aac
+mpv --volume=900 --no-terminal ~/av/sound-cut/sus.aac

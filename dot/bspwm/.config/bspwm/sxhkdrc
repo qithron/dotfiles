@@ -1,20 +1,22 @@
-#!/usr/bin/env sh
-# vim: ft=sh
-
 # quit bspwm
-ctrl + alt + shift + q; q
+super + ctrl + shift + q; q
     bspc quit
 # restart bspwm
-ctrl + alt + shift + w; w
+super + ctrl + shift + w; w
     bspc wm --restart
 # reload sxhkd
-ctrl + alt + shift + e; e
+super + ctrl + shift + e; e
     truncate --size 0 "$BSPWM_TMP/sxhkd.log" 2> /dev/null;\
     pkill -x sxhkd -u "$USER" -USR1
 
+#super + e
+#    minetest-auto-right-click
+#super + d
+#    minetest-auto-left-click
+
 # terminal
 super + Return
-    st -e 'zsh'
+    std
 
 # pass manager
 super + semicolon; p;a;s;s
@@ -31,21 +33,23 @@ super + Print
 # lock screen
 XF86ScreenSaver
     slock
-ctrl + alt + shift + l
-    slock
+
+# touchpad toggle
+alt + F9
+    touchpad-toggle
 
 # backlight control
-XF86MonBrightnessUp
+alt + F6
     xbacklight +5
-XF86MonBrightnessDown
+alt + F5
     xbacklight -5
 
 # volume control
-XF86AudioRaiseVolume
+alt + F12
     volume +
-XF86AudioLowerVolume
+alt + F11
     volume -
-XF86AudioMute
+alt + F10
     volume !
 
 # media ctl

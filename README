@@ -2,7 +2,7 @@
 mee home setup for ywu
 
 # SOFTWARE
-DISTRO     Gentoo Linux (amd64 openrc)
+DISTRO     Artix Linux
 WM         bspwm
 SHELL      dash (user login), zsh (interactive)
 TERMINAL   st

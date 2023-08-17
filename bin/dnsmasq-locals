@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+
+test "$(id -u)" = 0 || exec su -c "$0" "$@"
+
+_run_one() {
+    OUT=$(ip -4 -o address show "$1")
+    if test ! "$OUT"; then
+        echo "$1 has no ip address"
+        return 1
+    fi
+
+    IP=$(echo "$OUT" | grep -Eo '([0-9]+\.)+[0-9]+/[0-9]+' | sort | head -n 1)
+    if test ! "$IP"; then
+        echo "$OUT"
+        echo "$1 parse failed"
+        return 1
+    fi
+
+    ADDR=$(echo "$IP" | grep -Eo '([0-9]+\.)+')
+    DHCP_S=${ADDR}100
+    DHCP_E=${ADDR}254
+    DHCP_M=$(print-net-mask "$(echo "$IP" | grep -Eo '[0-9]+$')")
+    ADDR=$(echo "$IP" | grep -Eo '([0-9]+\.)+[0-9]+')
+    dnsmasq --no-daemon --log-queries --dns-loop-detect \
+        --no-hosts --no-resolv --no-poll --leasefile-ro \
+        --bind-dynamic --interface="$1" --except-interface='lo' \
+        --address="/*/$ADDR" \
+        --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,1h" &
+}
+
+_run_one 'tap1'
+for i in $(seq "${1:-1}"); do
+    _run_one "wlan$i"
+done
+
+wait

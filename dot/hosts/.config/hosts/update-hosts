@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$(realpath "$0")")" || exit 1
+
+SRC='https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts'
+ETAG=$(curl -s --head "$SRC" | grep '^etag' | grep -o '\b\w*\b' | tail -n 1)
+
+test -d cache || mkdir cache
+cd cache || exit 1
+
+test -f hosts.etag && test "$(cat hosts.etag)" = "$ETAG" && {
+    echo "already up to date"
+    exit
+}
+
+curl "$SRC" -o hosts.tmp || {
+    rm -v hosts.tmp
+    exit 1
+}
+
+if [ -f hosts ]; then
+    diff hosts.tmp hosts
+
+    printf 'accept new update [Y/n] '
+    read -r v
+
+    test "$v" = n && exit
+    mv hosts hosts.old
+fi
+
+echo "$ETAG" > hosts.etag
+mv hosts.tmp hosts
+
+exec ../overwrite-etc-hosts

@@ -34,6 +34,9 @@ super + Print
 XF86ScreenSaver
     slock
 
+XF86PowerOff
+    monitor-toggle-light
+
 # touchpad toggle
 alt + F9
     touchpad-toggle

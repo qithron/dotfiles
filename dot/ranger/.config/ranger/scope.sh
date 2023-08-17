@@ -19,7 +19,7 @@ HEIGHT=$3           # Height of the preview pane (number of fitting characters)
 IMAGE_CACHE_PATH=$4 # Full path that should be used to cache image preview
 PV_IMAGE_ENABLED=$5 # 'True' if image previews are enabled, 'False' otherwise.
 
-MIMETYPE=$(file --dereference --brief --mime-type -- "$FILE_PATH")
+MIMETYPE=$(file --dereference --mime-type --brief -- "$FILE_PATH")
 
 test "$PV_IMAGE_ENABLED" = 'True' && {
     _convert(){
@@ -75,7 +75,7 @@ case "$MIMETYPE" in
         tar --warning=none -t -f "$FILE_PATH" &&
             exit 5;;
     application/x-bittorrent)
-        torrentinfo -- "$FILE_PATH"&&
+        torrent-info -- "$FILE_PATH"&&
             exit 5;;
     video/*|\
     audio/*|\
@@ -84,6 +84,7 @@ case "$MIMETYPE" in
             exit 5;;
     text/*|\
     application/json|\
+    application/x-shellscript|\
     */xml)
         head -n $((HEIGHT*9)) "$FILE_PATH" | cut -b "-$WIDTH" &&
             exit;;

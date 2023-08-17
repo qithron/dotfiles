@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+test "$1" || exit 1
+
+path=$1
+filename=$(echo "$1" | sed s/'\.[^.]*$'//)
+shift
+
+exec ffmpeg "$@" -i "$path" \
+    -map 0:v:0 \
+    -map 0:a:0 \
+    -map_metadata -1 \
+    -map_chapters -1 \
+    -sn \
+    -c:v libx264 -crf 23 \
+    -c:a aac -b:a 128k -ac 2 \
+    -preset medium \
+    -pix_fmt yuvj420p \
+    "$filename-out.mp4"

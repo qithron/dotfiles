@@ -2,8 +2,6 @@
 
 test "$1" || exit 1
 
-for v in "$@"; do
-    echo "$v" | grep -q '^-' || /usr/bin/man -w "$@" > /dev/null || exit 1
-done
-
-exec /usr/bin/man "$@" | nvim -R -M -c 'se nonu nornu syn=man scl=no stal=0 cc=""'
+/usr/bin/man -w "$@" > /dev/null &&
+    /usr/bin/man "$@" |
+    nvim -R -M -c 'se nonu nornu syn=man scl=no stal=0 cc=""'

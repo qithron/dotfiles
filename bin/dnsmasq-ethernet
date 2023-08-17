@@ -2,12 +2,8 @@
 
 test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
-PRE=172.31.240
-
-iptables -t nat -D POSTROUTING -s $PRE.0/24 -o wlan9 -j MASQUERADE
-iptables -t nat -A POSTROUTING -s $PRE.0/24 -o wlan9 -j MASQUERADE
-
 IF=enp2s0
+PRE=172.31.240
 DHCP_S=$PRE.100
 DHCP_E=$PRE.254
 DHCP_M=255.255.255.0

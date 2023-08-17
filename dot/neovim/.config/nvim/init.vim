@@ -1,17 +1,16 @@
 lua user = {}
 
-" TODO rewrite 'vim.cmd' in lua if possible
 lua require('u/settings')
 lua require('u/keybinds')
 
 """ plugins
 if !$VIMCAT
-    lua require('p/lualine')
-    lua require('p/lint')
-    lua require('p/nvim-tree')
-    lua require('p/bufexplorer')
-    "lua require('p/nvim-treesitter')
     lua require('p/packer')
+    lua require('p/lualine')
+    lua require('p/bufexplorer')
+    lua require('p/nvim-tree')
+    "lua require('p/nvim-treesitter')
+    lua require('p/lint')
     lua user.lsp = function() require('p/lsp') end
 endif
 

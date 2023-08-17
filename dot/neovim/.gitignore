@@ -1,2 +1,4 @@
-.config/nvim/plugin
-.config/nvim/spell
+*
+!.config/nvim/lua
+!.config/nvim/syntax
+!.config/nvim/init.vim

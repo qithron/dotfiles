@@ -21,9 +21,14 @@ export DESKTOP_SESSION='bspwm'
 #background-slideshow &
 background-restore &
 
-picom -f -o 0 -D 7 &
-sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &
-unclutter --timeout 60 --jitter 5 &
+loop(){
+    test "$1" || return 1
+    while true; do "$@"; done
+}
+
+loop picom -f -o 0 -D 7 &
+loop sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &
+loop unclutter --timeout 60 --jitter 5 &
 sleep 10 && activate-linux-run &
 
 exec bspwm

@@ -4,7 +4,7 @@ mee home setup for ywu
 # SOFTWARE
 DISTRO     Artix Linux
 WM         bspwm
-SHELL      dash (user login), zsh (interactive)
+SHELL      zsh
 TERMINAL   st
 EDITOR     neovim
 A/V PLAYER mpv

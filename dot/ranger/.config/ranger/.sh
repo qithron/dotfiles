@@ -1,14 +1,15 @@
-test -x /usr/bin/ranger && {
+which ranger > /dev/null && {
 
-d="$(get-user-tmp-path ranger)"
-test "$d" || d=/tmp/ranger@$(whoami)
-[ -d "$d" ] || mkdir -p "$d" && chmod 700 "$d"
-export RANGER_TMP="$d"
-unset d
+    d="$(get-user-tmp-path ranger)"
+    test "$d" || d=/tmp/ranger@$(whoami)
+    test -d "$d" || mkdir -p "$d" && chmod 700 "$d"
+    export RANGER_TMP="$d"
+    unset d
 
-e(){
-    ranger --choosedir="$RANGER_TMP/ranger-last-dir-ranger" || return
-    test -f "$RANGER_TMP/ranger-last-dir-ranger" || return
-    cd "$(cat "$RANGER_TMP/ranger-last-dir-ranger")" || return
-    rm -f "$RANGER_TMP/ranger-last-dir-ranger"
-}}
+    e(){
+        v="$RANGER_TMP/ranger-last-dir-ranger"
+        ranger --choosedir="$v" || return
+        test -f "$v" && cd "$(cat "$v")" || return
+        rm -f "$v"
+    }
+}

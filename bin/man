@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-test "$1" || exit 1
-
-/usr/bin/man -w "$@" > /dev/null &&
-    /usr/bin/man "$@" |
-    nvim -R -M -c 'se nonu nornu syn=man scl=no stal=0 cc=""'

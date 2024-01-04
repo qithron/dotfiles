@@ -26,6 +26,10 @@ super + semicolon; p;a;s;s
 super + r
     exec $(dmenu_path | dmenu -i)
 
+# program launcher + optirun
+super + shift + r
+    exec optirun $(dmenu_path | dmenu -i -p optirun)
+
 # screenshot
 super + Print
     screenshot
@@ -37,14 +41,17 @@ XF86ScreenSaver
 XF86PowerOff
     monitor-toggle-light
 
+XF86Sleep
+    doas /sbin/suspend-mem
+
 # touchpad toggle
-alt + F9
+XF86TouchpadToggle
     touchpad-toggle
 
 # backlight control
-alt + F6
+XF86MonBrightnessUp
     xbacklight +5
-alt + F5
+XF86MonBrightnessDown
     xbacklight -5
 
 # volume control

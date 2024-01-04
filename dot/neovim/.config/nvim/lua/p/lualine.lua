@@ -56,7 +56,7 @@ local sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {filename},
-    lualine_x = {'filetype', 'encoding', 'filesize', line_count, word_count},
+    lualine_x = {'filetype', 'encoding', 'filesize', word_count, line_count},
     lualine_y = {'location'},
     lualine_z = {'progress'}
 }

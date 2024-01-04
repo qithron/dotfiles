@@ -3,6 +3,7 @@
 test "$(id -u)" = 0 && exit 1
 cd ~/.jd || exit 1
 
+export JD_SCOPE="user"
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-exec JDownloader
+exec java -jar JDownloader.jar "$@"

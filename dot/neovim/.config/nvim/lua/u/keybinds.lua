@@ -2,13 +2,7 @@ vim.g.mapleader = ' '
 local map = vim.keymap.set
 
 -- disable
---map('', '<C-a>', '<NOP>')
---map('', '<C-x>', '<NOP>')
 map('', '<CR>', '<NOP>')
-
--- escape
-map('i', '<A-i>', '<ESC>')
-map('t', '<A-i>', '<C-\\><C-n>')
 
 -- command line mode
 map('c', '<A-h>', '<UP>')
@@ -22,12 +16,13 @@ map('', '<C-k>', '9k')
 map('n', '<leader>q', ':q<CR>')
 map('n', '<leader>Q', ':q!<CR>')
 map('n', '<leader><leader>', ':noh<CR>')
+map('v', 'F', ':!1py-text-format-fill<CR>')
 
 -- emacs keys
 map('i', '<C-e>', '<ESC>A', {silent=true})
 map('i', '<C-a>', '<ESC>I', {silent=true})
 
--- next/prev buffer
+-- prev buffer
 map('n', '<A-`>', ':b#<CR>')
 map('i', '<A-`>', '<ESC>:b#<CR>')
 
@@ -47,28 +42,10 @@ map('n', '<A-C-l>', ':vert resize +1<CR>', {silent=true})
 map('n', '<A-C-j>', ':resize +1<CR>', {silent=true})
 map('n', '<A-C-k>', ':resize -1<CR>', {silent=true})
 
--- next/prev tab
-map('n', '<A-1>', 'gT')
-map('n', '<A-2>', 'gt')
-map('i', '<A-1>', '<ESC>gT')
-map('i', '<A-2>', '<ESC>gt')
-
--- switch to tab x (<ALT>+<F1>, ..., <ALT>+<F12>)
-vim.cmd([[
-function TabPageGoTo(i)
-    if a:i > tabpagenr('$')
-        return
-    endif
-    execute 'tabnext ' .. a:i
-endfunction]])
-local j, k
-for i = 49, 60 do
-    j = '<F' .. i .. '>'
-    k = ':call TabPageGoTo(' .. (i-48) .. ')<CR>'
-    map('n', j, k)
-    map('i', j, '<ESC>' .. k)
-    map('t', j, '<C-\\><C-N>' .. k)
-end
+-- next tab
+map('n', '<A-Tab>', 'gt')
+map('i', '<A-Tab>', '<ESC>gt')
+map('t', '<A-Tab>', '<C-\\><C-N>gt')
 
 -- plugins
 map('n', '<leader>\\', ':NvimTreeToggle<CR>')

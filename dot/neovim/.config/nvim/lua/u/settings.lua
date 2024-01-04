@@ -2,7 +2,6 @@ vim.o.shell = '/bin/zsh'
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
 vim.o.encoding = 'utf-8'
-vim.o.laststatus = 2
 vim.o.mouse = ''
 
 vim.o.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,'
@@ -39,30 +38,17 @@ vim.o.smartindent = true
 vim.o.list = true
 vim.o.listchars = 'tab:\\x20\\x20,trail:•'
 
--- tabline
-vim.o.showtabline = 1
-vim.cmd([[
-function USER_tabline()
-    let s = ''
-    for i in range(tabpagenr('$'))
-        if i + 1 == tabpagenr()
-            let s ..= '%#TabLineSel#'
-        else
-            let s ..= '%#TabLine#'
-        endif
-        let s ..= ' ' .. (i+1) .. ' '
-    endfor
-    let s ..= '%#TabLineFill#%T'
-    return s
-endfunction
-]])
-vim.o.tabline = '%!USER_tabline()'
+vim.o.showtabline = 0
+vim.o.laststatus = 2
+vim.o.cmdheight = 1
 
 -- autocmd
 vim.cmd([[augroup user
-    " terminal autocmd
-    "au BufEnter term://* startinsert
-    au TermOpen * setlocal nonu nornu scl=no
+    au TermOpen * setlocal nonu nornu scl=no ch=0 ls=0 | startinsert
+    au BufEnter term://* setlocal ch=0 ls=0 | startinsert
+    au TermEnter * setlocal ch=0 ls=0
+    au TermLeave * setlocal ch=1 ls=2
+
     au BufNewFile,BufRead *.pyp setf python
     au BufNewFile,BufRead *.pyh setf pyhtml
     au BufNewFile,BufRead watch-log.txt setf watchlog

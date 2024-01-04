@@ -1,5 +1,6 @@
-which ranger > /dev/null && {
+export RANGER_LOAD_DEFAULT_RC=FALSE
 
+which ranger > /dev/null && {
     d="$(get-user-tmp-path ranger)"
     test "$d" || d=/tmp/ranger@$(whoami)
     test -d "$d" || mkdir -p "$d" && chmod 700 "$d"

@@ -5,9 +5,11 @@ import subprocess
 from functools import partial
 from ranger.api.commands import Command
 
+
 class quit_f(Command):
     def execute(self):
         sys.exit(1)
+
 
 class rename_edit(Command):
     def execute(self):
@@ -43,6 +45,7 @@ class rename_edit(Command):
 
         if os.path.exists(path):
             os.remove(path)
+
 
 class edit_link(Command):
     def execute(self):

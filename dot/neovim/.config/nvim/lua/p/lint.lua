@@ -25,7 +25,7 @@ MOD.linters_by_ft = {
     sh = {'shellcheck'},
     rust = {'rust_lint'},
     bash = {'shellcheck'},
-    python = {'pylint'},
+    --python = {'pylint'},
     c = {'cppcheck'},
     lua = {'luacheck'},
 }

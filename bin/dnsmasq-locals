@@ -25,7 +25,7 @@ _run_one() {
         --no-hosts --no-resolv --no-poll --leasefile-ro \
         --bind-dynamic --interface="$1" --except-interface='lo' \
         --address="/*/$ADDR" \
-        --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,1h" &
+        --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,30m" &
 }
 
 _run_one 'tap1'

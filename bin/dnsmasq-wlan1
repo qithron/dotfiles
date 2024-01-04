@@ -2,8 +2,8 @@
 
 test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
-IF=tap0
-PRE=172.31.250
+IF=wlan1
+PRE=172.31.241
 DHCP_S=$PRE.100
 DHCP_E=$PRE.254
 DHCP_M=255.255.255.0

@@ -8,5 +8,5 @@
 
 [ "$1" = '-r' ] || exit 1
 
-activate-linux
+activate-linux -f "Segoe UI"
 exec "$0" -r

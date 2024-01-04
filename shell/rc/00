@@ -9,6 +9,7 @@ zshaddhistory(){
         fc -R
         return 2
     fi
+
     fc -IA
 }
 
@@ -20,7 +21,7 @@ preexec(){
 precmd(){
     printf "\e[5 q" # beam shape cursor
     printf "\e]0;st: $(pwd)\x07"
-    PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %B%F{$((RANDOM%8))}%#%f%b "
+    PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %? %B%F{$((RANDOM%8))}%#%f%b "
     test "$_S" && {
         local E=$(date '+%s.%N')
         local S=$(printf "%s" "$_S" | grep -Eo '^\w*\.\w*')
@@ -49,9 +50,6 @@ precmd(){
     }
 }
 
-# return status of the last command
-RPS1="$(printf "\e[5C")%?"
-
 # change cursor shape for different vi modes
 zle-keymap-select(){
     case "$KEYMAP" in
@@ -66,8 +64,13 @@ zle-keymap-select(){
 zle -N zle-keymap-select
 
 HISTFILE=~/.zsh_history
-HISTSIZE=1099511627776
-SAVEHIST=1099511627776
+HISTSIZE=999999999999
+SAVEHIST=$HISTSIZE
+APPEND_HISTORY=1
+unset HIST_SAVE_BY_COPY
+
+sed -i s/'^[ ]*'// "$HISTFILE"
+fc -R
 
 # vi mode
 bindkey -v

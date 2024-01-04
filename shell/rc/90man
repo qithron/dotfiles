@@ -1,0 +1,2 @@
+export MANPAGER="nvim +Man!"
+export MANPATH="$RUSTUP_HOME/toolchains/stable-x86_64-unknown-linux-gnu/share/man:$(manpath -g)"

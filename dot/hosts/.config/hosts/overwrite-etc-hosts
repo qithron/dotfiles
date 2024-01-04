@@ -7,7 +7,7 @@ cd "$(dirname "$(realpath "$0")")" || exit 1
 {
     cat cache/hosts
     test -f custom-hosts && {
-        printf "\n# custum-hosts\n"
+        printf "\n# custom-hosts\n"
         cat custom-hosts
     }
 } > /etc/hosts

@@ -1,3 +1,4 @@
 *
-!.config/mpv/mpv.conf
 !.config/mpv/input.conf
+!.config/mpv/mpv.conf
+!.config/mpv/scripts/*.lua

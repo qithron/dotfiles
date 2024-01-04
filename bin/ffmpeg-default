@@ -17,3 +17,4 @@ exec ffmpeg "$@" -i "$path" \
     -preset medium \
     -pix_fmt yuvj420p \
     "$filename-out.mp4"
+    #-vf scale=h=360:force_original_aspect_ratio=1 \

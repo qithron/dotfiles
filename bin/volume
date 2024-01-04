@@ -10,9 +10,10 @@ set_vol() {
     [ "$v" -gt 100 ] && v=100
     amixer sset 'Master' "$v%" 1> /dev/null
 }
+
 cat_volume_int() {
-    [ "$(stat --printf='%s' -- "$f")" -le 4 ] && v=$(cat "$f")
-    [ "$v" ] || v=50
+    [ -f "$f" ] && [ "$(stat --printf='%s' -- "$f")" -le 4 ] && v=$(cat "$f")
+    [ "$v" ] || v=100
     echo "$v"
 }
 
@@ -21,6 +22,7 @@ f_exact() {
     set_vol "$v"
     echo "$v" > "$f"
 }
+
 f_change() {
     v=$(cat_volume_int)
     [ "$2" ] && w=$2 || w=5
@@ -33,11 +35,17 @@ f_change() {
 v=$(echo "$1" | grep -Eo '[0-9]{,3}$')
 
 if [ "$1" = '!' ]; then
-    amixer sget 'Master' | grep -q '\[0%\]' && f_exact || set_vol 0
+    if amixer sget 'Master' | grep -q '\[0%\]'; then
+        f_exact
+    else
+        set_vol 0
+    fi
 elif echo "$1" | grep -q '^+'; then
     f_change '+' "$v"
 elif echo "$1" | grep -q '^-'; then
     f_change '-' "$v"
-else
+elif echo "$1" | grep -q '^[0-9]*$'; then
     f_exact
+else
+    exit 1
 fi

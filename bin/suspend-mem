@@ -2,4 +2,9 @@
 
 test "$(id -u)" = 0 || exec su -c "$0" "$@"
 
-echo mem > /sys/power/state
+gpu() {
+    test -f /proc/driver/nvidia/suspend || return 0
+    echo "$1" > /proc/driver/nvidia/suspend
+}
+
+gpu suspend && echo mem > /sys/power/state && gpu resume

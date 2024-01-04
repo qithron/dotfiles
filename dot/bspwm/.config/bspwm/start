@@ -1,34 +1,23 @@
 #!/usr/bin/env sh
 
-if [ "$XDG_RUNTIME_DIR" ]; then
-    BSPWM_TMP="$XDG_RUNTIME_DIR/bspwm"
-elif [ -w '/tmp' ]; then
-    BSPWM_TMP="/tmp/bspwm@$USER"
-elif [ "$XDG_CACHE_HOME" ]; then
-    BSPWM_TMP="$XDG_CACHE_HOME/bspwm"
-else
-    BSPWM_TMP="$HOME/.cache/bspwm"
-fi
-
+BSPWM_TMP="$(get-user-tmp-path bspwm)-$PPID"
 mkdir -p "$BSPWM_TMP" && chmod 700 "$BSPWM_TMP"
 
 export BSPWM_TMP
 export BSPWM_SOCKET="$BSPWM_TMP/socket"
 export BSPWM_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
-export DESKTOP_SESSION='bspwm'
+export DESKTOP_SESSION="bspwm"
 
-#"$BSPWM_HOME"/bin/background-live &
-#background-slideshow &
 background-restore &
 
 loop(){
     test "$1" || return 1
-    while true; do "$@"; done
+    while true; do "$@"; sleep 1; done
 }
 
+sleep 10 && activate-linux-run &
 loop picom -f -o 0 -D 7 &
 loop sxhkd -t 10 -r "$BSPWM_TMP/sxhkd.log" -c "$BSPWM_HOME/sxhkdrc" &
 loop unclutter --timeout 60 --jitter 5 &
-sleep 10 && activate-linux-run &
-
+loop conky &
 exec bspwm

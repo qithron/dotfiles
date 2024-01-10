@@ -1,13 +1,13 @@
-export RANGER_LOAD_DEFAULT_RC=FALSE
+cmd-exists ranger && {
+    export RANGER_LOAD_DEFAULT_RC=FALSE
 
-which ranger > /dev/null && {
     d="$(get-user-tmp-path ranger)"
     test "$d" || d=/tmp/ranger@$(whoami)
     test -d "$d" || mkdir -p "$d" && chmod 700 "$d"
     export RANGER_TMP="$d"
     unset d
 
-    e(){
+    e() {
         v="$RANGER_TMP/ranger-last-dir-ranger"
         ranger --choosedir="$v" || return
         test -f "$v" && cd "$(cat "$v")" || return

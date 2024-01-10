@@ -1,0 +1,6 @@
+export MANPAGER="nvim +Man!"
+
+cmd-exists manpath && {
+    MANPATH=$(manpath -g)
+    export MANPATH
+}

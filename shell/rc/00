@@ -2,7 +2,7 @@
 
 trap 'rehash' USR1
 
-zshaddhistory(){
+zshaddhistory() {
     if test "$(printf "%s" "$1" | wc -l)" != 1 ||
         printf "%s" "$1" | grep -Eq -e '^(rm|rmdir|pkill)'
     then
@@ -13,45 +13,50 @@ zshaddhistory(){
     fc -IA
 }
 
-preexec(){
-    _S=$(date '+%s.%N').$3
+preexec() {
+    _LCST=$(date '+%s.%N').$3
     printf "\e]0;st: %s\x07" $2
 }
 
-precmd(){
+precmd() {
     printf "\e[5 q" # beam shape cursor
-    printf "\e]0;st: $(pwd)\x07"
+    printf "\e]0;zsh:$(pwd)\x07" # window title
+
     PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %? %B%F{$((RANDOM%8))}%#%f%b "
-    test "$_S" && {
-        local E=$(date '+%s.%N')
-        local S=$(printf "%s" "$_S" | grep -Eo '^\w*\.\w*')
-        local C=$(printf "%s" "$_S" | sed s/'^\w*\.\w*\.'//)
-        _S=
-        local Ss=$(echo "$S" | grep -Eo '^\w*')
-        local Sn=$(echo "$S" | grep -Eo '[1-9]\w*$')
-        test "$Sn" || Sn=0
-        local Es=$(echo "$E" | grep -Eo '^\w*')
-        local En=$(echo "$E" | grep -Eo '[1-9]\w*$')
-        test "$En" || En=0
-        local ELe=$((En < Sn))
-        local ELs=$((Es - Ss - (ELe * 1)))
-        local ELn=$((En - Sn + (ELe * 1000000000)))
-        test "$ELs" -lt 1 || {
-            printf "\e[1;32m#############################\e[0m\n"
-            printf "%s\n" "$C"
-            printf "\e[1;32m#############################\e[0m\n"
-            date --date="@$S" '+%Y/%m/%d %H:%M:%S.%N'
-            date --date="@$E" '+%Y/%m/%d %H:%M:%S.%N'
-            printf "\e[1m%10d %02d:%02d:%02d.%09d\e[0m\n" \
-                $((ELs/86400)) $((ELs%86400/3600)) \
-                $((ELs%3600/60)) $((ELs%60)) $ELn
-            printf "\e[1;32m#############################\e[0m\n"
-        }
-    }
+
+    test "$_LCST" || return
+
+    local E=$(date '+%s.%N')
+    local S=$(printf "%s" "$_LCST" | grep -Eo '^\w*\.\w*')
+    local C=$(printf "%s" "$_LCST" | sed s/'^\w*\.\w*\.'//)
+    _LCST=
+
+    local Ss=$(echo "$S" | grep -Eo '^\w*')
+    local Sn=$(echo "$S" | grep -Eo '[1-9]\w*$')
+    test "$Sn" || Sn=0
+
+    local Es=$(echo "$E" | grep -Eo '^\w*')
+    local En=$(echo "$E" | grep -Eo '[1-9]\w*$')
+    test "$En" || En=0
+
+    local ELe=$((En < Sn))
+    local ELs=$((Es - Ss - (ELe * 1)))
+    local ELn=$((En - Sn + (ELe * 1000000000)))
+
+    test "$ELs" -lt 1 && return
+
+    printf "\e[1;32m#############################\e[0m\n"
+    printf "%s\n" "$C"
+    printf "\e[1;32m#############################\e[0m\n"
+    date --date="@$S" '+%Y/%m/%d %H:%M:%S.%N'
+    date --date="@$E" '+%Y/%m/%d %H:%M:%S.%N'
+    printf "\e[1m%10d %02d:%02d:%02d.%09d\e[0m\n" \
+        $((ELs/86400)) $((ELs%86400/3600)) \
+        $((ELs%3600/60)) $((ELs%60)) $ELn
 }
 
 # change cursor shape for different vi modes
-zle-keymap-select(){
+zle-keymap-select() {
     case "$KEYMAP" in
         vicmd)
             printf "\e[1 q";;
@@ -83,22 +88,14 @@ compinit
 _comp_options+=(globdots)
 
 # vi keys in menu completion
-bindkey -M menuselect "^[h" vi-backward-char
-bindkey -M menuselect "^[j" vi-down-line-or-history
-bindkey -M menuselect "^[k" vi-up-line-or-history
-bindkey -M menuselect "^[l" vi-forward-char
+bindkey -M menuselect "^h" vi-backward-char
+bindkey -M menuselect "^j" vi-down-line-or-history
+bindkey -M menuselect "^k" vi-up-line-or-history
+bindkey -M menuselect "^l" vi-forward-char
 
 # keybinds
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-
-bindkey -M vicmd "^[j" down-line-or-beginning-search
-bindkey -M vicmd "^[k" up-line-or-beginning-search
-
-bindkey -M viins "^[h" down-line-or-beginning-search
-bindkey -M viins "^[j" down-line-or-history
-bindkey -M viins "^[k" up-line-or-history
-bindkey -M viins "^[l" up-line-or-beginning-search
-
-bindkey -M viins "^N" menu-complete
+bindkey -M viins "^p" down-line-or-beginning-search
+bindkey -M viins "^n" up-line-or-beginning-search

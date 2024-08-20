@@ -1,0 +1,14 @@
+#!/bin/sh
+
+for run in run run.sh .run .run.sh .; do
+    test $run = . && exec ./run
+    test -f $run && break
+done
+run=./$run
+
+test -x $run && exec $run "$@"
+
+# TODO: /usr/bin/env -S arg...
+exe=$(head -n 1 $run | sed s/^..//)
+test -x "$exe" && exec "$exe" "$run" -- "$@"
+exec "$(basename "$exe")" "$run" -- "$@"

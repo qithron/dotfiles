@@ -1,0 +1,59 @@
+#!/bin/zsh
+
+amiroot || exit
+
+tmpd=/var/tmp/wlan
+
+stop() {
+    for pid in "${tmpd:?}/"*.pid; do
+        command kill --timeout 1000 TERM --timeout 1000 KILL \
+            -s INT "$(cat "${pid:?}")"
+    done
+
+    rm -f "${tmpd:?}/dnsmasq.leases"
+    rm -f "${tmpd:?}/dnsmasq.pid"
+}
+
+start_hostapd() {
+    local conf() {
+        local c=$(iw dev wlan1 info | grep -o 'channel [0-9]*' | cut -d' ' -f2)
+        echo "channel=${c:-7}"
+        echo "hw_mode=g"
+        echo "country_code=ID"
+        echo "ssid=www.qithron.xyz"
+        echo "interface=wlan0"
+    }
+
+    pkill hostapd
+    (hostapd -B -P "$tmpd/hostapd.pid" <(conf)) &!
+}
+
+start() {
+    mkdir -p "$tmpd" || exit
+
+    start_hostapd
+
+    dnsmasq --keep-in-foreground \
+        -C"/dev/null" \
+        -8- --log-queries \
+        -l"$tmpd/dnsmasq.leases" \
+        -x"$tmpd/dnsmasq.pid" \
+        -z -ilo -iwlan0 \
+        \
+        --enable-ra \
+        \
+        --dhcp-range=fc00::f000,fc00::fffe,112 \
+        --dhcp-range=172.21.1.0,172.21.1.255 \
+        \
+        --address=/qithron.xyz/fc00::1 \
+        --address=/qithron.xyz/172.21.1.1 \
+        --address=/termux.qithron.xyz/172.21.1.70 \
+        &
+}
+
+trap start_hostapd USR1
+trap stop INT TERM
+
+"${1:-start}"
+
+wait

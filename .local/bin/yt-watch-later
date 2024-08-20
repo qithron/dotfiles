@@ -1,0 +1,26 @@
+#!/bin/sh
+
+url=${1:?}
+format=${2:-18}
+
+yt-id-db get "$url" && exit
+
+id=$(echo "$url" | grep -Eio 'v=[0-9a-z_-]+' | cut -d= -f2)
+tmpd=$XDG_CACHE_HOME/yt-dlp/part/$id
+
+mkdir -p "$tmpd" && cd "$tmpd" || exit
+yt-dlp -f "$format" "$url" || exit
+
+for src_file in *; do
+    test -f "$src_file" || exit
+    src_file=$PWD/$src_file
+    break
+done
+
+# TODO FIXME how to mark it for yazi?
+#echo "$src_file" >> "$XDG_DATA_HOME/ranger/tagged"
+
+cd ~/av/yt &&
+    mv "$src_file" . &&
+    rm -d "$tmpd" &&
+    yt-id-db add "$url"

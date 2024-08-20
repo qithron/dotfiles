@@ -1,0 +1,4 @@
+#!/bin/sh
+
+test "$(id -u)" -eq 0 && exec /sbin/poweroff
+sudo /sbin/poweroff

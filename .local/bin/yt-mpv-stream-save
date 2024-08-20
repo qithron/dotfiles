@@ -1,0 +1,14 @@
+#!/bin/sh
+
+url=${1:?}
+format=${2:-18}
+
+yt-id-db get "$url" && exit
+cd ~/av/yt || exit
+
+file_name=$(yt-dlp -f "$format" --print '%(title)s [%(id)s].%(ext)s' "$url" |
+    sed 's/\//\\/g')
+
+yt-dlp -R infinite -f "$format" -o - "$url" |
+    tee "${file_name:?}" |
+    mpv --wid="$WINDOWID" --cache-secs=30 - && yt-id-db add "$url"

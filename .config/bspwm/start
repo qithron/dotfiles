@@ -1,0 +1,21 @@
+#!/bin/sh
+
+BSPWM_TMP=$(get-tmpfs-path bspwm-$PPID)
+mkdir -p "${BSPWM_TMP:?}" || exit 1
+chmod 700 "$BSPWM_TMP"
+
+export BSPWM_TMP
+export BSPWM_LOG_FILE="$BSPWM_TMP/bspwm.log"
+export BSPWM_SOCKET="$BSPWM_TMP/socket"
+export BSPWM_HOME="$XDG_CONFIG_HOME/bspwm"
+export DESKTOP_SESSION="bspwm"
+
+background-restore &
+
+for v in "$BSPWM_HOME"/au/*.sh; do
+    "$v" >> "$BSPWM_LOG_FILE" 2>&1 &
+done
+unset v
+
+bspwm >> "$BSPWM_LOG_FILE" 2>&1
+pkill "aw-*" # TODO: use traps

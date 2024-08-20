@@ -1,0 +1,7 @@
+#!/bin/sh
+
+url=${1:?}
+format=${2:-18}
+
+yt-dlp -R infinite -f "$format" -o - "$url" |
+    mpv --wid="$WINDOWID" --cache-secs=30 -

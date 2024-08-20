@@ -1,0 +1,5 @@
+#!/bin/sh
+
+true "${HISTFILE:=$HOME/.zhistory}"
+tac "$HISTFILE" | awk '!visited[$0]++' | tac > "$HISTFILE.new"
+mv "$HISTFILE.new" "$HISTFILE"

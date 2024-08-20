@@ -1,0 +1,40 @@
+#!/bin/sh
+
+xrandr |
+    grep -E '^.+ connected' |
+    grep -Eo '[0-9]+x[0-9]+[0-9]+\+[0-9]+\+[0-9]+' |
+    python -c "
+import sys, time, PIL.ImageGrab
+
+fn = f'''$HOME/img/ss/{time.strftime('%Y%m%d%H%M%S')}.png'''
+
+def ss_no_crop():
+    img = PIL.ImageGrab.grab()
+    img.save(fn)
+    sys.exit()
+
+if len(sys.argv) != 1:
+    ss_no_crop()
+
+from pyautogui import position
+#try:
+#    from pyautogui import position
+#except ModuleNotFoundError:
+#    ss_no_crop()
+
+l = []
+for v in sys.stdin.read().strip().split('\n'):
+    w, h = v.split('x')
+    h, x, y = h.split('+')
+    l.append(tuple(map(int, (w, h, x, y))))
+
+a, b = position()
+for (w, h, x, y) in l:
+    p = w + x
+    q = h + y
+    if x <= a < p and y <= b < q:
+        break
+
+img = PIL.ImageGrab.grab((x, y, p, q))
+img.save(fn)
+" && mpv --no-config --no-terminal ~/av/audio/screenshot

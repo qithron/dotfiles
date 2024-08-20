@@ -1,0 +1,7 @@
+[Desktop Entry]
+Categories=System;TerminalEmulator;
+Exec=st
+GenericName=Terminal
+Name=Simple Terminal
+Terminal=false
+Type=Application

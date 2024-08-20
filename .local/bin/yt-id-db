@@ -1,0 +1,15 @@
+#!/bin/sh
+
+url=${2:?}
+cmd=${1:?}
+
+id=$(echo "$url" | grep -Eio 'v=[0-9a-z_-]+' | cut -d= -f2)
+test "$id" || { echo invalid url; exit 1; }
+
+db=$HOME/.local/lib/yt-id-db.txt
+
+case "$cmd" in
+    add) echo "$id" >> "$db";;
+    get) grep -Fq "$id" "$db";;
+    *) echo invalid command; exit 1;;
+esac

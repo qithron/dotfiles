@@ -1,0 +1,31 @@
+#!/bin/sh
+
+command_exists bspc activate-linux || exit
+
+bspc_cmd_line="bspc subscribe -c 1 node_add node_remove"
+
+test "$1" = -k && {
+    pkill -xf "$(sh -c 'echo $0') $0"
+    pkill -xf "$bspc_cmd_line"
+    pkill activate-linux
+    exit 0
+} > /dev/null 2>&1
+
+test "$*" && exit 1
+
+while true; do
+    activate-linux -f "Segoe UI" || sleep 1
+done &
+
+x=$(bspc query -N | wc --lines)
+
+while true; do
+    y=$(bspc query -N | wc --lines)
+
+    test "$x" -ne "$y" && {
+        test "$x" -eq 0 && pkill -u "$USER" activate-linux
+        x=$y
+    }
+
+    $bspc_cmd_line > /dev/null
+done

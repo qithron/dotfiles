@@ -1,0 +1,6 @@
+for v in /data/data/com.termux/files/usr/etc/profile.d/*.sh; do
+    test -r "$v" && . "$v"
+done
+unset v
+
+termux-wake-lock

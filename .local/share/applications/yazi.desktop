@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=System;FileTools;FileManager;
+Exec=st -e yazi %f
+GenericName=File Manager
+MimeType=inode/directory;
+Name=Yazi
+Terminal=false
+Type=Application

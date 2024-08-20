@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+nvim --noplugin -n -u <(echo '
+lua require("keybinds")
+syntax off
+filetype off
+set noloadplugins
+set noswapfile
+set notermguicolors
+set noundofile
+set nowrap
+') "$@"

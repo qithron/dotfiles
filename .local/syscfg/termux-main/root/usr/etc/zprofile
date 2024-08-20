@@ -1,0 +1,1 @@
+emulate sh -c '. /data/data/com.termux/files/usr/etc/profile'

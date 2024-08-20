@@ -1,0 +1,7 @@
+#!/data/data/com.termux/files/usr/bin/sh
+exec pulseaudio --start \
+    --daemonize=false \
+    --high-priority=yes \
+    --realtime=yes \
+    --exit-idle-time=-1 \
+    2>&1

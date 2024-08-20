@@ -1,0 +1,14 @@
+#!/bin/sh
+
+port=8022
+
+for addr in 192.168.42.129 172.21.1.70 192.168.43.1 0; do
+    test $addr = 0 && exit 1
+    printf '\0' | nc -w 2 $addr $port > /dev/null 2>&1 && break
+done
+
+{
+    pactl unload-module module-tunnel-sink
+    pactl load-module module-tunnel-sink sink_name=tunnel server="$addr"
+    pactl set-default-sink tunnel
+} > /dev/null 2>&1

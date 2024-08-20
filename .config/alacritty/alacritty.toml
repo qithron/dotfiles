@@ -1,0 +1,44 @@
+shell = "/bin/zsh"
+ipc_socket = false
+live_config_reload = false
+
+[colors]
+cursor = { cursor = "#cfcfcf" }
+primary = { background = "#000000", foreground = "#ffffff" }
+draw_bold_text_with_bright_colors = true
+transparent_background_colors = true
+
+[colors.bright]
+black = "#7f7f7f"
+blue = "#0000ff"
+cyan = "#00ffff"
+green = "#00ff00"
+magenta = "#ff00ff"
+red = "#ff0000"
+white = "#ffffff"
+yellow = "#ffff00"
+
+[colors.normal]
+black = "#000000"
+blue = "#0000cf"
+cyan = "#00cfcf"
+green = "#00cf00"
+magenta = "#cf00cf"
+red = "#cf0000"
+white = "#cfcfcf"
+yellow = "#cfcf00"
+
+[cursor]
+blink_interval = 300
+style = { blinking = "On" }
+
+[font]
+size        = 8
+normal      = { family = "monospace" }
+bold        = { style = "Regular" }
+bold_italic = { style = "Regular" }
+italic      = { style = "Regular" }
+
+[window]
+decorations = "none"
+opacity = 0.7

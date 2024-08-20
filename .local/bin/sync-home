@@ -1,0 +1,37 @@
+#!/bin/sh
+
+test "$(whoami)" = qthr && exit 1
+
+_rsync() {
+    rsync -ai --delete-after "/home/qthr/$1" "$(dirname "$HOME/$1")"
+}
+
+_ln() {
+    d=$(dirname "$HOME/$1")
+    test -d "$d" || mkdir -p "$d"
+    ln -vs "/home/qthr/$1" "$d"
+}
+
+_rsync ...
+_rsync .config/bspwm
+_rsync .config/conky
+_rsync .config/fontconfig
+_rsync .config/htop
+_rsync .config/mpv
+_rsync .config/mvi
+_rsync .config/nvim
+_rsync .config/ranger
+_rsync .config/tmux
+_rsync .local/bin
+_rsync .profile
+_rsync .xinitrc
+
+_ln img
+_ln .local/bin
+_ln .local/games
+_ln .local/lib
+_ln .local/opt
+_ln .local/sbin
+_ln .local/share/fonts
+_ln .local/share/nvim
+_ln .zshrc

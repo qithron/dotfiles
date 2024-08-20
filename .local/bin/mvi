@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mpv --config-dir="$XDG_CONFIG_HOME/mvi" "$@"

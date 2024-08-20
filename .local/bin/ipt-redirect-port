@@ -1,0 +1,23 @@
+#!/bin/sh
+
+amiroot || exit
+test "$1" -a "$2" || exit
+
+wrap(){
+    iptables --table nat "$1" OUTPUT \
+        --protocol tcp -o lo --destination-port "$2" \
+        --jump REDIRECT --to-ports "$3" || exit
+    iptables --table nat "$1" PREROUTING \
+        --protocol tcp --destination-port "$2" \
+        --jump REDIRECT --to-ports "$3" || exit
+}
+
+if [ "$1" = '-D' ] || [ "$1" = '--delete' ]; then
+    wrap -D "$2" "$3"
+elif echo "$1" | grep -q '[^0-9]'; then
+    echo first arg must be a number, or -D for delete
+    exit 1
+else
+    wrap -D "$1" "$2" 2> /dev/null
+    wrap -A "$1" "$2"
+fi

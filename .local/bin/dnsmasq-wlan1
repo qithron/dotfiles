@@ -1,0 +1,15 @@
+#!/bin/sh
+
+amiroot || exit
+
+IF=wlan1
+PRE=172.31.241
+DHCP_S=$PRE.100
+DHCP_E=$PRE.254
+DHCP_M=255.255.255.0
+
+dnsmasq \
+    --no-daemon --log-queries --leasefile-ro --dns-loop-detect --no-hosts \
+    --bind-dynamic --interface="$IF" --except-interface='lo' \
+    --address="/qithron.xyz/$PRE.1" \
+    --dhcp-range="$DHCP_S,$DHCP_E,$DHCP_M,infinite"

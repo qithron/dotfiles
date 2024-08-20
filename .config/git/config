@@ -1,0 +1,7 @@
+[user]
+    name = qithron
+    email = anonyrise@gmail.com
+
+[init]
+    defaultBranch = main
+    templateDir = ~/empty

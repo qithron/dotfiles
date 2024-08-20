@@ -1,0 +1,8 @@
+#!/bin/sh
+
+url=${1:?}
+cd ~/repo/github || exit
+
+dir=$(echo "$url" | grep -Eo '[^/]+/[^/]+$' | cut -d/ -f1)
+mkdir -p "$dir" && cd "$dir" || exit
+git clone "$url"

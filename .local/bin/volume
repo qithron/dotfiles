@@ -1,0 +1,49 @@
+#!/bin/sh
+
+get_arg() {
+    v=$(echo "$a" | grep -Eo -m 1 '[0-9]{,3}$')
+    echo "${v:-$1}"
+}
+
+cat_vol() {
+    cat "$f" 2> /dev/null || echo 50
+}
+
+vol_set() {
+    v=${1:-$(get_arg 50)}
+    { test "$v" -lt 0 && v=0; } || { test "$v" -gt 100 && v=100; }
+    echo "$v" > "$f"
+    amixer set Master "$v%" > /dev/null
+}
+
+vol_inc() {
+    x=$(cat_vol)
+    y=$(get_arg 5)
+    vol_set $((x + y))
+}
+
+vol_dec() {
+    x=$(cat_vol)
+    y=$(get_arg 5)
+    vol_set $((x - y))
+}
+
+vol_toggle() {
+    if amixer get Master | grep -q '\[0%\]'; then
+        vol_set "$(cat_vol)"
+    else
+        amixer set Master 0 > /dev/null
+    fi
+}
+
+a=$1
+c=$(echo "$1" | grep -Eo -m 1 '^.')
+f=${XDG_RUNTIME_DIR:-$HOME/.cache}/amixer_volume.int
+
+case "$c" in
+    '!') vol_toggle;;
+    '+') vol_inc;;
+    '-') vol_dec;;
+    '') cat_vol;;
+    *) vol_set;;
+esac

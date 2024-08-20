@@ -1,0 +1,7 @@
+#!/bin/sh
+
+amiroot || exit
+
+dnsmasq -C/dev/null \
+    --no-daemon --log-queries --dns-loop-detect --leasefile-ro \
+    -ilo --bind-interfaces -A/qithron.xyz/127.0.0.1 -A/qithron.xyz/::1

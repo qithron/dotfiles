@@ -1,0 +1,18 @@
+#!/bin/sh
+
+amiroot || exit
+
+IF=tap0
+PRE=172.31.250
+HOST=$PRE.1
+DHCP_S=$PRE.100
+DHCP_E=$PRE.254
+DHCP_M=255.255.255.0
+
+dnsmasq -C/dev/null \
+    --no-daemon --log-queries --dns-loop-detect \
+    --leasefile-ro \
+    --bind-interfaces --interface=$IF --except-interface=lo \
+    --listen-address=$HOST \
+    --dhcp-range=$DHCP_S,$DHCP_E,$DHCP_M \
+    --address=/qithron.xyz/$HOST

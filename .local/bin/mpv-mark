@@ -1,0 +1,8 @@
+#!/bin/sh
+
+: "${1:?}"
+
+src=$(python -c "import os,sys; print(os.path.normpath(sys.argv[1]))" "$1")
+dst=$HOME/tmp/mpv_mark/$(printf "%s" "$src" | sha256sum | cut -d " " -f 1)
+
+ln -fs "$src" "$dst"

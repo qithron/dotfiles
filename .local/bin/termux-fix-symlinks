@@ -1,0 +1,12 @@
+#!/bin/sh
+
+d_bin=$HOME/.local/bin
+d_sbin=$HOME/.local/sbin
+t_bin=${PREFIX:?}/bin
+
+for f in "$d_bin"/*; do
+    test -h "$f" || continue
+    l=$(readlink "$f")
+    echo "$l" | grep -Eq '^/' || { cp -av "$f" "$d_sbin"; continue; }
+    ln -fsv "$t_bin/$(basename "$l")" "$d_sbin/$(basename "$f")"
+done

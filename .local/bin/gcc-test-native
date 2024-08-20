@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gcc -v -E -x c /dev/null -o /dev/null -march=native 2>&1 |
+    grep --color=auto -- -mtune

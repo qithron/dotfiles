@@ -1,0 +1,5 @@
+#!/bin/sh
+
+apt show $(apt list --installed | grep -o '^[^/]\+') |
+    grep -E '^(Package|Installed-Size):' |
+    pkg-man-get-installed-size | sort -h

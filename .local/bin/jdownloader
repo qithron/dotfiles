@@ -1,0 +1,8 @@
+#!/bin/sh
+
+test "$(id -u)" -ne 0 && cd ~/.jd || exit
+
+export JD_SCOPE=user
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+java -jar JDownloader.jar "$@" > /dev/null 2>&1

@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+
+import time
+print(int((time.time() - time.timezone) // 86400 % 2))

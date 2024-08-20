@@ -1,0 +1,6 @@
+#!/bin/sh
+
+test "$(id -u)" -ne 0 && cd ~/.jd || exit
+
+curl -o .JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar" &&
+    mv -v .JDownloader.jar JDownloader.jar

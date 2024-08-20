@@ -1,0 +1,20 @@
+#!/bin/sh
+
+qemu-system-x86_64 \
+    -object memory-backend-ram,id=m0,size=3G,merge=on,prealloc=off \
+    -m 3G \
+    -machine q35,memory-backend=m0 \
+    -smp 4,cores=2,sockets=2 \
+    -cpu host \
+    -accel kvm \
+    \
+    -device VGA \
+    -display spice-app,gl=on \
+    \
+    -audiodev alsa,id=adev,in.dev=null,in.try-poll=off,out.try-poll=off \
+    -device intel-hda -device hda-duplex,audiodev=adev \
+    \
+    -netdev vde,id=ndev0,sock=/run/vde.tap1.ctl \
+    -device e1000,netdev=ndev0 \
+    \
+    -cdrom "${1:?}"

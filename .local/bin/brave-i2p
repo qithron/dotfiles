@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export all_proxy="127.0.0.1:4444"
+export no_proxy="localhost,127.0.0.1"
+
+exec brave --user-data-dir="$XDG_CONFIG_HOME/BraveSoftware/Brave-Browser-i2p"

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+help() {
+    cat <<- 	EOL
+	Fit image to the size and fill empty space
+	with blurred-zoomed version of the image.
+
+	Usage: $0 width height input-file output-file
+	EOL
+    exit
+}
+
+for v in "$@"; do
+    case "$v" in
+        -h|--help) help
+    esac
+done
+
+w=$1
+h=$2
+input=$3
+output=$4
+
+magick -gravity center \
+    \( "$input" -extent "${w}:${h}" -resize "${w}x${h}!" -blur 0x33 \) \
+    \( "$input" -resize "${w}x${h}>" \) \
+    -composite "$output"

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+e() {
+    test -d "$1" -a -w "$1" || return 0
+    echo "$1$2$S"
+    exit 0
+}
+
+test "$1" && S=/$1
+
+e "$XDG_RUNTIME_DIR"
+e "/var/tmp" "/$USER"
+e "/tmp" "/$USER"
+e "$XDG_CACHE_HOME"
+e "$HOME/.cache"
+e "$HOME"

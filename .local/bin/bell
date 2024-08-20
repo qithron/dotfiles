@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mpv "$@" --no-config --no-terminal ~/av/audio/bell

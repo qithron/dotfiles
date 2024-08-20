@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# src: gitlab.com/jschx/ufetch
+
+host=$(hostname)
+kernel=$(uname -sr)
+os='Artix Linux'
+ui=${DESKTOP_SESSION:-tty}
+shell=$(basename "$SHELL")
+pkg=$(pacman -Q | wc -l)
+
+e=$(printf '\033')
+re="${e}[0m"
+lc="${e}[0m${e}[1;31m"
+nc="${e}[0m${e}[1;32m"
+ic="${re}"
+c0="${e}[0m${e}[34m"
+
+cat <<EOF
+${c0}      /\\               ${nc}${USER}${ic}@${nc}${host}${re}
+${c0}     /  \\      ${lc}KERNEL: ${ic}${kernel}${re}
+${c0}    /\`'.,\\         ${lc}OS: ${ic}${os}${re}
+${c0}   /     ',        ${lc}UI: ${ic}${ui}${re}
+${c0}  /      ,\`\\    ${lc}SHELL: ${ic}${shell}${re}
+${c0} /   ,.'\`.  \\    ${lc}TERM: ${ic}${TERM}${re}
+${c0}/.,'\`     \`'.\\    ${lc}PKG: ${ic}${pkg}${re}
+EOF

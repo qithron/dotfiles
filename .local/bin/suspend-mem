@@ -1,0 +1,14 @@
+#!/bin/sh
+
+amiroot || exit
+
+gpu() {
+    test -f /proc/driver/nvidia/suspend || return 0
+    echo "$1" > /proc/driver/nvidia/suspend
+}
+
+gpu suspend && echo mem > /sys/power/state && gpu resume
+
+for v in /etc/suspend.d/*?; do
+    test -x "$v" && "$v"
+done

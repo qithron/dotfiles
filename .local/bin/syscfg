@@ -1,0 +1,39 @@
+#!/bin/sh
+
+test -r source.sh -a -d root && . ./source.sh && cd root || exit
+
+check_list() {
+    missing=$(list | while read -r v; do
+        v="$1/$v"
+        test -e "$v" || echo "  $v"
+    done)
+
+    test "$missing" || return 0
+    echo "missing:"
+    echo "$missing"
+    exit 1
+}
+
+case "$1" in
+    pull)
+        check_list "$root"
+        func() {
+            src="$root/$path"
+            dst_dir=$(dirname "$path")
+        };;
+
+    push)
+        check_list .
+        func() {
+            src="$path"
+            dst_dir="$root/$(dirname "$path")"
+        };;
+
+    *) exit 1
+esac
+
+list | while read -r path; do
+    func || exit
+    mkdir -p "$dst_dir"
+    cp -auv "$src" "$dst_dir"
+done

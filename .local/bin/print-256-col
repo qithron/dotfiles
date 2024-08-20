@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for i in 38 48; do
+    for c in $(seq 0 255); do
+        printf "\033[%d;5;%dm%4d\033[0m" "$i" "$c" "$c"
+        test $((c % 16)) = 15 && echo
+    done
+done

@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+#
+# Join input lines into single line.
+#
+# Detect empty line, which is separator, so new line created.
+
+import sys
+
+buffer = sys.stdin.readline().rstrip()
+
+for line in sys.stdin:
+    if not line.strip():
+        sys.stdout.write(buffer + "\n\n")
+    elif buffer:
+        sys.stdout.write(buffer + " ")
+    buffer = line.rstrip()
+
+sys.stdout.write(buffer)

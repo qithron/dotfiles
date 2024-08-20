@@ -1,0 +1,4 @@
+#!/bin/sh
+
+wp-slideshow --kill
+xwallpaper --zoom ~/img/wp/default

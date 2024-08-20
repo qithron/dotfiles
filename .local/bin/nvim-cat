@@ -1,0 +1,10 @@
+#!/bin/sh
+
+max=$(tput lines)
+min=$({
+    cat -- "$@" | wc -l
+    echo "$max"
+} | sort -n | head -n 1)
+
+nvim -c "se lines=$min ch=0 cc= nonu nornu ls=0 scl=no nosc nosmd stal=0" \
+    +redraw +q -- "$@" && printf "\033[%sA" "$((max-min-1))"

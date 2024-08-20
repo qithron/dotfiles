@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=Graphics;2DGraphics;RasterGraphics;
+Exec=mvi -- %U
+GenericName=Image Viewer
+Icon=mpv
+MimeType=image/bmp;image/gif;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-sgi;image/x-tga;image/x-xbitmap;image/x-xwindowdump;image/tiff;image/jpeg;image/x-psp;image/png;image/x-icon;image/svg+xml;
+Name=mvi Image Viewer
+StartupWMClass=mvi
+Terminal=false
+Type=Application

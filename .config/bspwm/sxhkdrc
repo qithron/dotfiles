@@ -1,0 +1,195 @@
+# quit bspwm
+super + ctrl + shift + q
+    bspc quit
+
+# restart bspwm
+super + ctrl + shift + w
+    bspc wm --restart
+
+# reload sxhkd
+super + ctrl + shift + e
+    date -u '+Date: %Y/%m/%d %H:%M:%S' > "$BSPWM_LOG_FILE" ;\
+    pkill -x sxhkd -u "$USER" -TERM
+
+# terminal
+super + Return
+    terminal-emulator
+
+# program launcher
+super + r
+    dmenu_path | dmenu -i | "$SHELL"
+
+# screenshot
+super + Print
+    screenshot
+
+# lock screen
+XF86ScreenSaver
+    slock
+
+XF86PowerOff
+    monitor-toggle-light
+
+XF86Sleep
+    doas /usr/local/bin/suspend-mem
+
+# touchpad toggle
+XF86TouchpadToggle
+    touchpad-toggle
+
+# backlight control
+XF86MonBrightnessUp
+    xbacklight +5
+XF86MonBrightnessDown
+    xbacklight -5
+
+# volume control
+alt + F12
+    volume +
+alt + F11
+    volume -
+alt + F10
+    volume !
+
+# media ctl
+XF86AudioPlay
+    playerctl -p mpv play-pause
+XF86AudioStop
+    playerctl -p mpv stop
+XF86AudioNext
+    playerctl -p mpv next
+XF86AudioPrev
+    playerctl -p mpv previous
+
+# close current window
+super + alt + Escape
+    bspc node 'focused.window' --close
+
+# window state
+super + t
+    bspc node --state tiled || bspc node --state fullscreen
+super + shift + t
+    bspc node --state pseudo_tiled || bspc node --state tiled
+super + f
+    bspc node --state fullscreen || bspc node --state tiled
+super + shift + f
+    bspc node --state floating || bspc node --state fullscreen
+super + c
+    bspc desktop --layout next
+
+# show all windows in current monitor
+super + w
+    bspc query --tree --monitor \
+        | "$BSPWM_HOME/bin/windos-list" --monitor \
+        | dmenu -p "$(bspc-current-desktop-name)" -i -l 30 | "$SHELL"
+
+# show all windows in current desktop
+super + shift + w
+    bspc query --tree --desktop \
+        | "$BSPWM_HOME/bin/windos-list" --desktop \
+        | dmenu -p "$(bspc-current-desktop-name)" -i -l 30 | "$SHELL"
+
+# node state
+super + s
+    \{ echo 'bspc node --flag hidden' ;\
+       echo 'bspc node --flag locked' ;\
+       echo 'bspc node --flag marked' ;\
+       echo 'bspc node --flag private' ;\
+       echo 'bspc node --flag sticky' ;\}\
+    | dmenu -l 5 | "$SHELL"
+
+# focus a node, or monitor if no node
+super + h
+    bspc node --focus 'west.normal' || bspc monitor --focus 'west'
+super + j
+    bspc node --focus 'south.normal' || bspc monitor --focus 'south'
+super + k
+    bspc node --focus 'north.normal' || bspc monitor --focus 'north'
+super + l
+    bspc node --focus 'east.normal' || bspc monitor --focus 'east'
+super + p
+    bspc node --focus '@parent'
+super + o
+    bspc node --focus '@brother'
+super + i
+    bspc node --focus 'biggest.local.normal'
+
+# switch to next window in current desktop
+super + Tab
+    bspc node --focus 'next.local.window.normal.!hidden'
+super + shift + Tab
+    bspc node --focus 'prev.local.window.normal.!hidden'
+
+# swap node
+super + shift + h
+    bspc node --swap 'west.local'
+super + shift + j
+    bspc node --swap 'south.local'
+super + shift + k
+    bspc node --swap 'north.local'
+super + shift + l
+    bspc node --swap 'east.local'
+
+# resize 20
+super + ctrl + h
+    bspc node 'focused.tiled' --resize left -20 0;\
+    bspc node 'focused' --resize right -20 0
+super + ctrl + j
+    bspc node 'focused.tiled' --resize top 0 20;\
+    bspc node 'focused' --resize bottom 0 20
+super + ctrl + k
+    bspc node 'focused.tiled' --resize top 0 -20;\
+    bspc node 'focused' --resize bottom 0 -20
+super + ctrl + l
+    bspc node 'focused.tiled' --resize left 20 0;\
+    bspc node 'focused' --resize right 20 0
+
+# resize 1
+super + ctrl + shift + h
+    bspc node 'focused.tiled' --resize left -1 0;\
+    bspc node 'focused' --resize right -1 0
+super + ctrl + shift + j
+    bspc node 'focused.tiled' --resize top 0 1;\
+    bspc node 'focused' --resize bottom 0 1
+super + ctrl + shift + k
+    bspc node 'focused.tiled' --resize top 0 -1;\
+    bspc node 'focused' --resize bottom 0 -1
+super + ctrl + shift + l
+    bspc node 'focused.tiled' --resize left 1 0;\
+    bspc node 'focused' --resize right 1 0
+
+# move floating window or preselect
+super + alt + h
+    bspc node --move -20 0 || bspc node --presel-dir '~west'
+super + alt + j
+    bspc node --move 0 20 || bspc node --presel-dir '~south'
+super + alt + k
+    bspc node --move 0 -20 || bspc node --presel-dir '~north'
+super + alt + l
+    bspc node --move 20 0 || bspc node --presel-dir '~east'
+
+# move floating window
+super + shift + alt + h
+    bspc node --move -1 0
+super + shift + alt + j
+    bspc node --move 0 1
+super + shift + alt + k
+    bspc node --move 0 -1
+super + shift + alt + l
+    bspc node --move 1 0
+
+# node to desktop
+super + shift + F{1-9,10,11,12}
+    bspc node --to-desktop 'f{1-9,A,B,C}.local'
+super + asciitilde
+    bspc node --to-desktop 'last'
+
+# desktop focus
+super + F{1-9,10,11,12}
+    bspc desktop --focus 'f{1-9,A,B,C}.local'
+super + grave
+    bspc desktop --focus 'last'
+super + 1
+    bspc desktop --focus 'prev.local'
+super + 2
+    bspc desktop --focus 'next.local'

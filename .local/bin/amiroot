@@ -1,0 +1,8 @@
+#!/bin/sh
+
+noyouarenot() {
+    echo "$0: root access needed :("
+    exit 1
+}
+
+test "$(id -u)" -eq 0 || noyouarenot 1>&2

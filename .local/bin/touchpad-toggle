@@ -1,0 +1,8 @@
+#!/bin/sh
+
+bool=$(xinput --list-props 12 | grep 'Device Enabled' | grep -Eo "\w*$")
+test "$bool" -eq 0 && bool=1 || bool=0
+
+xinput list |
+    sed '/Touch[Pp]ad/!d; s/.*id=//;s/\s.*//' |
+    xargs -i xinput --set-prop {} 'Device Enabled' "$bool"

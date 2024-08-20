@@ -1,0 +1,4 @@
+#!/bin/sh
+
+state=$(xset -q | sed -ne 's/^[ ]*Monitor is //p' | tr '[:upper:]' '[:lower:]')
+test "$state" = on && xset dpms force off

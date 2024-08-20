@@ -1,0 +1,28 @@
+#!/bin/sh
+
+db=~/.zcmdcount
+test -f "$db" || touch "$db"
+
+increase_counter() {
+    echo "$1" | grep -Eq '^[A-Za-z0-9.+_-]+$' || return
+    quoted=$(echo "$1" | sed 's/\./\\./g')
+    line=$(grep " $quoted$" "$db")
+
+    if test "$line"; then
+        count=$(echo "$line" | cut -d' ' -f1)
+        sed -i "s/^$count $quoted$/$((count+1)) $1/" "$db"
+    else
+        echo "1 $1" >> "$db"
+    fi
+
+    if test "$1" = sort; then
+        dt=$db.new
+        sort -hr "$db" > "$dt" && mv "$dt" "$db" || rm -f "$dt"
+    fi
+}
+
+if test "$1"; then
+    increase_counter "$1"
+else
+    head -n 10 "$db"
+fi

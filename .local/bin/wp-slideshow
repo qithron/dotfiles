@@ -1,0 +1,22 @@
+#!/bin/sh
+
+test "$(pgrep --uid "$USER" --full "sh $0" | wc --lines)" -ne 2 &&
+    pkill --uid "$USER" --full "sh $0" --oldest
+
+case "$1" in
+    -k|--kill) exit 0
+esac
+
+rand_wp() {
+    shuf -n 1 -e ~/img/wallpapers/*
+}
+
+test "$1" || exec "$0" "$(rand_wp)"
+xwallpaper --zoom "$1" || exit
+sleep 20
+
+while true; do
+    next=$(rand_wp)
+    test "$1" = "$next" || exec "$0" "$next"
+    sleep 1
+done

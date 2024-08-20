@@ -1,0 +1,48 @@
+#!/bin/sh
+
+help() {
+    cat <<- 	EOL
+	Fit image to the size and fill empty space
+	with blurred-zoomed version of the image.
+
+	Usage: $0 width height input-file output-file
+	EOL
+    exit
+}
+
+for v in "$@"; do
+    case "$v" in
+        -h|--help) help
+    esac
+done
+
+w=$1
+h=$2
+input=$3
+output=$4
+
+iw=$(ffprobe -loglevel 0 -i "$input" \
+    -show_entries stream=width,height \
+    -output_format csv=s=x:p=0)
+ih=${iw#*x}
+iw=${iw%x*}
+
+dh=$(echo "$w / $iw * $ih" | bc -l)
+dh=$(printf %.0f "$dh")
+
+bg="scale=$w:$h,boxblur=33"
+if test "$dh" -gt "$h"; then
+    bg="crop=iw:$(echo "$iw / $w * $h" | bc -l),$bg"
+elif test "$dh" -lt "$h"; then
+    bg="crop=$(echo "$ih / $h * $w" | bc -l):ih,$bg"
+fi
+
+if test "$iw" -gt "$w" -o "$ih" -gt "$h"; then
+    fg="scale=$w:$h:force_original_aspect_ratio=1"
+else
+    fg="null"
+fi
+
+ffmpeg -loglevel 0 -i "$input" -filter_complex \
+    "[0] $bg [bg]; [0] $fg [fg]; [bg][fg] overlay=(W-w)/2:(H-h)/2" \
+    -f apng -frames:v 1 -pix_fmt rgb24 "$output"

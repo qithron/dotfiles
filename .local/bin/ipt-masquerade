@@ -1,0 +1,27 @@
+#!/bin/sh
+
+echo "TODO"
+exit 1
+
+amiroot || exit
+
+addr=172.31.255.255/32
+interfaces='usb0 wlan9 eth0'
+
+die() {
+    echo "$*"
+    exit 1
+}
+
+echo "$interfaces" | grep -Eq '\b'"$1"'\b' ||
+    die "invalid arg, valid args: $interfaces"
+
+ipt_opts() {
+    echo "-t nat ${1:?} POSTROUTING -s $addr -o ${2:?} -j MASQUERADE"
+}
+
+for ifc in $interfaces; do
+    iptables $(ipt_opts -D "$ifc") > /dev/null 2>&1
+done
+
+iptables $(ipt_opts -A "$1")

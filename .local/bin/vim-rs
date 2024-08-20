@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+d=$(cargo locate-project --message-format=plain)
+test "$d" || exit
+cd "${d%/*}/src" || exit
+
+f=main.rs
+test -f $f || {
+    f=lib.rs
+    test -f $f || exit
+}
+
+exec vim $f **/*.*

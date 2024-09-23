@@ -106,7 +106,7 @@ local function get_osd_size()
     local height = mp.get_property_number("osd-dimensions/h", 0)
     if height < 1 then
         on_term = true
-        height = mp.get_property_number("term-size/h", 0)
+        height = mp.get_property_number("term-size/h", 0) - 1
         if height < 1 then
             height = 0
         elseif opts.term_height > 0 then

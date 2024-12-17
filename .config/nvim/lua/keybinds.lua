@@ -5,17 +5,19 @@ vim.g.mapleader = " "
 map("", "<C-j>", "9j")
 map("", "<C-k>", "9k")
 map("", "<LEADER>", "<NOP>")
-map("n", "<A-e>", ":Yazi<CR>")
 map("n", "<LEADER>l", ":noh<CR>")
+map("n", "<LEADER>L", "/^$^<CR>")
 map("n", "<LEADER>d", ":.!1datetime<CR>")
-map("n", "<LEADER>f", "0ely$")
+map("n", "<LEADER>f", "0ely$jv$")
 map("n", "<LEADER>q", ":q<CR>")
 map("n", "<LEADER>Q", ":q!<CR>")
 map("n", "<LEADER>t", "/\\ctodo<CR>")
 map("n", "<LEADER>w", ":w<CR>")
 map("n", "<LEADER>i", ":Inspect<CR>")
-map("v", "F", ":!1py-text-format-fill<CR>")
-map("v", "T", ":sort<CR>")
+map("n", "<A-e>", ":Yazi<CR>")
+map("n", "<A-t>", ":ToggleTerm direction=float<CR>")
+map("v", "F", ":!1py-format-words<CR>")
+map("v", "T", ":sort i<CR>")
 
 -- command line mode
 map("c", "<A-h>", "<UP>")
@@ -41,6 +43,7 @@ map("n", "<LEADER>P", function() vim.diagnostic.goto_prev({
     severity = { min = vim.diagnostic.severity.ERROR } }) end)
 
 -- prev buffer
+map("n", "<LEADER>`", ":b#<CR>")
 map("n", "<A-`>", ":b#<CR>")
 map("i", "<A-`>", "<ESC>:b#<CR>")
 

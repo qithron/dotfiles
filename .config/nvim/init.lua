@@ -86,4 +86,6 @@ require("lazy").setup({
 
     { "nvim-lua/plenary.nvim" },
     { "j-morano/buffer_manager.nvim" },
+
+    { "m4xshen/autoclose.nvim" },
 })

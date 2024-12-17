@@ -17,6 +17,8 @@ mp.add_key_binding(nil, "execute", function()
     chmod 755 $d
     find $df $ds -user "$(whoami)" -type d -print0 | xargs -0 chmod a+x
     find $df $ds -user "$(whoami)"         -print0 | xargs -0 chmod a+r
+    ln -s /data/data/com.termux/files/home/.config/mpv/scripts "$df"
+    ln -s /data/data/com.termux/files/home/.config/mpv/script-opts "$df"
     ]]
 
     mp.command_native({

@@ -17,6 +17,7 @@ extract = [ { run = 'ya pub extract --list "$@"', desc = "extract here" } ]
 "mvi block" = [ { run = 'mvi -- "$@"', desc = "mvi block", block = true } ]
 "mpv orphan" = [ { run = 'mpv -- "$@"', desc = "mpv orphan", orphan = true } ]
 "mvi orphan" = [ { run = 'mvi -- "$@"', desc = "mvi orphan", orphan = true } ]
+am-mpv = [ { run = 'am-mpv "$1"', desc = "am-mpv", orphan = true } ]
 
 [open]
 rules = [
@@ -26,6 +27,7 @@ rules = [
         "mvi block",
         "mpv orphan",
         "mvi orphan",
+        "am-mpv",
     ] },
 
 	{ mime = "video/*", use = [ "mpv block", "mpv orphan" ] },

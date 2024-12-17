@@ -12,6 +12,7 @@ export PAGER="nvim-pager"
 export MANPAGER="nvim +Man!"
 export GIT_PAGER="cat"
 
+test -d /system/bin && export PATH="$PATH:/system/bin"
 export PATH="$HOME/.local/sbin:$HOME/.local/bin:$HOME/.local/games:$PATH"
 export CDPATH="$XDG_CONFIG_HOME"
 export LUA_PATH=";;$HOME/.local/lib/lua/?.lua;$HOME/.local/lib/lua/?/init.lua"

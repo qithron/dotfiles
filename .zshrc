@@ -79,7 +79,7 @@ precmd() {
         $((ela_sec/86400)) $((ela_sec%86400/3600)) \
         $((ela_sec%3600/60)) $((ela_sec%60)) $ela_nan
 
-    echo ' e fg vim mpv mvi tmux py python man ' |
+    echo ' e fg vim mpv mvi tmux py python man pass ' |
         grep -Fq " $command_name " || bell &!
 }
 

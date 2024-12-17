@@ -5,32 +5,18 @@ vim.api.nvim_del_autocmd(vim.api.nvim_get_autocmds({
 })[1].id)
 
 local function term_close()
-    if vim.call("winnr", "#") ~= 0 then
-        vim.api.nvim_feedkeys("\x1c\x0e", "n", false)
-    end
+    vim.api.nvim_feedkeys("\x1c\x0e", "n", false)
 end
 
 local function term_enter()
     if vim.call("winnr", "#") == 0 then
         vim.cmd("set ch=0 ls=0")
-    else
-        vim.keymap.set("t", "<A-e>", "<C-\\><C-N>:ToggleBufExplorer<CR>")
-        vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h")
-        vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j")
-        vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k")
-        vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l")
     end
 end
 
 local function term_leave()
     if vim.call("winnr", "#") == 0 then
         vim.cmd("set ch=1 ls=2")
-    else
-        vim.keymap.set("t", "<A-e>", ":ToggleBufExplorer<CR>")
-        vim.keymap.del("t", "<A-h>")
-        vim.keymap.del("t", "<A-j>")
-        vim.keymap.del("t", "<A-k>")
-        vim.keymap.del("t", "<A-l>")
     end
 end
 

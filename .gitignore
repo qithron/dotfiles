@@ -34,7 +34,7 @@
 !.local/share/applications/**
 !.local/syscfg/
 !.local/syscfg/**
-!.readme.txt
+!.readme*
 !.xinitrc
 !.zlogin
 !.zprofile

@@ -25,7 +25,7 @@ local function random_index()
 end
 
 local function get_entry_title_at(index)
-    return mp.get_property_native("playlist/" .. index-1 .. "/filename", "")
+    return mp.get_property_native("playlist/" .. index-1 .. "/filename", ".")
         :gsub("^[^/]+/", "") -- basename
         :gsub(" S%d*P? ", " ") -- common suffix
         :gsub(" %[%d%d*%] .*", "") -- sequence number

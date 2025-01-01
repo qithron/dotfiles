@@ -16,7 +16,7 @@ vim.o.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,"
 
 vim.o.foldenable = false
 vim.o.list = true
-vim.o.listchars = "tab:→ ,trail:•"
+vim.o.listchars = "tab:→—,trail:•"
 vim.o.mouse = ""
 vim.o.spell = false
 vim.o.termguicolors = false
@@ -27,7 +27,7 @@ vim.o.titlestring = "nvim: %f"
 vim.o.cmdheight = 1
 vim.o.equalalways = false
 vim.o.laststatus = 2
-vim.o.scrolloff = 9
+vim.o.scrolloff = 3
 vim.o.showtabline = 0
 vim.o.sidescrolloff = 0
 vim.o.wrap = false
@@ -73,10 +73,13 @@ vim.opt.rtp:prepend(lazy_nvim)
 
 require("lazy").setup({
     { "akinsho/toggleterm.nvim", version = "*", config = true },
+    { "folke/todo-comments.nvim", config = true },
+    { "kylechui/nvim-surround", config = true, event = "VeryLazy", },
     { "lewis6991/gitsigns.nvim" },
     { "mfussenegger/nvim-lint" },
     { "mikavilpas/yazi.nvim", event = "VeryLazy" },
     { "nvim-lualine/lualine.nvim" },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
 
     { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
     { "neovim/nvim-lspconfig" },
@@ -86,6 +89,4 @@ require("lazy").setup({
 
     { "nvim-lua/plenary.nvim" },
     { "j-morano/buffer_manager.nvim" },
-
-    { "m4xshen/autoclose.nvim" },
 })

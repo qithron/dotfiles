@@ -1,0 +1,5 @@
+#!/bin/sh
+
+git status --short > /dev/null || exit
+git add --all || exit
+git commit -m 'Auto commit' || exit

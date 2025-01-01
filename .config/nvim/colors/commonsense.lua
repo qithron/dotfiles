@@ -88,5 +88,5 @@ if vim.o.background ~= "light" then
     return
 end
 
--- TODO: should depends on terminal color setting or define here?
+-- TODO: Light theme depends on terminal color setting or define here?
 hi("Normal", BLACK, DIM_WHITE)

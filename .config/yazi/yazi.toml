@@ -21,7 +21,7 @@ am-mpv = [ { run = 'am-mpv "$1"', desc = "am-mpv", orphan = true } ]
 
 [open]
 rules = [
-	{ name = "*/", use = [
+    { name = "*/", use = [
         "noop",
         "mpv block",
         "mvi block",
@@ -30,17 +30,17 @@ rules = [
         "am-mpv",
     ] },
 
-	{ mime = "video/*", use = [ "mpv block", "mpv orphan" ] },
-	{ mime = "audio/*", use = [ "mpv block", "mpv orphan" ] },
-	{ mime = "image/*", use = [ "mvi block", "mvi orphan" ] },
+    { mime = "video/*", use = [ "mpv block", "mpv orphan" ] },
+    { mime = "audio/*", use = [ "mpv block", "mpv orphan" ] },
+    { mime = "image/*", use = [ "mvi block", "mvi orphan" ] },
 
-	{ mime = "application/{,g}zip", use = [ "arclist", "extract" ] },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [ "arclist", "extract" ] },
+    { mime = "application/{,g}zip", use = [ "arclist", "extract" ] },
+    { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [ "arclist", "extract" ] },
 
-	{ mime = "text/*", use = [ "edit" ] },
-	{ mime = "inode/x-empty", use = [ "edit" ] },
-	{ mime = "application/{json,x-ndjson}", use = [ "edit" ] },
-	{ mime = "*/javascript", use = [ "edit" ] },
+    { mime = "text/*", use = [ "edit" ] },
+    { mime = "inode/x-empty", use = [ "edit" ] },
+    { mime = "application/{json,x-ndjson}", use = [ "edit" ] },
+    { mime = "*/javascript", use = [ "edit" ] },
 
-	{ name = "*", use = [ "noop", "edit", "open" ] },
+    { name = "*", use = [ "noop", "edit", "open" ] },
 ]

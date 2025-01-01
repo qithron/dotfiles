@@ -32,6 +32,7 @@ vim.api.nvim_create_user_command("Lsp", function()
         map("n", "<LEADER>ref", buf.references, opts)
         map("n", "<LEADER>ren", buf.rename, opts)
         map("n", "gd", buf.definition, opts)
+        map("n", "gt", buf.type_definition, opts)
         map("n", "K", buf.hover, opts)
     end)
 

@@ -20,6 +20,12 @@ map("n", "<A-t>", ":ToggleTerm direction=float<CR>")
 map("v", "F", ":!1py-format-words<CR>")
 map("v", "T", ":sort i<CR>")
 
+-- mouse scroll
+for _, mode in pairs({ "n", "i", "v", "c", "t" }) do
+    map(mode, "<ScrollWheelUp>", "<UP>")
+    map(mode, "<ScrollWheelDown>", "<DOWN>")
+end
+
 -- command line mode
 map("c", "<A-h>", "<UP>")
 map("c", "<A-j>", "<RIGHT>")

@@ -17,7 +17,6 @@ vim.o.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,"
 vim.o.foldenable = false
 vim.o.list = true
 vim.o.listchars = "tab:→—,trail:•"
-vim.o.mouse = ""
 vim.o.spell = false
 vim.o.termguicolors = false
 vim.o.timeout = false

@@ -25,11 +25,11 @@ preexec() {
         if test "$(echo "$1" | wc -l)" -eq 1; then
             echo "$1"
         else
-            printf '%s' "$2" | sed -z "s/\n/\\\n/"
+            printf '%s' "$2" | sed ':a;N;$!ba;s/\n/\\n/g'
         fi
     )
 
-    test "$v" -a "$v" = "$(tail -n 1 "$HISTFILE")" || {
+    test "$v" = "$(tail -n 1 "$HISTFILE")" || {
         echo "$v" >> "$HISTFILE"
         fc -R
     }
@@ -53,7 +53,6 @@ preexec() {
 }
 
 precmd() {
-    PS1="%B%F{%(!.1.2)}%n%f%b@%B%M%b:%~ %? %B%F{$((RANDOM%8))}%#%f%b "
     printf "\e[?25h" # show cursor
     printf "\e[5 q" # beam shape cursor
     set_window_title "zsh: $(get_cwd_home_aware)"
@@ -86,7 +85,7 @@ precmd() {
 zshexit() {
     # TODO: fix this in yazi
     test "$YAZI_ID" && set_window_title "yazi: $(get_cwd_home_aware)"
-    sed -i 's/^[ ]*//' "$HISTFILE" &!
+    sed -i 's/^[ ]*//' "$HISTFILE"
 
     local d="/mnt/a/data/backup"
     test "$(whoami)" = qthr -a -d "$d" -a -w "$d" && cp -au \

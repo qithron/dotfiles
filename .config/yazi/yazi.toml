@@ -18,6 +18,7 @@ extract = [ { run = 'ya pub extract --list "$@"', desc = "extract here" } ]
 "mpv orphan" = [ { run = 'mpv -- "$@"', desc = "mpv orphan", orphan = true } ]
 "mvi orphan" = [ { run = 'mvi -- "$@"', desc = "mvi orphan", orphan = true } ]
 am-mpv = [ { run = 'am-mpv "$1"', desc = "am-mpv", orphan = true } ]
+mediainfo = [ { run = 'mediainfo -- "$@" | "$PAGER"', desc = "mediafile", block = true } ]
 
 [open]
 rules = [
@@ -30,17 +31,20 @@ rules = [
         "am-mpv",
     ] },
 
-    { mime = "video/*", use = [ "mpv block", "mpv orphan" ] },
-    { mime = "audio/*", use = [ "mpv block", "mpv orphan" ] },
-    { mime = "image/*", use = [ "mvi block", "mvi orphan" ] },
+    { mime = "video/*", use = [ "mpv block", "mpv orphan", "mediainfo" ] },
+    { mime = "audio/*", use = [ "mpv block", "mpv orphan", "mediainfo" ] },
+    { mime = "image/*", use = [ "mvi block", "mvi orphan", "mediainfo" ] },
 
     { mime = "application/{,g}zip", use = [ "arclist", "extract" ] },
     { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [ "arclist", "extract" ] },
 
     { mime = "text/*", use = [ "edit" ] },
-    { mime = "inode/x-empty", use = [ "edit" ] },
+    { mime = "inode/empty", use = [ "edit" ] },
     { mime = "application/{json,x-ndjson}", use = [ "edit" ] },
     { mime = "*/javascript", use = [ "edit" ] },
 
     { name = "*", use = [ "noop", "edit", "open" ] },
 ]
+
+[tasks]
+suppress_preload = true
